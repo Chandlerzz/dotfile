@@ -1,0 +1,8 @@
+#!/usr/bin/expect
+set timeout 30
+set stmt [lindex $argv 0]
+set tty [exec redis-cli get tty]
+spawn sudo ttyecho -n $tty "$stmt"
+expect password
+send "Xzz13732365321\r"
+interact
