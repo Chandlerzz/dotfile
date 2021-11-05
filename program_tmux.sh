@@ -8,5 +8,6 @@ then
     tmux send-keys -t vim 'vim -S ~/Module.vim' C-m
     tmux select-pane -L
     tmux split-window -v -t program:0  
+    tmux send-keys -t program "watch cat /tmp/registers" C-m
 fi
 tmux attach -t program

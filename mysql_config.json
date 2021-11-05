@@ -45,6 +45,15 @@
             }
         },
         {
+            "nickName":"xuxiyao",
+            "name":"root",
+            "host":"xuxiyao.com",
+            "port":"3306",
+            "passWord":"root",
+            "database":{
+            }
+        },
+        {
             "nickName":"60",
             "name":"finereport",
             "host":"10.10.8.60",
