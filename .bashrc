@@ -3,8 +3,8 @@
 # tmux a -t 0 > /dev/null 2>&1
 # tmux="tmux -2"
 
-source ~/script/bash_script/find.sh
-source ~/script/bash_script/monitorFile.sh
+source ~/dotfile/script/bash_script/find.sh
+source ~/dotfile/script/bash_script/monitorFile.sh
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
@@ -24,21 +24,21 @@ export PATH
 alias his="history | grep"
 alias docker="sudo docker"
 source "$HOME/.cargo/env"
-alias suro='~/script/bash_script/suroot'
-alias suchandler='~/script/bash_script/suchandler'
-alias gitpush='~/script/bash_script/gitpush'
+alias suro='~/dotfile/script/bash_script/suroot'
+alias suchandler='~/dotfile/script/bash_script/suchandler'
+alias gitpush='~/dotfile/script/bash_script/gitpush'
 export PATH=$PATH:/usr/local/go/bin
 # bash $HOME/script/bash_script/diary.sh
 # alias rmswp="perl $HOME/script/perl_script/unlinkSwap.pl"
 export VISUAL="vim"
 alias cds="cd && cd "
-alias mymysql="python3 $HOME/script/python_script/mysqlManage/mysqlManage.py"
-alias gits="perl $HOME/script/perl_script/gitManage/gitManage.pl"
+alias mymysql="python3 $HOME/dotfile/script/python_script/mysqlManage/mysqlManage.py"
+alias gits="perl $HOME/dotfile/script/perl_script/gitManage/gitManage.pl"
 alias ls="ls --color=auto"
 alias javascript="cd /mnt/d/javascript_program"
 alias collegy="cd /mnt/d/javascript_program/risentrain"
 alias finereport="cd '/mnt/d/Program Files/FineReport_10.0'" 
-alias gitstatus="mkdir -p /tmp/rmdbg && git status > /tmp/rmdbg/status.txt && pwd >> /tmp/rmdbg/status.txt && perl ~/script/perl_script/rmdbg.pl&&git status"
+alias gitstatus="mkdir -p /tmp/rmdbg && git status > /tmp/rmdbg/status.txt && pwd >> /tmp/rmdbg/status.txt && perl ~/dotfile/script/perl_script/rmdbg.pl&&git status"
 alias vims="vim -S ~/Session.vim"
 alias vimss="vim -S ~/Chandler.vim"
 
