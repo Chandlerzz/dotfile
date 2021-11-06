@@ -1,0 +1,295 @@
+[
+    {
+        "label": "提交人",
+        "widget": {
+            "type": "user",
+            "widgetName": "creator"
+        }
+    },
+    {
+        "label": "修改人",
+        "widget": {
+            "type": "user",
+            "widgetName": "updater"
+        }
+    },
+    {
+        "label": "删除人",
+        "widget": {
+            "type": "user",
+            "widgetName": "deleter"
+        }
+    },
+    {
+        "label": "提交时间",
+        "widget": {
+            "type": "datetime",
+            "widgetName": "createTime",
+            "format": "yyyy-MM-dd HH:mm:ss"
+        }
+    },
+    {
+        "label": "更新时间",
+        "widget": {
+            "type": "datetime",
+            "widgetName": "updateTime",
+            "format": "yyyy-MM-dd HH:mm:ss"
+        }
+    },
+    {
+        "label": "删除时间",
+        "widget": {
+            "type": "datetime",
+            "widgetName": "deleteTime",
+            "format": "yyyy-MM-dd HH:mm:ss"
+        }
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059027",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true,
+            "alias": "gslx"
+        },
+        "description": "",
+        "label": "公司类型",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059013",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "公司编号（NC）",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059016",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "公司名称",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059017",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "公司状态",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059018",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "公司性质",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059019",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "归属层级",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059020",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "统一社会信用代码",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629063234",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "成立日期",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059025",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "法人代表（填写）",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1631521077241",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "所属行业",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059028",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "经营范围",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059029",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "公司住所",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059022",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "股东名称",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059023",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "股东占比（%）",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059024",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "注册资本（万元）",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059026",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "币种",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059014",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "变更日期",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1630629059015",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "注销日期",
+        "labelHidden": false,
+        "lineWidth": 6
+    },
+    {
+        "widget": {
+            "type": "text",
+            "widgetName": "_widget_1631521077149",
+            "enable": true,
+            "visible": true,
+            "allowBlank": true
+        },
+        "description": "",
+        "label": "注册地",
+        "labelHidden": false,
+        "lineWidth": 6
+    }
+]

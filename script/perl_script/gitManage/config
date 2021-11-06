@@ -1,0 +1,4 @@
+ADD      gitpath 
+PUSH     gitpath 
+PULL     gitpath
+COMMIT   gitpath

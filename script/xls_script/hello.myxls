@@ -1,0 +1,54 @@
+Dim i As Integer
+Dim base As Integer
+Dim LastRow As Integer
+Dim CurrentValue As String
+Dim arrSplitStrings1() As String
+Dim strFull As String
+Sub hello()
+    base = 55
+    LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    For i = 3 To 1000
+        CurrentValue = Cells(i, base).Value
+        arrSplitStrings1 = Split(CurrentValue, "=")
+        Lengths = UBound(arrSplitStrings1) - LBound(arrSplitStrings1) + 1
+        If Lengths = 2 Then
+        Cells(i, base).Value = arrSplitStrings1(0)
+        Cells(i, base + 1).Value = arrSplitStrings1(1)
+        Cells(i, base + 2).Value = "NC"
+        End If
+        
+    
+        Next i
+End Sub
+Sub hello1()
+    base = 55
+    LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    For i = 3 To 1000
+        CurrentValue = Cells(i, base).Value
+        arrSplitStrings1 = Split(CurrentValue, "?")
+        Lengths = UBound(arrSplitStrings1) - LBound(arrSplitStrings1) + 1
+        If Lengths = 2 Then
+        Cells(i, base).Value = arrSplitStrings1(0)
+        Cells(i, base + 1).Value = arrSplitStrings1(1)
+        Cells(i, base + 2).Value = "信息中心"
+        End If
+        
+    
+        Next i
+End Sub
+Sub hello2()
+    base = 55
+    LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    For i = 3 To 1000
+        CurrentValue = Cells(i, base).Value
+        arrSplitStrings1 = Split(CurrentValue, "+")
+        Lengths = UBound(arrSplitStrings1) - LBound(arrSplitStrings1) + 1
+        If Lengths = 2 Then
+        Cells(i, base).Value = arrSplitStrings1(0)
+        Cells(i, base + 1).Value = arrSplitStrings1(1)
+        Cells(i, base + 2).Value = "NC组合"
+        End If
+        
+    
+        Next i
+End Sub

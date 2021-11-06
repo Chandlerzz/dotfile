@@ -1,0 +1,6 @@
+Revision history for Perl extension Ignore.
+
+0.01  Tue May  4 02:27:59 2021
+	- original version; created by h2xs 1.23 with options
+		-AX -n Ignore
+
