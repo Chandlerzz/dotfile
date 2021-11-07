@@ -1,7 +1,4 @@
 # .bashrc
-# tmux new -s 0 "fish" > /dev/null 2>&1
-# tmux a -t 0 > /dev/null 2>&1
-# tmux="tmux -2"
 
 source ~/dotfile/script/bash_script/find.sh
 source ~/dotfile/script/bash_script/monitorFile.sh
