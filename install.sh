@@ -1,4 +1,7 @@
 #/bin/sh
-
-[[ -L ~/dotfile/.tmux.conf ]] || ln -s ~/dotfile/.tmux.conf ~/.tmux.conf
-[[ -L ~/dotfile/.bashrc ]] || ln -s ~/dotfile/.bashrc ~/.bashrc
+# tmux config link
+ln -s $HOME/dotfile/.tmux.conf $HOME/.tmux.conf
+# bash config link
+ln -s $HOME/dotfile/.bashrc $HOME/.bashrc
+# man link  手动执行
+sudo ln -s $HOME/dotfile/man /usr/share/man/man1c
