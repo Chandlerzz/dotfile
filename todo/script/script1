@@ -1,0 +1,25 @@
+Fri 14 May 2021 09:55:37 AM CST
+mysql account management
+1 login mysql depending on account
+2 show all account information 
+3 show one account infomation
+4 touch one file name config.json to store infomation about account management
+5 try use python to finish this work debug use ipython
+thid program finished 
+2021年 05月 14日 星期五 07:32:11 EDT
+
+
+Mon 31 May 2021 10:08:11 AM CST
+前端开发的时候需要debug
+可以快速地找到问题的所在位置
+但是删除这些debug上传之前需要删除
+需要写个小程序在上传之前删去debug
+思路在git status时候会生成要修改的文件
+将这些文件软连接到特定文件下
+通过删除特定文件下的debugger字符
+运用语言perl 模块Walk
+mkdir -p /tmp/rmdbg && git status > /tmp/rmdbg/status.txt && pwd >> /tmp/cmdbg/status.txt
+2 读取/tmp/rmdbg/status.txt  
+提取文件或者文件夹名称
+3 将文件名或者文件夹名称软链到/tmp/rmdbg文件夹下
+

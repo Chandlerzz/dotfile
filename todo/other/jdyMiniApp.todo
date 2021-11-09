@@ -1,0 +1,31 @@
+1简道云前端应用在restcloud迁移
+ 1.1帆软报表服务器申请，拿到所有所有简道云前端应用
+ 1.2整理所有应用 修改应用为简道云前端应用
+ 1.3宿舍管理修改
+ 1.4设备维修平台修改 
+ 1.5设备管理和巡检平台修改 
+  1.51index页修改
+  1.52home页修改
+ 1.6jdy_mixin.js 
+ 1.7述职评价平台页修改
+ 1.8义乌动力设施巡检平台修改
+ 1.9采购询比价修改
+ 11.1提取组件
+ 11.2日升廉政
+ 11.3双宇廉政
+ 11.4综合综合服务窗
+ 11.5简道云微应用
+ 11.6把本地应用放到restcloud上
+ 11.7测试
+ 999.2整理所有应用 修改应用为简道云前端应用
+     999.21 dormitoryManage 宿舍管理平台 
+     999.22 epidemic 日升疫情通
+     999.23 equipmentMaintenancePlatform 设备维修平台
+     999.24 equipmentManagement 设备管理和巡检平台
+     999.25 jobReport 述职评价平台
+     999.26 powerFacilities 义务动力设施巡检平台
+     999.27 priceComparison 采购询比价 
+     999.28 resourceManagement 虚拟化资源管理平台
+     999.29 risenReport 日升廉政
+     999.291 shuangyuReport 双宇廉政
+     999.292 windowService 日升综合服务窗

@@ -1,0 +1,92 @@
+Mon 26 Jul 2021 07:37:13 AM CST
+program fetch API
+if error without athority need login get athority
+else get result from server
+-------------------------------------------------
+program diary
+Fri 30 Jul 2021 04:41:57 PM CST
+文件尾缀为.diary
+第一种排序为按照顺序
+第二种排序为按照 done todo 排序
+在两种排序中转换
+状态 done 已完成 todo 未完成
+done 后面跟日期 日期格式为 30/07/21
+自动生成TODO DONE localleader-c 在状态之间切换
+color: done blue todo white
+--------------------------------------------------------------------------------------
+pogram bufSel
+Tue 29 Jun 2021 01:05:06 PM CST
+bufList finished
+    1.TabEnter BufNew
+    2.when tab enter , reset path to make it find path more fast
+    3.when bufenter, do tabbuflist
+
+Wed 07 Jul 2021 09:33:41 AM CST
+LRU fileList
+    1.every tab Least Recently Used fileList
+    2.it is very useful if you forget filename
+    3.before filename add number file could enter when you input the number such as :Find 12
+---------------------------------------------------------------------------------------
+program mysql
+Fri 02 Jul 2021 07:18:16 AM CST
+requirement
+1.login
+2.filetype:my
+3.click table name show the create-info
+4.click table name show all the info
+5.mayby it need vim's channel to deal with info, need to read help channel , denoserver.py
+6.operatorfunc
+    1.if just send one word to server. try to match tablenames, if matchs one table, show create table table_name
+    2.if recieved sentence start with select and end with';' from client , to do query the sentence
+7.completion feture
+    python PLY 
+------------------------------------------------------------------------------------------
+2021年 04月 28日 星期三 06:52:30 EDT
+use vim to make a tool to record diary
+first we directory is report 
+cd report is the directory of year
+cd year is the directory of month
+the endnode is the everydays record.
+the function could use vim script with bash shell scipt.
+need 2 days to finish it 100% finished
+
+Fri 30 Apr 2021 08:21:19 AM CST
+I got a headache when I record some idea or knoledge. but I need find directory and open the file,which need a lot of time.
+now I want make the shortcut in vim to let it open the file as soon as possible.
+need 5 days to finish it 100% finished
+
+2021年 05月 04日 星期二 00:47:13 EDT
+when I want to git push code . I always find some useless file such as swag file automated cteate by vim. so I should ignore this kind file
+100%done
+
+2021年 05月 05日 星期三 04:16:40 EDT
+I have many git repository. when I finished work I want git push all the repopsitory togather . I try to use expect tools to do this function
+
+Fri 21 May 2021 05:16:28 PM CST
+原生的registers的效果看不清楚。做一个能看清楚的registers，
+每次操作后会更新
+现在这个功能实现 <leader>bb
+
+2021年 05月 28日 星期五 07:56:42 EDT
+模仿bufferSel写一个currentpage search
+在autoload/fzf/vim.vim中733行插入以下代码
+  let sorted = filter(range(1,bufnr('$')),"match(expand('#'.v:val.':p'),getcwd())>-1") 
+BufWinEnter
+BufWinLeave
+
+currentpage match and project match and common mode
+
+2021年 06月 13日 星期日 11:45:07 EDT
+two missions
+1 use character to print chinese character
+make 
+import pypinyin
+import jieba
+pypinyin.slug("",separator="")
+aa=list(jieba.cut(""))
+chinese_word=re.compile(u'[\u4E00-\u9FA5]+') 
+earch(chinese_word,"zh中国djfkl").group()
+
+2021年 06月 18日 星期五 07:40:30 EDT
+try if it is possible every program have its own's vimrc let them more flexible
+
