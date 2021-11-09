@@ -1,0 +1,5 @@
+split: alt + shift + = 
+split: alt + shift + -
+close: ctrl + shift + W
+shift table :  alt + arrow
+resize pane : alt + shift + arrow

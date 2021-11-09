@@ -1,0 +1,48 @@
+.TH restcloud1 "1" "February 2021" "GNU coreutils 8.32" "User Commands"
+.SH NAME
+静态资源存放地址
+.br
+S3 Browser 客户端
+.br 
+http://10.10.8.15:9029/
+.br 
+admin
+.br 
+Risen*2021
+.br 
+左侧菜单栏中有ObjectBrowser 可以上传图片，静态资源
+.br
+buckets 为桶，可以新建桶
+.br 
+新建桶的时候，全部默认
+.br 
+创建文件夹是后会显示 rewind ... 不要管他，可以继续操作，不要刷新
+.br 
+访问资源 403 需要将 private 改为public
+ 
+.br 
+restcloud 前端应用 
+.br 
+静态资源
+.br 
+资源部分分为公共部分，和项目部分，公共部分放的是各个项目都能用到的资源，例如前端的element-ui, vue, jquery等资源
+.br 
+项目部分是项目上需要用到的资源，例如图片等
+.br 
+如果需要修改图片资源，
+.br 
+登录资源站，找到项目对应的桶，比如项目的英文名为epidemic，则需要找到对应的桶
+ 
+.br 
+页面部分
+.br 
+如果需要修改页面，
+.br 
+登录 https://esbtest.risen.com/dev/admin
+.br 
+在首页找到api低代码开发平台，点击进去后找到对应的项目名，点击进入，点击视图模板，即可修改
+ 
+.br 
+系统开发部【分享】-> 开发文档 -> API网关产品使用资料及服务规范文档 -> 03-产品资料及培训文档
+.br 
+restcloud 账号为工号 密码123456

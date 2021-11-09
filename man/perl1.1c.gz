@@ -1,0 +1,4 @@
+ubuntu install dbd mysql
+sudo apt-get install libdbd-mysql-perl
+fedora install dbd mysql
+yum install "perl(DBD::mysql)"

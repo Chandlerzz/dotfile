@@ -1,0 +1,17 @@
+.TH "git1"  "CHANDLER" "User Commands"
+.SH NAME
+git
+
+.SH git ssh key
+sh-keygen -t ed25519 -C "your_email@example.com"
+.br
+eval "$(ssh-agent -s)"
+.br
+ssh-add ~/.ssh/id_ed25519
+
+
+.SH 查看每次提交记录
+git log 
+
+.SH  强制回退
+git reset --hard hash-number

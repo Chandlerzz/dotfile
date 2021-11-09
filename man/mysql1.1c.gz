@@ -1,0 +1,38 @@
+.TH mysql "1" "CHANDLER"  "User Commands"
+.SH NAME
+MYSQL1
+
+.SH show the schema of table 
+show crate table table_name;
+.br
+.SH mysql conf 
+/etc/mysql/my.conf
+.SH pager
+pager less -n -i -S -F -X
+.br
+pager pspg -s 14 -X --force-uniborder --quit-if-one-screen
+.br
+
+.SH add new column
+alter table table_name
+.br
+    add column_name varchar(40) NOT NULL
+.br
+        after column_name
+.br
+.SH drop one column
+.br
+ALTER TABLE table_name 
+.br
+    DROP COLUMN column_name;  
+
+sed "s/\\\040/ /g" < ~/.mysql_history
+.br
+.SH delete the line of table
+delete from table where colomn_name = value;
+.SH insert
+insert into table_name (,,,) values(,,,)
+.br
+.SH mysqldump
+mysqldump -h 120.55.53.221 -P13506 -uroot -pRisen*1107 university | mysql -uroot -pRisen*1107 university
+.br

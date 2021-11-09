@@ -1,0 +1,2 @@
+curl https://edu.risenenergy.com/api/lessonEmployees -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyODEsImFnZW50Ijoid2ViIiwidGltZVRvTGl2ZSI6MzYwMCwiaWF0IjoxNjI2NTkxNTk2fQ.UI18XZTO4QcXLUc4DpB8jFp688tlrAm2hVFMYDA4Pjo"
+

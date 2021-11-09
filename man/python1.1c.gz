@@ -1,0 +1,12 @@
+.TH python1 "1" "February 2021" "chandler" "User Commands"
+.SH NAME
+python
+
+.SH debug
+from IPython import embed
+.br
+embed()
+.br
+redirect to print function if dont want to embed()
+.br
+ or delete globals function embed  del globals()['embed']

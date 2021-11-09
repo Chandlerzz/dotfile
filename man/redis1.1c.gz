@@ -1,0 +1,14 @@
+.TH REDIS "1" "Chandler" "GNU coreutils 8.32" "User Commands"
+.SH NAME
+REDIS
+
+.SH start
+redis-server
+.br
+.SH cli
+redis-cli
+.SH password
+auth password
+.br
+ONFIG set requirepass "runoob"
+.br

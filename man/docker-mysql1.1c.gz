@@ -1,0 +1,19 @@
+docker pull mysql
+docker run -d -p 3306:3306 --name mysql-service -e MYSQL_ROOT_PASSWORD="root" mysql
+docker exec -it mysql-service bash
+mkdir -p /root/docker/mysql/conf && mkdir -p /root/docker/mysql/datai
+#docker run mysql
+docker run --name mysql-server \
+
+-p 3306:3306 -e MYSQL_ROOT_PASSWORD=root \
+
+--mount type=bind,src=/root/docker/mysql/conf/my.cnf,dst=/etc/mysql/my.cnf \
+
+--mount type=bind,src=/root/docker/mysql/data,dst=/var/lib/mysql \
+
+--restart=on-failure:3 \
+
+-d mysql
+#docker run mysql8
+docker run -p 3307:3306 -v /opt/mysql8/conf:/etc/mysql/conf.d -v /opt/mysql8/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=admin123 --name mysql8 -d mysql:8.0
+

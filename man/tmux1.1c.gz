@@ -1,0 +1,4 @@
+tmux new -s myname
+tmux a -t myname
+tmux ls
+c-b ? list keymap

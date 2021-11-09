@@ -1,0 +1,4 @@
+#筛选有包含null的行并合并同类行统计相同行的数量
+sort /tmp/aa.json | grep null | uniq -c
+# grep -e either
+# grep -e 'null' -e '1'

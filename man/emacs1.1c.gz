@@ -1,0 +1,73 @@
+  C-x C-s      Save file
+  C-x C-f      Find (open) file.  Emacs asks for file name at bottom of screen.
+  C-x C-z      Leave emacs temporarily (return with "fg" ("foreground"))
+  C-x C-c      Quit emacs
+  C-g          Abort command (get out of trouble)
+
+  C-f          Move cursor forward one character
+  C-b          Move cursor backwards one character
+
+  C-n          Move cursor to next line
+  C-p          Move cursor to previous line
+  C-a          Move cursor to beginning of line
+  C-e          Move cursor to end of line
+
+  C-v          Go forward one screen
+  M-v          Go backward one screen
+
+  C-k          Kill text from cursor to end of line.  (Cut text out)
+  C-y          Yank back killed text. (Paste text in)
+
+  C-l          Redisplay the screen if it is garbled.
+
+  M-f          Move cursor forward one word
+  M-b          Move cursor backwards one word
+  M->          Move to end of file
+  M-<          Move to beginning of file
+
+  C-u 7 C-n    Move forward 7 lines
+  C-u 10 C-p   Move back 10 lines
+  C-x o      mone window to next
+  C-x 0        delete the current window
+  C-x 1        delete the other windows
+  C-x 2        split window vertically
+  C-x 3        split window horizontally
+  C-x 4 b 	   switch-to-buffer-other-window
+  C-x 4 C-o    display-buffer 
+  C-x 4 f 	   find-file-other-window 
+  C-x 4 d 	   dired-other-window 
+  C-x 4 m 	   mail-other-window 
+  C-x 4 r 	   find-file-read-only-other-window
+  C-x 0 	   delete-window 
+  C-x 1 	   delete-other-windows
+  C-x 4 0 	   kill-buffer-and-window
+  C-x ^ 	   enlarge-window
+  C-x { 	   shrink-window-horizontally
+  C-x } 	   enlarge-window-horizontally
+  C-x - 	   shrink-window-if-larger-than-buffer 
+  C-x + 	   balance-windows
+
+  M-x revert-buffer enter  back to origin buffer
+  C-u 8 C-f    8th C-f
+  C-h k C-f    help to show C-f definition as key
+  C-/          undo
+  <DEL>        delete character back
+  C-d          delete character forward
+  M-<DEL>      delete word back
+  M-d          delete word forward
+  C-k          delete to line end
+  M-K          delete to line begin
+  M-x repl s<Return>changed<Return>altered<Return>
+  M-x list-commnad-history
+  C-x <Esc><Esc> re-excute a recent minibffer command from the command history
+  C-x left	buffer change back
+  C-x right	beffer change next
+  M-x view-register <RET> R dispaly a description of what register R contains
+  
+  registers
+  C-x r <spc> R	    record the position of point and the current buffer in register R('point-to-register')
+  C-x r j R
+  
+  X-x r s R copy region into register R ('copy-to-register')
+  X-x r i R insert text from register R ('insert-register')
+  M-x append-to-register <RET> R append region to text in register R

@@ -1,0 +1,7 @@
+.TH ASM1 "1" "February 2021" "chandler" "User Commands"
+.SH NAME
+ebp base pointer
+.br
+eip	instuction pointer
+.br
+esp	stack pointer
