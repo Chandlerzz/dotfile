@@ -3,22 +3,20 @@ augroup mysql
     autocmd bufLeave mysql.vimrc call s:login()
 augroup END
 fun! s:login()
-    execute "source ~/mysql/mysql.vimrc"
+    execute "source " . g:mysqlvimrc
     let name = g:sql_name
     let database = g:sql_database
     let config = {"config":{"name": g:sql_name,"database": g:sql_database}}
     let configStr = string(config)
 	let channel = ch_open('localhost:8765')
 	let response = ch_evalexpr(channel, configStr)
-    let stmt = "\"quit;\""
-    let g:stmt = stmt
-    execute "silent !expect /home/chandler/dotfile/vim/mysql/mysql_expect " . stmt
-    let stmt1 = "\"mymysql " . name. "\""
-    let g:stmt1 = stmt1
-    execute "silent !expect /home/chandler/dotfile/vim/mysql/mysql_expect " . stmt1
-    let stmt2 = "\"use " . database. ";\""
-    let g:stmt2 = stmt2
-    execute "silent !expect /home/chandler/dotfile/vim/mysql/mysql_expect " . stmt2
+    let $stmt = "quit;"
+    let $mysql_expect = g:mysql_expect
+    silent !expect $HOME$mysql_expect "$stmt" 
+    let $stmt1 = "mymysql ".name
+    silent !expect $HOME$mysql_expect "$stmt1" 
+    let $stmt2 = "use " . database.";" 
+    silent !expect $HOME$mysql_expect "$stmt2" 
     
 endfun
 fun! s:showCreateTable()
@@ -41,6 +39,7 @@ fun! QueryResult(type = '')abort
   let visual_marks_save = [getpos("'<"), getpos("'>")]
 
   try
+    let $mysql_expect = g:mysql_expect
     set clipboard= selection=inclusive
     let commands = #{line: "'[V']y", char: "`[v`]y", block: "`[\<c-v>`]y"}
     silent exe 'noautocmd keepjumps normal! ' .. get(commands, a:type, '')
@@ -48,8 +47,8 @@ fun! QueryResult(type = '')abort
     let stmt = {"stmt":getreg('"')} 
     let stmt = getreg('"')
     let stmt = substitute(stmt,"\\n","","g")
-    let stmt = substitute(stmt,"\\s\\+"," ","g")
-    execute "silent !expect /home/chandler/dotfile/vim/mysql/mysql_expect " . "\"" .stmt."\""
+    let $stmt = substitute(stmt,"\\s\\+"," ","g")
+    silent !expect $HOME$mysql_expect "$stmt"
     execute "silent !tmux select-window -t mysql"
     execute "redraw!"
   finally

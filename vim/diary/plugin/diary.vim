@@ -78,12 +78,11 @@ endfunction
 
 function s:diary() abort
     let diary = system("date +'%Y/%m/%d'")
-    let $diarypath = "~/report/" . diary
-    let g:test = $diarypath
-    let $diarypath1=$diarypath[:18]
-    let $diarypath1 = $diarypath1 . ".diary"
-    silent !bash $HOME/dotfile/vim/diary/diary.sh
-    execute "split $diarypath1"
+    let diary = substitute(diary,'[[:cntrl:]]','','g')
+    let $diarypath = g:diarybasepath . diary . ".diary"
+    let $diaryshellscript = g:diaryshellscript
+    silent !bash $HOME$diaryshellscript
+    execute "split $diarypath"
     execute "redraw!"
 endfunction
 

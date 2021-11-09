@@ -1,4 +1,11 @@
 syntax on
+" diary plugin path
+let g:diarybasepath = "~/report/"
+let g:diaryshellscript = "/dotfile/vim/diary/diary.sh"
+
+" mysql plugin path
+let g:mysql_expect = "/dotfile/vim/mysql/mysql_expect" 
+let g:mysqlvimrc = "~/mysql/mysql.vimrc"
 let g:bufferListFileName ="/tmp/bufferList.chandler"
 let g:LRCfileName = "/tmp/LRC.chandler"
 let g:LRCcount = "/tmp/lrccount"
