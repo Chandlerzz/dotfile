@@ -1,0 +1,2 @@
+['civic', 'mom', 'madam', 'a fast car', 'noon', 'kayak', '123', '121', 'java', 'radar', 'python', 'defied']
+['YES', 'YES', 'YES', 'NO', 'YES', 'YES', 'NO', 'YES', 'NO', 'YES', 'NO', 'NO']

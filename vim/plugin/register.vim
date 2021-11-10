@@ -7,7 +7,7 @@ augroup END
 " generate "(a-z)y to "(a-z)y:call MoveRegisters() 
 for i in range(97,122)
     let character = nr2char(i)
-    execute "noremap \"".character."y \"".character."y:call MoveRegisters()"
+    execute "noremap \"".character."y \"".character."y:call MoveRegisters()<CR>"
 endfor
 
 function! s:getlocalvimrc()
@@ -38,7 +38,7 @@ function! s:updateRegisters()
     execute "redraw!"
 endfunction
 function! MoveRegisters()
-    let $filename = "/tmp/registers"
+    let $filename = g:registerWatchFile
     for i in range(97,122)
         let character = nr2char(i)
         let register = getreg(character)
