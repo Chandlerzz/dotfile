@@ -6,10 +6,10 @@ PS：之前修改的讲师状态栏存在有Bug，设定为离职后，后台的
 
 需求分析
 1.教室
-状态 1.正常 2.停用 3.删除
+状态 1.正常 0.停用 3. 删除 deletedAt is not null
 正常 全部可见
-停用 在editProgram 和editProgram 中获取教室列表不中不可用
-删除 在editProgram 和editProgram 中获取教室列表不中不可用 ,且 listProgram中不显示
+停用 在editProgram 和editLesson 中获取教室列表不中不可用
+删除 在editProgram 和editLesson 中获取教室列表不中不可用 ,且 listProgram中不显示
 
 
 
