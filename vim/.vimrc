@@ -4,7 +4,7 @@ let g:diarybasepath = "~/report/"
 let g:diaryshellscript = "/dotfile/vim/diary/diary.sh"
 
 " mysql plugin path
-let g:mysql_expect = "/dotfile/vim/mysql/mysql_expect" 
+let g:mysql_expect = "/dotfile/mysql_expect" 
 let g:mysqlvimrc = "~/mysql/mysql.vimrc"
 
 " register plugin path

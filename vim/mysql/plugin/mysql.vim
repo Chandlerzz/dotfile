@@ -49,7 +49,7 @@ fun! QueryResult(type = '')abort
     let stmt = substitute(stmt,"\\n","","g")
     let $stmt = substitute(stmt,"\\s\\+"," ","g")
     silent !expect $HOME$mysql_expect "$stmt"
-    execute "silent !tmux select-window -t mysql"
+    execute "silent !tmux select-pane -t 2"
     execute "redraw!"
   finally
     call setreg('"', reg_save)
