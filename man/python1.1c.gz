@@ -10,3 +10,5 @@ embed()
 redirect to print function if dont want to embed()
 .br
  or delete globals function embed  del globals()['embed']
+.br
+find . -name \*.py -print | xargs ptags.py
