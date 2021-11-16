@@ -7,3 +7,5 @@ ln -s $HOME/dotfile/.bashrc $HOME/.bashrc
 sudo ln -s $HOME/dotfile/man /usr/share/man/man1c
 # .ipython Link
 ln -s $HOME/dotfile/.ipython $HOME/.ipython
+# ptags.py link
+sudo ln -s $HOME/dotfile/ptags.py /usr/bin/ptags.py

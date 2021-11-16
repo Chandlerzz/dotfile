@@ -17,6 +17,7 @@ fun! s:login()
     silent !expect $HOME$mysql_expect "$stmt1" 
     let $stmt2 = "use " . database.";" 
     silent !expect $HOME$mysql_expect "$stmt2" 
+    execute "redraw!"
     
 endfun
 fun! s:showCreateTable()
