@@ -26,3 +26,4 @@ git clone https://tpope.io/vim/repeat.git
 mkdir -p ~/.vim/pack/chandler/start 
 [[ -L ~/.vim/pack/chandler/start ]] || ln -s ~/dotfile/vim/mysql ~/.vim/pack/chandler/start/mysql 
 [[ -L ~/.vim/pack/chandler/start ]] || ln -s ~/dotfile/vim/diary ~/.vim/pack/chandler/start/diary 
+[[ -L ~/.vim/pack/chandler/start ]] || ln -s ~/dotfile/vim/roast.vim ~/.vim/pack/chandler/start/roast.vim 
