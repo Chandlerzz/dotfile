@@ -1,4 +1,9 @@
 {
+    "in_use":[
+        "xuxiyao",
+        "univ_test",
+        "risen"
+    ],
     "accounts":[
         {
             "nickName":"univ_prod",
@@ -54,7 +59,7 @@
             }
         },
         {
-            "nickName":"60",
+            "nickName":"risen",
             "name":"finereport",
             "host":"10.10.8.60",
             "port":"3306",
