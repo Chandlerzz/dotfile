@@ -12,7 +12,10 @@ import vmysql
 EOF
 
 fun! TestPy()
-    python3 vmysql.send_message()
+    python3 vmysql.new_window()
+endfun
+fun! NewWindow(nickname)
+    python3 vmysql.new_window(vim.eval('a:nickname'))
 endfun
 
 fun! QueryResult(type = '')
@@ -73,3 +76,4 @@ func! s:sourceConfigFile()
 endfun
 
 command! -nargs=0 ShowCreateTable :call s:showCreateTable()
+command! -nargs=1 NewWindow call NewWindow('<args>')
