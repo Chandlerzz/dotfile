@@ -1,33 +1,21 @@
-augroup mysql
-    au!
-    autocmd bufLeave mysql.vimrc call s:login()
-augroup END
-fun! s:login()
-    execute "source " . g:mysqlvimrc
-    let name = g:sql_name
-    let database = g:sql_database
-    let config = {"config":{"name": g:sql_name,"database": g:sql_database}}
-    let configStr = string(config)
-	let channel = ch_open('localhost:8765')
-	let response = ch_evalexpr(channel, configStr)
-    let $stmt = "quit;"
-    let $mysql_expect = g:mysql_expect
-    silent !expect $HOME$mysql_expect "$stmt" 
-    let $stmt1 = "mymysql ".name
-    silent !expect $HOME$mysql_expect "$stmt1" 
-    let $stmt2 = "use " . database.";" 
-    silent !expect $HOME$mysql_expect "$stmt2" 
-    execute "redraw!"
-    
+let s:plugin_root_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+
+python3 << EOF
+import sys
+from os.path import normpath, join
+import vim
+plugin_root_dir = vim.eval('s:plugin_root_dir')
+python_root_dir = normpath(join(plugin_root_dir, '..', 'python'))
+sys.path.insert(0, python_root_dir)
+import vmysql
+
+EOF
+
+fun! TestPy()
+    python3 vmysql.send_message()
 endfun
-fun! s:showCreateTable()
-    let tableName = {"tableName":expand("<cword>")}
-    let tableNameStr = string(tableName)
-	let channel = ch_open('localhost:8765')
-	let response = ch_evalexpr(channel, tableNameStr)
-    execute "split /tmp/createTableInfo.mysql"
-endfun
-fun! QueryResult(type = '')abort
+
+fun! QueryResult(type = '')
   if a:type == ''
     set opfunc=QueryResult
     return 'g@'
@@ -40,7 +28,6 @@ fun! QueryResult(type = '')abort
   let visual_marks_save = [getpos("'<"), getpos("'>")]
 
   try
-    let $mysql_expect = g:mysql_expect
     set clipboard= selection=inclusive
     let commands = #{line: "'[V']y", char: "`[v`]y", block: "`[\<c-v>`]y"}
     silent exe 'noautocmd keepjumps normal! ' .. get(commands, a:type, '')
@@ -48,9 +35,8 @@ fun! QueryResult(type = '')abort
     let stmt = {"stmt":getreg('"')} 
     let stmt = getreg('"')
     let stmt = substitute(stmt,"\\n","","g")
-    let $stmt = substitute(stmt,"\\s\\+"," ","g")
-    silent !expect $HOME$mysql_expect "$stmt"
-    execute "silent !tmux select-pane -t 2"
+    let g:mysql_stmt = substitute(stmt,"\\s\\+"," ","g")
+    python3 vmysql.send_message()
     execute "redraw!"
   finally
     call setreg('"', reg_save)
@@ -87,4 +73,3 @@ func! s:sourceConfigFile()
 endfun
 
 command! -nargs=0 ShowCreateTable :call s:showCreateTable()
-command! -nargs=0 LoginMysql :call s:login()

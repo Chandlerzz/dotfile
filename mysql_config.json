@@ -1,8 +1,18 @@
 {
     "in_use":[
-        "xuxiyao",
-        "univ_test",
-        "risen"
+        {
+            "name":"xuxiyao",
+            "database":""
+        },
+        {
+            "name":"univ_test",
+            "database":"university"
+        },
+        {
+            "name":"risen",
+            "database":"risen_biz"
+        }
+        
     ],
     "accounts":[
         {
