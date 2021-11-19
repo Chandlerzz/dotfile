@@ -24,39 +24,30 @@ source "$HOME/.cargo/env"
 alias suro='~/dotfile/script/bash_script/suroot'
 alias suchandler='~/dotfile/script/bash_script/suchandler'
 alias gitpush='~/dotfile/script/bash_script/gitpush'
+
+# go env
 export PATH=$PATH:/usr/local/go/bin
 # 启用 Go Modules 功能
 go env -w GO111MODULE=on
-
 # 配置 GOPROXY 环境变量，以下三选一
-
 # 1. 七牛 CDN
 go env -w  GOPROXY=https://goproxy.cn,direct
-
 # 2. 阿里云
 go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
-
 # 3. 官方
 go env -w  GOPROXY=https://goproxy.io,direct
-
 go env -w GOBIN=$HOME/bin
 # bash $HOME/script/bash_script/diary.sh
 # alias rmswp="perl $HOME/script/perl_script/unlinkSwap.pl"
 export VISUAL="vim"
 alias cds="cd && cd "
-alias mymysql="python3 $HOME/dotfile/script/python_script/mysqlManage/mysqlManage.py"
 alias gits="perl $HOME/dotfile/script/perl_script/gitManage/gitManage.pl"
 alias ls="ls --color=auto"
 alias javascript="cd /mnt/d/javascript_program"
 alias collegy="cd /mnt/d/javascript_program/risentrain"
-alias finereport="cd '/mnt/d/Program Files/FineReport_10.0'" 
 alias gitstatus="mkdir -p /tmp/rmdbg && git status > /tmp/rmdbg/status.txt && pwd >> /tmp/rmdbg/status.txt && perl ~/dotfile/script/perl_script/rmdbg.pl&&git status"
-alias vims="vim -S ~/Session.vim"
-alias vimss="vim -S ~/Chandler.vim"
 
 export NVM_DIR="/home/chandler/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# 设置 redis的密码为空 
- redis-cli CONFIG set requirepass ""
 

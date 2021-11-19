@@ -3,10 +3,6 @@ syntax on
 let g:diarybasepath = "~/report/"
 let g:diaryshellscript = "/dotfile/vim/diary/diary.sh"
 
-" mysql plugin path
-let g:mysql_expect = "/dotfile/mysql_expect" 
-let g:mysqlvimrc = "~/mysql/mysql.vimrc"
-
 " register plugin path
 let g:registerWatchFile = "/tmp/registers"
 let g:bufferListFileName ="/tmp/bufferList.chandler"

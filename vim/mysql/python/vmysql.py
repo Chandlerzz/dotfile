@@ -33,8 +33,18 @@ def send_message():
 
 @setupmethod
 def new_window(account):
-    pass
-
+    server = libtmux.Server()
+    session = server.find_where({ "session_name": "mysql" })
+    session.new_window(attach=True, window_name=account)
+    pane = session.attached_window.attached_pane
+    pane.send_keys("cd $HOME/mysql")
+    pane.send_keys("vim "+account+".mysql")
+    window = session.attached_window
+    window.split_window(vertical=False)
+    pane = window.attached_pane
+    pane.send_keys("mymysql "+account)
+    pane.send_keys("use "+database+";")
+    window.select_pane("-R")
 
 
 def _is_account_exist(account):

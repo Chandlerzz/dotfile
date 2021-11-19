@@ -1,0 +1,73 @@
+{
+    "linkfiles":[
+        {
+            "linker":"~/.vimrc",
+            "linkee":"~/dotfile/vim/.vimrc"
+        },
+        {
+            "linker":"~/.vim/plugin",
+            "linkee":"~/dotfile/vim/plugin"
+        },
+        {
+            "linker":"~/.vim/autoload",
+            "linkee":"~/dotfile/vim/autoload"
+        },
+        {
+            "linker":"~/.vim/ftdetect",
+            "linkee":"~/dotfile/vim/ftdetect"
+        },
+        {
+            "linker":"~/.vim/syntax",
+            "linkee":"~/dotfile/vim/syntax"
+        },
+        {
+            "linker":"~/.vim/pack/chandler/start/mysql",
+            "linkee":"~/dotfile/vim/mysql"
+        },
+        {
+            "linker":"~/.vim/pack/chandler/start/diary",
+            "linkee":"~/dotfile/vim/diary"
+        },
+        {
+            "linker":"~/.vim/pack/chandler/start/roast.vim",
+            "linkee":"~/dotfile/vim/roast.vim"
+        },
+        {
+            "linker":"~/bin/mysqltmux",
+            "linkee":"~/dotfile/vim/mysql/python/mysql_tmux.py"
+        },
+        {
+            "linker":"~/.local/lib/python3.9/site-packages/mysql.py",
+            "linkee":"~/dotfile/script/python_script/mysql.py"
+        },
+        {
+            "linker":"~/.local/lib/python3.9/site-packages/jsonwalk.py",
+            "linkee":"~/dotfile/script/python_script/jsonwalk.py"
+        },
+        {
+            "linker":"~/.local/lib/python3.9/site-packages/image.py",
+            "linkee":"~/dotfile/script/python_script/image.py"
+        },
+        {
+            "linker":"~/bin/mymysql",
+            "linkee":"~/dotfile/script/python_script/mysqlManage/mysqlManage.py"
+        },
+        {
+            "linker":"$HOME/.tmux.conf",
+            "linkee":"$HOME/dotfile/.tmux.conf"
+        },
+        {
+            "linker":"$HOME/.bashrc",
+            "linkee":"$HOME/dotfile/.bashrc "
+        },
+        {
+            "linker":"$HOME/.ipython",
+            "linkee":"$HOME/dotfile/.ipython "
+        },
+        {
+            "linker":"~/bin/ptags.py",
+            "linkee":"$HOME/dotfile/ptags.py "
+        },
+
+    ]
+}
