@@ -13,7 +13,7 @@ def setupmethod(f: F) -> F:
     """
 
     def wrapper_func( *args: t.Any, **kwargs: t.Any) -> t.Any:
-        if _is_account_exist():
+        if _is_account_exist(args[0]):
             raise AssertionError(
                     "this account is not defined in mysql_config.json"
             )
@@ -33,15 +33,17 @@ def send_message():
 
 @setupmethod
 def new_window(account):
-    print("new_window")
+    pass
 
 
 
-def _is_account_exist():
+def _is_account_exist(account):
     configFile = os.environ['HOME']+"/dotfile/mysql_config.json"
     with open(configFile) as f:
         result = json.load(f)
         accounts= result['accounts']
         accounts = [account['nickName'] for account in accounts]
+        print(accounts)
+        print(account)
         
-    return  account in accounts 
+    return  account not in accounts 
