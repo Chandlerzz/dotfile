@@ -1,0 +1,6 @@
+*.swp
+*.3pm
+.man
+tags
+python_script/.ipython/profile_default/history.sqlite
+*__pycache__*
