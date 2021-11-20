@@ -33,8 +33,8 @@
             "linkee":"~/dotfile/vim/roast.vim"
         },
         {
-            "linker":"~/bin/mysqltmux",
-            "linkee":"~/dotfile/vim/mysql/python/mysql_tmux.py"
+            "linker":"~/bin/tmux_init",
+            "linkee":"~/dotfile/tmux_init.sh"
         },
         {
             "linker":"~/.local/lib/python3.9/site-packages/mysql.py",

@@ -9,7 +9,7 @@ def link(linker,linkee):
            .format(linker = linker,linkee = linkee)
     os.system(command)
 
-configFile = os.environ['HOME']+"/dotfile/install.json"
+configFile = os.environ['HOME']+"/dotfile/install/install.json"
 with open(configFile) as f:
     result = json.load(f)
     linkfiles = result['linkfiles']
