@@ -35,10 +35,7 @@ fun! QueryResult(type = '')
     let commands = #{line: "'[V']y", char: "`[v`]y", block: "`[\<c-v>`]y"}
     silent exe 'noautocmd keepjumps normal! ' .. get(commands, a:type, '')
     echom getreg('"')->count(' ')
-    let stmt = {"stmt":getreg('"')} 
-    let stmt = getreg('"')
-    let stmt = substitute(stmt,"\\n","","g")
-    let g:mysql_stmt = substitute(stmt,"\\s\\+"," ","g")
+    let g:mysql_stmt = getreg('"')
     python3 vmysql.send_message()
     execute "redraw!"
   finally

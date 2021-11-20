@@ -68,6 +68,9 @@
             "linker":"~/bin/ptags.py",
             "linkee":"$HOME/dotfile/ptags.py "
         },
-
+        {
+            "linker":"~/bin/suro",
+            "linkee":"$HOME/dotfile/script/bash_script/suroot"
+        }
     ]
 }

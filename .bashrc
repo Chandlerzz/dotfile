@@ -1,7 +1,5 @@
 # .bashrc
 
-source ~/dotfile/script/bash_script/find.sh
-source ~/dotfile/script/bash_script/monitorFile.sh
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
@@ -21,7 +19,6 @@ export PATH
 alias his="history | grep"
 alias docker="sudo docker"
 source "$HOME/.cargo/env"
-alias suro='~/dotfile/script/bash_script/suroot'
 alias suchandler='~/dotfile/script/bash_script/suchandler'
 alias gitpush='~/dotfile/script/bash_script/gitpush'
 

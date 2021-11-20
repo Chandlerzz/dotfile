@@ -22,7 +22,7 @@ def setupmethod(f: F) -> F:
     return t.cast(F, update_wrapper(wrapper_func, f))
 
 def send_message():
-    stmt = vim.vars['mysql_stmt']
+    stmt=vim.vars["mysql_stmt"]
     stmt = stmt.decode("utf-8")
     output = subprocess.Popen("tmux list-panes | grep \"active\" | cut -d':' -f1",shell=True,stdout=subprocess.PIPE)
     output=output.stdout.read()
