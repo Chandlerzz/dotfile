@@ -21,8 +21,8 @@
             "linkee":"~/dotfile/vim/syntax"
         },
         {
-            "linker":"~/.vim/pack/chandler/start/mysql",
-            "linkee":"~/dotfile/vim/mysql"
+            "linker":"~/.vim/pack/chandler/start/vimTmysql",
+            "linkee":"~/vimTmysql"
         },
         {
             "linker":"~/.vim/pack/chandler/start/diary",

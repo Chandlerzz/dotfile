@@ -17,11 +17,9 @@ export PATH
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
-alias his="history | grep"
 alias docker="sudo docker"
 source "$HOME/.cargo/env"
 alias suchandler='~/dotfile/script/bash_script/suchandler'
-alias gitpush='~/dotfile/script/bash_script/gitpush'
 
 # go env
 export PATH=$PATH:/usr/local/go/bin
@@ -38,8 +36,6 @@ go env -w GOBIN=$HOME/bin
 # bash $HOME/script/bash_script/diary.sh
 # alias rmswp="perl $HOME/script/perl_script/unlinkSwap.pl"
 export VISUAL="vim"
-alias cds="cd && cd "
-alias gits="perl $HOME/dotfile/script/perl_script/gitManage/gitManage.pl"
 alias ls="ls --color=auto"
 alias javascript="cd /mnt/d/javascript_program"
 alias collegy="cd /mnt/d/javascript_program/risentrain"

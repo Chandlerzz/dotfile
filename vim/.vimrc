@@ -102,6 +102,7 @@ if has ('autocmd')
 	augroup end
 endif " has aoutocmd
 call plug#begin('~/.vim/bundle')
+Plug 'skywind3000/asyncrun.vim'
 Plug 'scrooloose/nerdcommenter'
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " Plug 'junegunn/fzf.vim'
