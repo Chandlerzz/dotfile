@@ -3,4 +3,5 @@
 .man
 tags
 python_script/.ipython/profile_default/history.sqlite
-*__pycache__*
+*.pyc
+*.pyo
