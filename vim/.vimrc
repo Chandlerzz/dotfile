@@ -8,32 +8,7 @@ let g:registerWatchFile = "/tmp/registers"
 let g:bufferListFileName ="/tmp/bufferList.chandler"
 let g:LRCfileName = "/tmp/LRC.chandler"
 let g:LRCcount = "/tmp/lrccount"
-let g:tabpath = [
-            \"/mnt/d/javascript_program/risentrain/applet-student",
-            \"/mnt/d/javascript_program/risentrain/vue-admin",
-            \"/mnt/d/javascript_program/risentrain/egg-server"
-\]
-let g:globalpath = [
-            \$HOME . "/todo",
-            \$HOME . "/man",
-            \$HOME . "/vim",
-            \$HOME . "/vim/plugin",
-            \]
-for $gpath in g:globalpath
-    set path+=$gpath
-endfor
-let g:localpath = [
-            \"/mnt/d/javascript_program/risentrain/applet-student/pages",
-            \"/mnt/d/javascript_program/risentrain/applet-student/component",
-            \"/mnt/d/javascript_program/risentrain/applet-student/functions",
-            \"/mnt/d/javascript_program/risentrain/egg-server/app/route",
-            \"/mnt/d/javascript_program/risentrain/egg-server/app/model",
-            \"/mnt/d/javascript_program/risentrain/egg-server/app/controller",
-            \"/mnt/d/javascript_program/risentrain/egg-server/app/service",
-            \"/mnt/d/javascript_program/risentrain/vue-admin/src/views",
-            \"/mnt/d/javascript_program/risentrain/vue-admin/src/mixins",
-            \"/mnt/d/javascript_program/risentrain/vue-admin/src/components",
-            \]
+
 "ctags config
 set tags=tags
 let g:Lf_ShortcutB='<leader>bn'
@@ -51,7 +26,6 @@ set laststatus=2
 let mapleader = "-"
 let maplocalleader = ";"
 noremap <leader>m :marks<CR>
-nnoremap <c-k>o ZZ
 xnoremap <leader>p "_dp
 imap jj <esc>  
 nnoremap <c-s> :w<CR>
@@ -72,7 +46,6 @@ inoremap <C-v> <ESC>:set paste<CR>"+p:set nopaste<CR>a
 vnoremap <C-c> "+y
 vnoremap <C-d> "+d
 
-nnoremap <leader>m :marks<cr>
 """ move to html tab to insert word in normal mode
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>bv :vsplit ~/.bashrc<cr>
@@ -104,8 +77,6 @@ endif " has aoutocmd
 call plug#begin('~/.vim/bundle')
 Plug 'skywind3000/asyncrun.vim'
 Plug 'scrooloose/nerdcommenter'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
 Plug 'mattn/emmet-vim'
 Plug 'morhetz/gruvbox'
 Plug 'SirVer/ultisnips'

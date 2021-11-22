@@ -45,3 +45,5 @@ export NVM_DIR="/home/chandler/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 
+eval "$(lua ~/.learn/z.lua/z.lua --init bash)"
+

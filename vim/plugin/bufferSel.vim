@@ -7,7 +7,6 @@ nnoremap  <leader>bb :execute 'Bss'<CR>
 " nnoremap <leader>SetTcd :execute 'SetTcd'<CR>
 augroup bufferSel
     au!
-    autocmd tabEnter * call TabPath()
     autocmd bufEnter * call LRCread()
     autocmd bufEnter,tabEnter * call BufferRead()
 augroup END
@@ -29,18 +28,7 @@ function! LRCread()
     let job = job_start("sh ". expand("~/dotfile/vim/script/LRC.sh") ." ". $lrcfilename ." " . $pwd,
                 \ {"in_io": "null", "out_io": "null", "err_io": "null"})
 endfunction
-function! TabPath()
-    let pwd= getcwd()
-    set path = ""
-    for $gpath in g:globalpath
-        set path+=$gpath
-    endfor
-    for $lpath in g:localpath
-        if (match($lpath,pwd) > -1)
-             set path+=$lpath
-        endif
-    endfor
-endfunction
+
 function! BufferRead()
     let pwd= getcwd()
     let $bufferListFileName = g:bufferListFileName
