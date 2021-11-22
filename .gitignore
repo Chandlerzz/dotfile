@@ -2,6 +2,6 @@
 *.3pm
 .man
 tags
-python_script/.ipython/profile_default/history.sqlite
+*.sqlite
 *.pyc
 *.pyo

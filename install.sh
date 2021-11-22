@@ -1,3 +1,3 @@
-#!/usr/bin/sh
+#!/usr/bin/bash
 python install/install.py
-sh install/install.sh
+bash install/install.sh
