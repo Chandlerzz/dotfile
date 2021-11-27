@@ -1,5 +1,5 @@
 " bufferSel
-nnoremap <expr> e SelectBuffer() ..'_'
+nnoremap <expr> e SelectBuffer("") ..'_'
 " xnoremap <expr> <F4> SelectBuffer()
 " doubling <F4> works on a line
 " nnoremap <expr> <F4><F4> CountSpaces() .. '_'
@@ -7,8 +7,8 @@ nnoremap  <leader>bb :execute 'Bss'<CR>
 " nnoremap <leader>SetTcd :execute 'SetTcd'<CR>
 augroup bufferSel
     au!
-    autocmd bufEnter * call LRCread()
-    autocmd bufEnter,tabEnter * call BufferRead()
+     autocmd bufEnter * call LRCread()
+     autocmd bufEnter,tabEnter * call BufferRead()
 augroup END
 
 function! LRCread()
@@ -50,19 +50,11 @@ function! BufferRead()
         let currbufnr = currbufnr + 1
     endwhile
 endfunction
-function! s:newTab()
-    execute ":tabnew"
-    execute ":tabnew"
-    let @b="-SetTcdgt"
-endfunction
 function! s:bufSelPwd()
     let pwd=getcwd()
     call s:bufSel(pwd)
 endfunction
-function! s:setTcd()
-    let tabPageNr = tabpagenr()
-    execute "tcd " .g:tabpath[tabPageNr-1]
-endfunction
+
 function! s:bufSel(pattern)
   let bufcount = bufnr("$")
   let currbufnr = 1
@@ -91,23 +83,24 @@ function! s:bufSel(pattern)
   endif
 endfunction
 
-function SelectBuffer(type = '') abort
+function SelectBuffer(type) abort
   if a:type == ''
     set opfunc=SelectBuffer
     return 'g@'
   endif
 
   let sel_save = &selection
-  let reg_save = getreginfo('"')
+  if has("nvim")
+      let reg_save = @@
+  else
+      let reg_save = getreginfo('"')
+  end
   let g:aaa=reg_save
   let cb_save = &clipboard
   let visual_marks_save = [getpos("'<"), getpos("'>")]
 
   try
     set clipboard= selection=inclusive
-    let commands = #{line: "'[V']y", char: "`[v`]y", block: "`[\<c-v>`]y"}
-    silent exe 'noautocmd keepjumps normal! ' .. get(commands, a:type, '')
-    " echom getreg('"')->count(' ')
   finally
   let charr = s:inputtarget()
   let head=charr[:-2]
@@ -152,7 +145,4 @@ endfunction
 "Bind the s:bufSel() function to a user-command
 command! -nargs=1 Bs :call s:bufSel("<args>")
 command! -nargs=0 Bss :call s:bufSelPwd()
-command! -nargs=0 NewTab :call s:newTab()
 " command! -nargs=0 SetTcd :call s:setTcd()
-nnoremap <silent> <Plug>SetTcd  :<C-U>call <SID>setTcd()<CR>
-nmap <leader>SetTcd <Plug>SetTcd
