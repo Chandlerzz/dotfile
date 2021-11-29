@@ -5,7 +5,15 @@
             "linkee":"~/dotfile/vim/.vimrc"
         },
         {
+            "linker":"~/.config/nvim/init.vim",
+            "linkee":"~/dotfile/vim/.vimrc"
+        },
+        {
             "linker":"~/.vim/plugin",
+            "linkee":"~/dotfile/vim/plugin"
+        },
+        {
+            "linker":"~/.local/share/nvim/site/plugin",
             "linkee":"~/dotfile/vim/plugin"
         },
         {
@@ -13,7 +21,15 @@
             "linkee":"~/dotfile/vim/autoload"
         },
         {
+            "linker":"~/.local/share/nvim/site/autoload",
+            "linkee":"~/dotfile/vim/autoload"
+        },
+        {
             "linker":"~/.vim/ftdetect",
+            "linkee":"~/dotfile/vim/ftdetect"
+        },
+        {
+            "linker":"~/.local/share/nvim/site/ftdetect",
             "linkee":"~/dotfile/vim/ftdetect"
         },
         {
@@ -21,7 +37,15 @@
             "linkee":"~/dotfile/vim/syntax"
         },
         {
+            "linker":"~/.local/share/nvim/site/syntax",
+            "linkee":"~/dotfile/vim/syntax"
+        },
+        {
             "linker":"~/.vim/pack/chandler/start/vimTmysql",
+            "linkee":"~/vimTmysql"
+        },
+        {
+            "linker":"~/.local/share/nvim/site/pack/chandler/start/vimTmysql",
             "linkee":"~/vimTmysql"
         },
         {
@@ -29,7 +53,15 @@
             "linkee":"~/dotfile/vim/diary"
         },
         {
+            "linker":"~/.local/share/nvim/site/pack/chandler/start/diary",
+            "linkee":"~/dotfile/vim/diary"
+        },
+        {
             "linker":"~/.vim/pack/chandler/start/roast.vim",
+            "linkee":"~/dotfile/vim/roast.vim"
+        },
+        {
+            "linker":"~/.local/share/nvim/site/pack/chandler/start/rost.vim",
             "linkee":"~/dotfile/vim/roast.vim"
         },
         {
