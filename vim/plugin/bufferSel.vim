@@ -25,8 +25,12 @@ function! LRCread()
     else
           execute "silent ! echo ".currbufname." >> " . $lrcfilename
     endif
-    let job = job_start("sh ". expand("~/dotfile/vim/script/LRC.sh") ." ". $lrcfilename ." " . $pwd,
-                \ {"in_io": "null", "out_io": "null", "err_io": "null"})
+    let l:command = "sh ". expand("~/dotfile/vim/script/LRC.sh") ." ". $lrcfilename ." " . $pwd
+    if has("nvim")
+        let job = jobstart(l:command, {"in_io": "null", "out_io": "null", "err_io": "null"})
+    else
+        let job = job_start(l:command, {"in_io": "null", "out_io": "null", "err_io": "null"})
+    end
 endfunction
 
 function! BufferRead()
