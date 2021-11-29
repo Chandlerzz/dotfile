@@ -19,6 +19,8 @@ if flag != 0:
             pane = session.attached_window.attached_pane
             pane.send_keys("cd $HOME/mysql")
             pane.send_keys("vim "+name+".mysql")
+            pane.send_keys(":let w:name = '"+name+"'")
+            pane.send_keys(":let w:database = '"+database+"'")
             window = session.attached_window
             window.split_window(vertical=False)
             pane = window.attached_pane
