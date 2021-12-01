@@ -162,3 +162,10 @@ let perl_fold_anonymous_subs=1
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
 
+function! My_runner(opts)
+    let g:test = "success"
+endfunction
+
+let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
+let g:asyncrun_runner.test = function('My_runner')
+
