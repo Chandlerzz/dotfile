@@ -24,7 +24,7 @@ if flag != 0:
             pane.send_keys(":python3 my = mysql()")
             pane.send_keys(":python3 name = '"+name+"'")
             pane.send_keys(":python3 database = '"+database+"'")
-            pane.send_keys(":python3 my.connect(name,database)")
+            pane.send_keys(":python3 my.getcursor(name,database)")
 
             window = session.attached_window
             window.split_window(vertical=False)

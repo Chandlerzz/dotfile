@@ -2,7 +2,7 @@
     "in_use":[
         {
             "name":"xuxiyao",
-            "database":""
+            "database":"vim"
         },
         {
             "name":"univ_test",
@@ -66,6 +66,7 @@
             "port":"3306",
             "passWord":"root",
             "database":{
+                "vim":"vim"
             }
         },
         {
