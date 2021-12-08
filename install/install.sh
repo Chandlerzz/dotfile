@@ -6,6 +6,14 @@
 make ~/dotfile/script/c/rmswp
 cp ~/dotfile/script/c/rmswp ~/bin
 
+if [[ -f $HOME/bin/upload ]]; then
+    # useless
+    eval
+else
+    cd $HOME/dotfile/script/golang_script/upload
+    go build -o $HOME/bin/
+fi
+
 mkdir -p ~/.vim/pack/tpope/start
 cd ~/.vim/pack/tpope/start
 git clone https://tpope.io/vim/surround.git

@@ -1,0 +1,352 @@
+{
+    "contentTypes":[
+        {
+            "extension_name": "aac",
+            "file_type": "AAC audio",
+            "mime_type": "audio/aac"
+        },
+        {
+            "extension_name": "abw",
+            "file_type": "AbiWord document",
+            "mime_type": "application/x-abiword"
+        },
+        {
+            "extension_name": "arc",
+            "file_type": "Archive document (multiple files embedded)",
+            "mime_type": "application/x-freearc"
+        },
+        {
+            "extension_name": "avi",
+            "file_type": "AVI: Audio Video Interleave",
+            "mime_type": "video/x-msvideo"
+        },
+        {
+            "extension_name": "azw",
+            "file_type": "Amazon Kindle eBook format",
+            "mime_type": "application/vnd.amazon.ebook"
+        },
+        {
+            "extension_name": "bin",
+            "file_type": "Any kind of binary data",
+            "mime_type": "application/octet-stream"
+        },
+        {
+            "extension_name": "bmp",
+            "file_type": "Windows OS/2 Bitmap Graphics",
+            "mime_type": "image/bmp"
+        },
+        {
+            "extension_name": "bz",
+            "file_type": "BZip archive",
+            "mime_type": "application/x-bzip"
+        },
+        {
+            "extension_name": "bz2",
+            "file_type": "BZip2 archive",
+            "mime_type": "application/x-bzip2"
+        },
+        {
+            "extension_name": "csh",
+            "file_type": "C-Shell script",
+            "mime_type": "application/x-csh"
+        },
+        {
+            "extension_name": "css",
+            "file_type": "Cascading Style Sheets (CSS)",
+            "mime_type": "text/css"
+        },
+        {
+            "extension_name": "csv",
+            "file_type": "Comma-separated values (CSV)",
+            "mime_type": "text/csv"
+        },
+        {
+            "extension_name": "doc",
+            "file_type": "Microsoft Word",
+            "mime_type": "application/msword"
+        },
+        {
+            "extension_name": "docx",
+            "file_type": "Microsoft Word (OpenXML)",
+            "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        },
+        {
+            "extension_name": "eot",
+            "file_type": "MS Embedded OpenType fonts",
+            "mime_type": "application/vnd.ms-fontobject"
+        },
+        {
+            "extension_name": "epub",
+            "file_type": "Electronic publication (EPUB)",
+            "mime_type": "application/epub+zip"
+        },
+        {
+            "extension_name": "gif",
+            "file_type": "Graphics Interchange Format (GIF)",
+            "mime_type": "image/gif"
+        },
+        {
+            "extension_name": "htm",
+            "file_type": "HyperText Markup Language (HTML)",
+            "mime_type": "text/html"
+        },
+        {
+            "extension_name": "html",
+            "file_type": "HyperText Markup Language (HTML)",
+            "mime_type": "text/html"
+        },
+        {
+            "extension_name": "ico",
+            "file_type": "Icon format",
+            "mime_type": "image/vnd.microsoft.icon"
+        },
+        {
+            "extension_name": "ics",
+            "file_type": "iCalendar format",
+            "mime_type": "text/calendar"
+        },
+        {
+            "extension_name": "jar",
+            "file_type": "Java Archive (JAR)",
+            "mime_type": "application/java-archive"
+        },
+        {
+            "extension_name": "jpg",
+            "file_type": "JPEG images",
+            "mime_type": "image/jpeg"
+        },
+        {
+            "extension_name": "jpeg",
+            "file_type": "JPEG images",
+            "mime_type": "image/jpeg"
+        },
+        {
+            "extension_name": "js",
+            "file_type": "JavaScript",
+            "mime_type": "text/javascript"
+        },
+        {
+            "extension_name": "json",
+            "file_type": "JSON format",
+            "mime_type": "application/json"
+        },
+        {
+            "extension_name": "jsonld",
+            "file_type": "JSON-LD format",
+            "mime_type": "application/ld+json"
+        },
+        {
+            "extension_name": "mjs",
+            "file_type": "JavaScript module",
+            "mime_type": "text/javascript"
+        },
+        {
+            "extension_name": "mp3",
+            "file_type": "MP3 audio",
+            "mime_type": "audio/mpeg"
+        },
+        {
+            "extension_name": "mpeg",
+            "file_type": "MPEG Video",
+            "mime_type": "video/mpeg"
+        },
+        {
+            "extension_name": "mpkg",
+            "file_type": "Apple Installer Package",
+            "mime_type": "application/vnd.apple.installer+xml"
+        },
+        {
+            "extension_name": "odp",
+            "file_type": "OpenDocument presentation document",
+            "mime_type": "application/vnd.oasis.opendocument.presentation"
+        },
+        {
+            "extension_name": "ods",
+            "file_type": "OpenDocument spreadsheet document",
+            "mime_type": "application/vnd.oasis.opendocument.spreadsheet"
+        },
+        {
+            "extension_name": "odt",
+            "file_type": "OpenDocument text document",
+            "mime_type": "application/vnd.oasis.opendocument.text"
+        },
+        {
+            "extension_name": "oga",
+            "file_type": "OGG audio",
+            "mime_type": "audio/ogg"
+        },
+        {
+            "extension_name": "ogv",
+            "file_type": "OGG video",
+            "mime_type": "video/ogg"
+        },
+        {
+            "extension_name": "ogx",
+            "file_type": "OGG",
+            "mime_type": "application/ogg"
+        },
+        {
+            "extension_name": "otf",
+            "file_type": "OpenType font",
+            "mime_type": "font/otf"
+        },
+        {
+            "extension_name": "png",
+            "file_type": "Portable Network Graphics",
+            "mime_type": "image/png"
+        },
+        {
+            "extension_name": "pdf",
+            "file_type": "Adobe Portable Document Format (PDF)",
+            "mime_type": "application/pdf"
+        },
+        {
+            "extension_name": "ppt",
+            "file_type": "Microsoft PowerPoint",
+            "mime_type": "application/vnd.ms-powerpoint"
+        },
+        {
+            "extension_name": "pptx",
+            "file_type": "Microsoft PowerPoint (OpenXML)",
+            "mime_type": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        },
+        {
+            "extension_name": "rar",
+            "file_type": "RAR archive",
+            "mime_type": "application/x-rar-compressed"
+        },
+        {
+            "extension_name": "rtf",
+            "file_type": "Rich Text Format (RTF)",
+            "mime_type": "application/rtf"
+        },
+        {
+            "extension_name": "sh",
+            "file_type": "Bourne shell script",
+            "mime_type": "application/x-sh"
+        },
+        {
+            "extension_name": "svg",
+            "file_type": "Scalable Vector Graphics (SVG)",
+            "mime_type": "image/svg+xml"
+        },
+        {
+            "extension_name": "swf",
+            "file_type": "Small web format (SWF) or Adobe Flash document",
+            "mime_type": "application/x-shockwave-flash"
+        },
+        {
+            "extension_name": "tar",
+            "file_type": "Tape Archive (TAR)",
+            "mime_type": "application/x-tar"
+        },
+        {
+            "extension_name": "tif",
+            "file_type": "Tagged Image File Format (TIFF)",
+            "mime_type": "image/tiff"
+        },
+        {
+            "extension_name": "tiff",
+            "file_type": "Tagged Image File Format (TIFF)",
+            "mime_type": "image/tiff"
+        },
+        {
+            "extension_name": "ttf",
+            "file_type": "TrueType Font",
+            "mime_type": "font/ttf"
+        },
+        {
+            "extension_name": "txt",
+            "file_type": "Text, (generally ASCII or ISO 8859-n)",
+            "mime_type": "text/plain"
+        },
+        {
+            "extension_name": "vsd",
+            "file_type": "Microsoft Visio",
+            "mime_type": "application/vnd.visio"
+        },
+        {
+            "extension_name": "wav",
+            "file_type": "Waveform Audio Format",
+            "mime_type": "audio/wav"
+        },
+        {
+            "extension_name": "weba",
+            "file_type": "WEBM audio",
+            "mime_type": "audio/webm"
+        },
+        {
+            "extension_name": "webm",
+            "file_type": "WEBM video",
+            "mime_type": "video/webm"
+        },
+        {
+            "extension_name": "webp",
+            "file_type": "WEBP image",
+            "mime_type": "image/webp"
+        },
+        {
+            "extension_name": "woff",
+            "file_type": "Web Open Font Format (WOFF)",
+            "mime_type": "font/woff"
+        },
+        {
+            "extension_name": "woff2",
+            "file_type": "Web Open Font Format (WOFF)",
+            "mime_type": "font/woff2"
+        },
+        {
+            "extension_name": "xhtml",
+            "file_type": "XHTML",
+            "mime_type": "application/xhtml+xml"
+        },
+        {
+            "extension_name": "xls",
+            "file_type": "Microsoft Excel",
+            "mime_type": "application/vnd.ms-excel"
+        },
+        {
+            "extension_name": "xlsx",
+            "file_type": "Microsoft Excel (OpenXML)",
+            "mime_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        },
+        {
+            "extension_name": "xul",
+            "file_type": "XUL",
+            "mime_type": "application/vnd.mozilla.xul+xml"
+        },
+        {
+            "extension_name": "zip",
+            "file_type": "ZIP archive",
+            "mime_type": "application/zip"
+        },
+        {
+            "extension_name": "7z",
+            "file_type": "7-zip archive",
+            "mime_type": "application/x-7z-compressed"
+        }
+    ],
+
+    "_contentTypes":[
+            {
+                "extension_name": ".xml",
+                "file_type": "XML",
+                "mime_type": "application/xml 代码对普通用户来说不可读 (RFC 3023, section 3)\ntext/xml 代码对普通用户来说可读 (RFC 3023, section 3)"
+            },
+            {
+                "extension_name": ".3gp",
+                "file_type": "3GPP audio/video container",
+                "mime_type": "video/3gpp\naudio/3gpp（若不含视频）"
+            },
+            {
+                "extension_name": ".3g2",
+                "file_type": "3GPP2 audio/video container",
+                "mime_type": "video/3gpp2\naudio/3gpp2（若不含视频）"
+            },
+            {
+                "extension_name": ".mid\n.midi",
+                "file_type": "Musical Instrument Digital Interface (MIDI)",
+                "mime_type": "audio/midi audio/x-midi"
+            }
+    ]
+}
