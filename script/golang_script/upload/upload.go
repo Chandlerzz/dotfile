@@ -7,6 +7,7 @@ package main
 import (
     "os"
 	"log"
+    "fmt"
     .	"context"
     "context"
 	"github.com/minio/minio-go/v7"
@@ -25,19 +26,13 @@ func main() {
     ctx := context.Background()
 	app := &cli.App{
 	Flags: []cli.Flag{
-		// &cli.StringFlag{
-		// 	Name:    "config",
-		// 	Aliases: []string{"c"},
-		// 	Usage:   "Load configuration from `FILE`",
-		// },
 		&cli.StringFlag{
 			Name:    "bucket",
 			Aliases: []string{"b"},
 			Usage:   "bucket name",
-			Required: true,
 		},
 		&cli.StringFlag{
-			Name:    "source file",
+			Name:    "source",
 			Aliases: []string{"s"},
 			Usage:   "source file name",
 		},
@@ -47,15 +42,67 @@ func main() {
 			Usage:   "contentType",
 		},
 		&cli.StringFlag{
-			Name:    "target file",
+			Name:    "target",
 			Aliases: []string{"t"},
 			Usage:   "target file name",
 		},
+        &cli.StringFlag{
+			Name:    "init",
+			Aliases: []string{"i"},
+			Usage:   "init",
+        },
 	},
 	    Name: "minio_client",
 	    Usage: "minio client for chandler",
 	}
 	app.Action = func (c *cli.Context) error {
+        if(c.String("init") != ""){
+            multiline := ` 
+#!/bin/bash
+_upload() {
+    local bucket=""
+    local source=""
+    local target=""
+    local pwd=$(pwd)
+	while [ "$1" ]; do
+		case "$1" in
+			-b) local bucket="$2" ;;
+			-s) local source="$2" ;;
+			-t) local target="$2" ;;
+			*) break ;;
+		esac
+		shift 2
+	done
+    if [[ -f $source ]]; then
+        upload -b $bucket -s $source -t $target
+    elif [[ -d $source ]]; then
+        files=$(find $source)
+        files=$(echo $files | sed 's/ /,/g')
+        IFS=',' read -r -a array <<< "$files"
+        sub=$pwd/$source
+        for element in "${array[@]}"
+        do
+            # echo -n $element | od -An -tuC
+            if [[ -f $element ]]; then
+                element=$(realpath $element)
+                local source=$element
+                target1="${element/$sub/}"
+                target1=$target$target1
+                echo $target1
+                echo $source
+                upload -b $bucket -s $source -t $target1
+            fi
+        done
+    else
+        echo "file is not existed"
+    fi
+}
+# alias ${_ZL_CMD:-z}='_zlua 2>&1'
+alias ${_UPLOAD:-minio}='_upload'
+`
+            fmt.Print(multiline)
+            return nil
+        }
         minioClient := minioInit()
         bucket := c.String("bucket")
         target := c.String("target")

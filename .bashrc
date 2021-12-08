@@ -46,5 +46,5 @@ export NVM_DIR="/home/chandler/.nvm"
 
 
 eval "$(lua ~/.learn/z.lua/z.lua --init bash)"
-source $HOME/dotfile/script/golang_script/upload/upload.sh
+eval "$(upload -i init)"
 
