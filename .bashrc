@@ -19,7 +19,6 @@ export PATH
 # User specific aliases and functions
 alias docker="sudo docker"
 source "$HOME/.cargo/env"
-alias suchandler='~/dotfile/script/bash_script/suchandler'
 
 # go env
 export PATH=$PATH:/usr/local/go/bin
@@ -33,12 +32,9 @@ go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
 # 3. 官方
 go env -w  GOPROXY=https://goproxy.io,direct
 go env -w GOBIN=$HOME/bin
-# bash $HOME/script/bash_script/diary.sh
-# alias rmswp="perl $HOME/script/perl_script/unlinkSwap.pl"
+
 export VISUAL="vim"
 alias ls="ls --color=auto"
-alias javascript="cd /mnt/d/javascript_program"
-alias collegy="cd /mnt/d/javascript_program/risentrain"
 alias gitstatus="mkdir -p /tmp/rmdbg && git status > /tmp/rmdbg/status.txt && pwd >> /tmp/rmdbg/status.txt && perl ~/dotfile/script/perl_script/rmdbg.pl&&git status"
 
 export NVM_DIR="/home/chandler/.nvm"
