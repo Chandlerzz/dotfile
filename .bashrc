@@ -42,9 +42,12 @@ export NVM_DIR="/home/chandler/.nvm"
 
 
 eval "$(lua ~/.learn/z.lua/z.lua --init bash)"
+alias zz="z -I"
 # upload 是否存在 存在upload init
 type upload > /dev/null 2>&1
 if [[ $? == 0 ]]; then
     eval "$(upload -i init)"
 fi
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
