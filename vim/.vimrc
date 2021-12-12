@@ -318,35 +318,150 @@ nnoremap <silent> <leader>z :call <sid>zoom()<cr>
 " Last inserted text
 nnoremap g. :normal! `[v`]<cr><left>
 
-nnoremap <A-k> :m .-2<CR>==
-nnoremap <A-j> :m .+1<CR>==
-" inoremap <A-j> <Esc>:m .+1<CR>==gi
-" inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
+" ----------------------------------------------------------------------------
+" nvim
+" ----------------------------------------------------------------------------
+if has('nvim')
+  tnoremap <a-a> <esc>a
+  tnoremap <a-b> <esc>b
+  tnoremap <a-d> <esc>d
+  tnoremap <a-f> <esc>f
+endif
+" ----------------------------------------------------------------------------
+" Quickfix
+" ----------------------------------------------------------------------------
+nnoremap ]q :cnext<cr>zz
+nnoremap [q :cprev<cr>zz
+nnoremap ]l :lnext<cr>zz
+nnoremap [l :lprev<cr>zz
+" ----------------------------------------------------------------------------
+" Buffers
+" ----------------------------------------------------------------------------
+nnoremap ]b :bnext<cr>
+nnoremap [b :bprev<cr>
+" ----------------------------------------------------------------------------
+" Tabs
+" ----------------------------------------------------------------------------
+nnoremap ]t :tabn<cr>
+nnoremap [t :tabp<cr>
+" ----------------------------------------------------------------------------
+" <tab> / <s-tab> | Circular windows navigation
+" ----------------------------------------------------------------------------
+nnoremap <tab>   <c-w>w
+nnoremap <S-tab> <c-w>W
+
+" ----------------------------------------------------------------------------
+" tmux
+" ----------------------------------------------------------------------------
+function! s:tmux_send(content, dest) range
+  let dest = empty(a:dest) ? input('To which pane? ') : a:dest
+  let tempfile = tempname()
+  call writefile(split(a:content, "\n", 1), tempfile, 'b')
+  call system(printf('tmux load-buffer -b vim-tmux %s \; paste-buffer -d -b vim-tmux -t %s',
+        \ shellescape(tempfile), shellescape(dest)))
+  call delete(tempfile)
+endfunction
+
+function! s:tmux_map(key, dest)
+  execute printf('nnoremap <silent> %s "tyy:call <SID>tmux_send(@t, "%s")<cr>', a:key, a:dest)
+  execute printf('xnoremap <silent> %s "ty:call <SID>tmux_send(@t, "%s")<cr>gv', a:key, a:dest)
+endfunction
+
+call s:tmux_map('<leader>tt', '')
+call s:tmux_map('<leader>th', '.left')
+call s:tmux_map('<leader>tj', '.bottom')
+call s:tmux_map('<leader>tk', '.top')
+call s:tmux_map('<leader>tl', '.right')
+call s:tmux_map('<leader>ty', '.top-left')
+call s:tmux_map('<leader>to', '.top-right')
+call s:tmux_map('<leader>tn', '.bottom-left')
+call s:tmux_map('<leader>t.', '.bottom-right')
+
+" ----------------------------------------------------------------------------
+" Markdown headings
+" ----------------------------------------------------------------------------
+nnoremap <leader>1 m`yypVr=``
+nnoremap <leader>2 m`yypVr-``
+nnoremap <leader>3 m`^i### <esc>``4l
+nnoremap <leader>4 m`^i#### <esc>``5l
+nnoremap <leader>5 m`^i##### <esc>``6l
+
+" ----------------------------------------------------------------------------
+" Moving lines
+" ----------------------------------------------------------------------------
+nnoremap <silent> <C-k> :move-2<cr>
+nnoremap <silent> <C-j> :move+<cr>
+nnoremap <silent> <C-h> <<
+nnoremap <silent> <C-l> >>
+xnoremap <silent> <C-k> :move-2<cr>gv
+xnoremap <silent> <C-j> :move'>+<cr>gv
+xnoremap <silent> <C-h> <gv
+xnoremap <silent> <C-l> >gv
+xnoremap < <gv
+xnoremap > >gv
+" ----------------------------------------------------------------------------
+" <Leader>c Close quickfix/location window
+" ----------------------------------------------------------------------------
+nnoremap <leader>c :cclose<bar>lclose<cr>
+
+" ----------------------------------------------------------------------------
+" Readline-style key bindings in command-line (excerpt from rsi.vim)
+" ----------------------------------------------------------------------------
+cnoremap        <C-A> <Home>
+cnoremap        <C-B> <Left>
+cnoremap <expr> <C-D> getcmdpos()>strlen(getcmdline())?"\<Lt>C-D>":"\<Lt>Del>"
+cnoremap <expr> <C-F> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
+cnoremap        <M-b> <S-Left>
+cnoremap        <M-f> <S-Right>
+silent! exe "set <S-Left>=\<Esc>b"
+silent! exe "set <S-Right>=\<Esc>f"
+
+" ----------------------------------------------------------------------------
+" #gi / #gpi | go to next/previous indentation level
+" ----------------------------------------------------------------------------
+function! s:go_indent(times, dir)
+  for _ in range(a:times)
+    let l = line('.')
+    let x = line('$')
+    let i = s:indent_len(getline(l))
+    let e = empty(getline(l))
+
+    while l >= 1 && l <= x
+      let line = getline(l + a:dir)
+      let l += a:dir
+      if s:indent_len(line) != i || empty(line) != e
+        break
+      endif
+    endwhile
+    let l = min([max([1, l]), x])
+    execute 'normal! '. l .'G^'
+  endfor
+endfunction
+nnoremap <silent> gi :<c-u>call <SID>go_indent(v:count1, 1)<cr>
+nnoremap <silent> gpi :<c-u>call <SID>go_indent(v:count1, -1)<cr>
+" ----------------------------------------------------------------------------
+" <leader>bs | buf-search
+" ----------------------------------------------------------------------------
+nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
+
+
+" ----------------------------------------------------------------------------
+" #!! | Shebang
+" ----------------------------------------------------------------------------
+inoreabbrev <expr> #!! "#!/usr/bin/env" . (empty(&filetype) ? '' : ' '.&filetype)
 "" clipbord map
 
-inoremap <C-v> <ESC>:set paste<CR>"+p:set nopaste<CR>a
 vnoremap <C-c> "+y
 vnoremap <C-d> "+d
 
 """ move to html tab to insert word in normal mode
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>bv :vsplit ~/.bashrc<cr>
-map <C-right> <ESC>:bn<CR>
-map <C-left> <ESC>:bp<CR>
+" ----------------------------------------------------------------------------
+" leaderf
+" ----------------------------------------------------------------------------
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
-"" cmdline map
-cnoremap <C-A> <Home>
-cnoremap <C-F> <Right>
-cnoremap <C-B> <Left>
-cnoremap <Esc>b <S-Left>
-cnoremap <Esc>d <S-Right>
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 """set the directory presentation
 let g:netrw_browse_split = 4
 let g:netrw_liststyle = 3
@@ -358,8 +473,100 @@ if has ('autocmd')
 	autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded" . $MYVIMRC | redraw
 	augroup end
 endif " has aoutocmd
+
+" ----------------------------------------------------------------------------
+" color
+" ----------------------------------------------------------------------------
 colorscheme gruvbox
 set background=dark
+"}}}
+" ============================================================================
+" FUNCTIONS & COMMANDS {{{
+" ============================================================================
+
+" ----------------------------------------------------------------------------
+" :NL
+" ----------------------------------------------------------------------------
+command! -range=% -nargs=1 NL
+  \ <line1>,<line2>!nl -w <args> -s '. ' | perl -pe 's/^.{<args>}..$//'
+
+" ----------------------------------------------------------------------------
+" :Chomp
+" ----------------------------------------------------------------------------
+command! Chomp %s/\s\+$// | normal! ``
+
+" ----------------------------------------------------------------------------
+" :Count
+" ----------------------------------------------------------------------------
+command! -nargs=1 Count execute printf('%%s/%s//gn', escape(<q-args>, '/')) | normal! ``
+
+" :M
+" ----------------------------------------------------------------------------
+command! M execute printf('!bundle exec m %s:%d', expand('%'), line('.'))
+
+" ----------------------------------------------------------------------------
+" SaveMacro / LoadMacro
+" ----------------------------------------------------------------------------
+function! s:save_macro(name, file)
+  let content = eval('@'.a:name)
+  if !empty(content)
+    call writefile(split(content, "\n"), a:file)
+    echom len(content) . " bytes save to ". a:file
+  endif
+endfunction
+command! -nargs=* SaveMacro call <SID>save_macro(<f-args>)
+
+function! s:load_macro(file, name)
+  let data = join(readfile(a:file), "\n")
+  call setreg(a:name, data, 'c')
+  echom "Macro loaded to @". a:name
+endfunction
+command! -nargs=* LoadMacro call <SID>load_macro(<f-args>)
+" ----------------------------------------------------------------------------
+" ?ii / ?ai | indent-object
+" ?io       | strictly-indent-object
+" ----------------------------------------------------------------------------
+function! s:indent_len(str)
+  return type(a:str) == 1 ? len(matchstr(a:str, '^\s*')) : 0
+endfunction
+
+function! s:indent_object(op, skip_blank, b, e, bd, ed)
+  let i = min([s:indent_len(getline(a:b)), s:indent_len(getline(a:e))])
+  let x = line('$')
+  let d = [a:b, a:e]
+
+  if i == 0 && empty(getline(a:b)) && empty(getline(a:e))
+    let [b, e] = [a:b, a:e]
+    while b > 0 && e <= line('$')
+      let b -= 1
+      let e += 1
+      let i = min(filter(map([b, e], 's:indent_len(getline(v:val))'), 'v:val != 0'))
+      if i > 0
+        break
+      endif
+    endwhile
+  endif
+
+  for triple in [[0, 'd[o] > 1', -1], [1, 'd[o] < x', +1]]
+    let [o, ev, df] = triple
+
+    while eval(ev)
+      let line = getline(d[o] + df)
+      let idt = s:indent_len(line)
+
+      if eval('idt '.a:op.' i') && (a:skip_blank || !empty(line)) || (a:skip_blank && empty(line))
+        let d[o] += df
+      else | break | end
+    endwhile
+  endfor
+  execute printf('normal! %dGV%dG', max([1, d[0] + a:bd]), min([x, d[1] + a:ed]))
+endfunction
+xnoremap <silent> ii :<c-u>call <SID>indent_object('>=', 1, line("'<"), line("'>"), 0, 0)<cr>
+onoremap <silent> ii :<c-u>call <SID>indent_object('>=', 1, line('.'), line('.'), 0, 0)<cr>
+xnoremap <silent> ai :<c-u>call <SID>indent_object('>=', 1, line("'<"), line("'>"), -1, 1)<cr>
+onoremap <silent> ai :<c-u>call <SID>indent_object('>=', 1, line('.'), line('.'), -1, 1)<cr>
+xnoremap <silent> io :<c-u>call <SID>indent_object('==', 0, line("'<"), line("'>"), 0, 0)<cr>
+onoremap <silent> io :<c-u>call <SID>indent_object('==', 0, line('.'), line('.'), 0, 0)<cr>
 
 let g:user_emmet_settings = {
   \ 'wxss': {
@@ -400,22 +607,8 @@ let g:user_emmet_settings = {
   \ },
   \}
 
-"gger configuration. You need to change this to something other than <tab> if you use one of the following:
-" - https://github.com/Valloric/YouCompleteMe
-"   " - https://github.com/nvim-lua/completion-nvim
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
 
  
-"" easy switch window 
- nnoremap <C-j> <C-w>j
- nnoremap <C-k> <C-w>k
- nnoremap <C-h> <C-w>h
- nnoremap <C-l> <C-w>l
 " Map Ctrl + p to open fuzzy find (FZF)
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
@@ -426,7 +619,6 @@ endfunction
 
 let g:asyncrun_runner = get(g:, 'asyncrun_runner', {})
 let g:asyncrun_runner.test = function('My_runner')
-" let g:limelight_conceal_ctermfg = 240
 " ----------------------------------------------------------------------------
 " goyo.vim + limelight.vim
 " ----------------------------------------------------------------------------
@@ -456,9 +648,95 @@ function! s:goyo_leave()
     silent !tmux set status on
   endif
   Limelight!
-endfunction
 
+endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 nnoremap <Leader>G :Goyo<CR>
+"}}}
+" ============================================================================
+" FZF {{{
+" ============================================================================
+
+let $FZF_DEFAULT_OPTS .= ' --inline-info'
+
+" All files
+command! -nargs=? -complete=dir AF
+  \ call fzf#run(fzf#wrap(fzf#vim#with_preview({
+  \   'source': 'fd --type f --hidden --follow --exclude .git --no-ignore . '.expand(<q-args>)
+  \ })))
+
+let g:fzf_colors =
+\ { 'fg':         ['fg', 'Normal'],
+  \ 'bg':         ['bg', 'Normal'],
+  \ 'preview-bg': ['bg', 'NormalFloat'],
+  \ 'hl':         ['fg', 'Comment'],
+  \ 'fg+':        ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':        ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':        ['fg', 'Statement'],
+  \ 'info':       ['fg', 'PreProc'],
+  \ 'border':     ['fg', 'Ignore'],
+  \ 'prompt':     ['fg', 'Conditional'],
+  \ 'pointer':    ['fg', 'Exception'],
+  \ 'marker':     ['fg', 'Keyword'],
+  \ 'spinner':    ['fg', 'Label'],
+  \ 'header':     ['fg', 'Comment'] }
+
+if exists('$TMUX')
+  let g:fzf_layout = { 'tmux': '-p90%,60%' }
+else
+  let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+endif
+
+" nnoremap <silent> <Leader><Leader> :Files<CR>
+nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
+nnoremap <silent> <Leader>C        :Colors<CR>
+nnoremap <silent> <Leader><Enter>  :Buffers<CR>
+nnoremap <silent> <Leader>L        :Lines<CR>
+nnoremap <silent> <Leader>ag       :Ag <C-R><C-W><CR>
+nnoremap <silent> <Leader>AG       :Ag <C-R><C-A><CR>
+xnoremap <silent> <Leader>ag       y:Ag <C-R>"<CR>
+nnoremap <silent> <Leader>`        :Marks<CR>
+" nnoremap <silent> q: :History:<CR>
+" nnoremap <silent> q/ :History/<CR>
+
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+inoremap <expr> <c-x><c-d> fzf#vim#complete#path('blsd')
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" nmap <leader><tab> <plug>(fzf-maps-n)
+" xmap <leader><tab> <plug>(fzf-maps-x)
+" omap <leader><tab> <plug>(fzf-maps-o)
+
+function! s:plug_help_sink(line)
+  let dir = g:plugs[a:line].dir
+  for pat in ['doc/*.txt', 'README.md']
+    let match = get(split(globpath(dir, pat), "\n"), 0, '')
+    if len(match)
+      execute 'tabedit' match
+      return
+    endif
+  endfor
+  tabnew
+  execute 'Explore' dir
+endfunction
+
+command! PlugHelp call fzf#run(fzf#wrap({
+  \ 'source': sort(keys(g:plugs)),
+  \ 'sink':   function('s:plug_help_sink')}))
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let options = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  let options = fzf#vim#with_preview(options, 'right', 'ctrl-/')
+  call fzf#vim#grep(initial_command, 1, options, a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+" }}}

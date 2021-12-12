@@ -5,6 +5,15 @@
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
+# Environment variables
+# --------------------------------------------------------------------
+
+### man bash
+export HISTCONTROL=ignoreboth:erasedups
+export HISTSIZE=
+export HISTFILESIZE=
+export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
+[ -z "$TMPDIR" ] && TMPDIR=/tmp
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
@@ -17,9 +26,9 @@ export PATH
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
-alias docker="sudo docker"
 source "$HOME/.cargo/env"
-
+export EDITOR="vim"
+export VISUAL="vim"
 # go env
 export PATH=$PATH:/usr/local/go/bin
 # 启用 Go Modules 功能
@@ -33,8 +42,6 @@ go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
 go env -w  GOPROXY=https://goproxy.io,direct
 go env -w GOBIN=$HOME/bin
 
-export VISUAL="vim"
-alias ls="ls --color=auto"
 alias gitstatus="mkdir -p /tmp/rmdbg && git status > /tmp/rmdbg/status.txt && pwd >> /tmp/rmdbg/status.txt && perl ~/dotfile/script/perl_script/rmdbg.pl&&git status"
 
 export NVM_DIR="/home/chandler/.nvm"
@@ -51,3 +58,64 @@ fi
 
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Prompt
+# --------------------------------------------------------------------
+
+if [ "$PLATFORM" = Linux ]; then
+  PS1="\[\e[1;38m\]\u\[\e[1;34m\]@\[\e[1;31m\]\h\[\e[1;30m\]:"
+  PS1="$PS1\[\e[0;38m\]\w\[\e[1;35m\]> \[\e[0m\]"
+else
+  ### git-prompt
+  __git_ps1() { :;}
+  if [ -e ~/.git-prompt.sh ]; then
+    source ~/.git-prompt.sh
+  fi
+  PS1='\[\e[34m\]\u\[\e[1;32m\]@\[\e[0;33m\]\h\[\e[35m\]:\[\e[m\]\w\[\e[1;30m\]$(__git_ps1)\[\e[1;31m\]> \[\e[0m\]'
+fi
+
+### Colored ls
+if [ -x /usr/bin/dircolors ]; then
+  eval "`dircolors -b`"
+  alias ls='ls --color=auto'
+  alias grep='grep --color=auto'
+elif [ "$PLATFORM" = Darwin ]; then
+  alias ls='ls -G'
+fi
+
+# Aliases
+# --------------------------------------------------------------------
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias cd.='cd ..'
+alias cd..='cd ..'
+alias l='ls -alF'
+alias ll='ls -l'
+alias vi=$EDITOR
+alias vim=$EDITOR
+alias docker="sudo docker"
+alias which='type -p'
+alias k5='kill -9 %%'
+alias gv='vim +GV +"autocmd BufWipeout <buffer> qall"'
+alias gpob='git push origin $(git branch --show-current)'
+
+tally(){
+  sort | uniq -c | sort -n
+}
+
+ext() {
+  ext-all --exclude .git --exclude target --exclude "*.log"
+}
+
+ext-all() {
+  local name=$(basename $(pwd))
+  cd ..
+  tar -cvzf "$name.tgz" $* --exclude "$name.tgz" "$name"
+  cd -
+  mv ../"$name".tgz .
+}
+
+### Tmux
