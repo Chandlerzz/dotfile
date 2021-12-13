@@ -119,3 +119,55 @@ ext-all() {
 }
 
 ### Tmux
+# Shortcut functions
+# --------------------------------------------------------------------
+
+..cd() {
+  cd ..
+  cd "$@"
+}
+
+_parent_dirs() {
+  COMPREPLY=( $(cd ..; find . -mindepth 1 -maxdepth 1 -type d -print | cut -c3- | grep "^${COMP_WORDS[COMP_CWORD]}") )
+}
+
+complete -F _parent_dirs -o default -o bashdefault ..cd
+
+viw() {
+  vim "$(which "$1")"
+}
+fzf-down() {
+  fzf --height 50% --min-height 20 --border --bind ctrl-/:toggle-preview "$@"
+}
+
+# fzf (https://github.com/junegunn/fzf)
+# --------------------------------------------------------------------
+Rg() {
+  local selected=$(
+    rg --column --line-number --no-heading --color=always --smart-case "$1" |
+      fzf --ansi \
+          --delimiter : \
+          --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+          --preview-window '~3:+{2}+3/2'
+  )
+  [ -n "$selected" ] && $EDITOR "$selected"
+}
+
+RG() {
+  RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+  INITIAL_QUERY="$1"
+  local selected=$(
+    FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY' || true" \
+      fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+          --ansi --disabled --query "$INITIAL_QUERY" \
+          --delimiter : \
+          --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+          --preview-window '~3:+{2}+3/2'
+  )
+  [ -n "$selected" ] && $EDITOR "$selected"
+}
+
+fzf-down() {
+  fzf --height 50% --min-height 20 --border --bind ctrl-/:toggle-preview "$@"
+}
+command -v tree > /dev/null && export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
