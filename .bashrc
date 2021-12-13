@@ -48,16 +48,19 @@ export NVM_DIR="/home/chandler/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 
+# a.lua
+# --------------------------------------------------------------------
+
 eval "$(lua ~/.learn/z.lua/z.lua --init bash)"
 alias zz="z -I"
-# upload 是否存在 存在upload init
-type upload > /dev/null 2>&1
-if [[ $? == 0 ]]; then
+
+#  minio 
+# --------------------------------------------------------------------
+if command -v upload > /dev/null; then
     eval "$(upload -i init)"
 fi
 
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # Prompt
 # --------------------------------------------------------------------
 
@@ -142,6 +145,7 @@ fzf-down() {
 
 # fzf (https://github.com/junegunn/fzf)
 # --------------------------------------------------------------------
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 Rg() {
   local selected=$(
     rg --column --line-number --no-heading --color=always --smart-case "$1" |
@@ -170,4 +174,35 @@ RG() {
 fzf-down() {
   fzf --height 50% --min-height 20 --border --bind ctrl-/:toggle-preview "$@"
 }
+export FZF_TMUX_OPTS='-p80%,60%'
+export FZF_CTRL_R_OPTS="
+  --preview 'echo {}' --preview-window down:3:hidden:wrap
+  --bind 'ctrl-/:toggle-preview'
+  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+  --color header:italic
+  --header 'Press CTRL-Y to copy command into clipboard'"
+
+if command -v fd > /dev/null; then
+  export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+  export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+  export FZF_CTRL_T_COMMAND='fd --type f --type d --hidden --follow --exclude .git'
+fi
+
+command -v bat  > /dev/null && export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}'"
+command -v blsd > /dev/null && export FZF_ALT_C_COMMAND='blsd'
 command -v tree > /dev/null && export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
+
+# chrome
+# --------------------------------------------------------------------
+export CHROME="$(wslpath "C:\Program Files\Google\Chrome\Application\chrome.exe")"  
+chrome(){
+  local q
+  if command -v "$CHROME"; then
+    for query in $@; do
+        q+=$query"+"
+    done
+    echo $q
+    "$CHROME" "https://www.google.com/search?q="$q
+  fi
+}
+
