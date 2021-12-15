@@ -146,7 +146,9 @@ fzf-down() {
 
 # fzf (https://github.com/junegunn/fzf)
 # --------------------------------------------------------------------
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# tmux list-windows -F "#{pane_id}" >/dev/null 2>&1
+# if [ $? -eq 1 ]; then
+# fi
 Rg() {
   local selected=$(
     rg --column --line-number --no-heading --color=always --smart-case "$1" |
@@ -195,7 +197,7 @@ command -v tree > /dev/null && export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
 
 # chrome
 # --------------------------------------------------------------------
-export CHROME="$(wslpath "C:\Program Files\Google\Chrome\Application\chrome.exe")"  
+export CHROME="$( if command -v wslpath; then wslpath "C:\Program Files\Google\Chrome\Application\chrome.exe"; fi)"  
 chrome(){
   local q
   if command -v "$CHROME"; then
@@ -207,3 +209,4 @@ chrome(){
   fi
 }
 
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

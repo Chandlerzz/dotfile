@@ -90,8 +90,137 @@ Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
     let g:indentLine_color_term = 239
     let g:indentLine_color_gui = '#616161'
 " Colors
+Plug 'tomasr/molokai'
+Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'morhetz/gruvbox'
-let g:gruvbox_contrast_dark = 'soft'
+  let g:gruvbox_contrast_dark = 'soft'
+Plug 'yuttie/hydrangea-vim'
+Plug 'tyrannicaltoucan/vim-deep-space'
+Plug 'AlessandroYorba/Despacio'
+Plug 'cocopon/iceberg.vim'
+Plug 'w0ng/vim-hybrid'
+Plug 'nightsense/snow'
+Plug 'nightsense/stellarized'
+Plug 'arcticicestudio/nord-vim'
+Plug 'nightsense/cosmic_latte'
+" Edit
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-commentary'
+  map  gc  <Plug>Commentary
+  nmap gcc <Plug>CommentaryLine
+
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+  let g:undotree_WindowLayout = 2
+  nnoremap U :UndotreeToggle<CR>
+Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'AndrewRadev/splitjoin.vim'
+  let g:splitjoin_split_mapping = ''
+  let g:splitjoin_join_mapping = ''
+  nnoremap gss :SplitjoinSplit<cr>
+  nnoremap gsj :SplitjoinJoin<cr>
+
+Plug 'AndrewRadev/switch.vim'
+  let g:switch_mapping = '-'
+  let g:switch_custom_definitions = [
+  \   ['MON', 'TUE', 'WED', 'THU', 'FRI']
+  \ ]
+
+Plug 'sgur/vim-editorconfig'
+if exists('##TextYankPost')
+  Plug 'machakann/vim-highlightedyank'
+  let g:highlightedyank_highlight_duration = 100
+endif
+" Browsing
+Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
+  autocmd! User indentLine doautocmd indentLine Syntax
+  let g:indentLine_color_term = 239
+  let g:indentLine_color_gui = '#616161'
+
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  augroup nerd_loader
+    autocmd!
+    autocmd VimEnter * silent! autocmd! FileExplorer
+    autocmd BufEnter,BufNew *
+          \  if isdirectory(expand('<amatch>'))
+          \|   call plug#load('nerdtree')
+          \|   execute 'autocmd! nerd_loader'
+          \| endif
+  augroup END
+
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+  let g:tagbar_sort = 0
+
+Plug 'justinmk/vim-gtfo'
+
+Plug 'junegunn/vim-carbon-now-sh' " Forked
+let g:carbon_now_sh_options = { 't': 'oceanic-next'}
+
+" Git
+Plug 'tpope/vim-fugitive'
+  nmap     <Leader>g :Git<CR>gg<c-n>
+  nnoremap <Leader>d :Gdiff<CR>
+Plug 'rhysd/git-messenger.vim'
+
+Plug 'tpope/vim-rhubarb'
+Plug 'mhinz/vim-signify'
+  let g:signify_vcs_list = ['git']
+  let g:signify_skip_filetype = { 'journal': 1 }
+  let g:signify_sign_add          = '│'
+  let g:signify_sign_change       = '│'
+  let g:signify_sign_changedelete = '│'
+
+" Lang
+Plug 'kovisoft/paredit', { 'for': 'clojure' }
+  let g:paredit_smartjump = 1
+Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
+Plug 'guns/vim-clojure-static'
+  let g:clojure_maxlines = 60
+  set lispwords+=match
+  let g:clojure_fuzzy_indent_patterns = ['^with', '^def', '^let']
+Plug 'guns/vim-clojure-highlight'
+Plug 'guns/vim-slamhound'
+Plug 'tpope/vim-bundler'
+if v:version >= 800
+  Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+endif
+Plug 'groenewege/vim-less'
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'alvan/vim-closetag'
+  let g:closetag_filenames = '*.js'
+
+Plug 'kchmck/vim-coffee-script'
+Plug 'slim-template/vim-slim'
+Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-rails', { 'for': [] }
+Plug 'derekwyatt/vim-scala'
+Plug 'honza/dockerfile.vim'
+Plug 'solarnz/thrift.vim'
+Plug 'dag/vim-fish'
+Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'ferrine/md-img-paste.vim'
+  autocmd FileType markdown nnoremap <buffer> <silent> <leader>v :call mdip#MarkdownClipboardImage()<CR>
+  let g:mdip_imgdir = 'images'
+  let g:mdip_imgname = 'image'
+Plug 'mzlogin/vim-markdown-toc'
+if v:version >= 800 && !s:windows
+  Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+  Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
+endif
+
+" Lint
+Plug 'w0rp/ale'
+  let g:ale_linters = {'java': [], 'yaml': [], 'scala': [], 'clojure': []}
+  let g:ale_fixers = {'ruby': ['rubocop']}
+  let g:ale_ruby_rubocop_auto_correct_all = 1
+  let g:ale_lint_delay = 1000
+  nmap ]a <Plug>(ale_next_wrap)
+  nmap [a <Plug>(ale_previous_wrap)
 call plug#end()
 " }}}
 " ============================================================================
@@ -475,10 +604,31 @@ if has ('autocmd')
 endif " has aoutocmd
 
 " ----------------------------------------------------------------------------
-" color
+" :CopyRTF
 " ----------------------------------------------------------------------------
-colorscheme gruvbox
-set background=dark
+function! s:colors(...)
+  return filter(map(filter(split(globpath(&rtp, 'colors/*.vim'), "\n"),
+        \                  'v:val !~ "^/usr/"'),
+        \           'fnamemodify(v:val, ":t:r")'),
+        \       '!a:0 || stridx(v:val, a:1) >= 0')
+endfunction
+
+" ----------------------------------------------------------------------------
+" <F8> | Color scheme selector
+" ----------------------------------------------------------------------------
+function! s:rotate_colors()
+  if !exists('s:colors')
+    let s:colors = s:colors()
+  endif
+  let name = remove(s:colors, 0)
+  call add(s:colors, name)
+  execute 'colorscheme' name
+  redraw
+  echo name
+endfunction
+nnoremap <silent> <F8> :call <SID>rotate_colors()<cr>
+" colorscheme gruvbox
+" set background=dark
 "}}}
 " ============================================================================
 " FUNCTIONS & COMMANDS {{{
