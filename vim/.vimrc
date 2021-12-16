@@ -891,3 +891,13 @@ if executable(s:clip)
         autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
     augroup END
 endif
+" ============================================================================
+"<Leader>?/! google it 
+" ============================================================================
+function s:goog(pat)
+  let q = '"'.substitute(a:pat, '[[:space:]]', '+', 'g').'"'
+  let g:q = q
+call system("powershell.exe start chrome \"www.google.com/search?q=\"".q)
+redraw!
+endfunction
+xnoremap <leader>g "gy:call <SID>goog(@g)<cr>gv
