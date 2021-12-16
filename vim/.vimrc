@@ -201,26 +201,15 @@ Plug 'derekwyatt/vim-scala'
 Plug 'honza/dockerfile.vim'
 Plug 'solarnz/thrift.vim'
 Plug 'dag/vim-fish'
-Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
+" Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'ferrine/md-img-paste.vim'
   autocmd FileType markdown nnoremap <buffer> <silent> <leader>v :call mdip#MarkdownClipboardImage()<CR>
   let g:mdip_imgdir = 'images'
   let g:mdip_imgname = 'image'
 Plug 'mzlogin/vim-markdown-toc'
-if v:version >= 800 && !s:windows
-  Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
-  Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install() }}
-endif
 
 " Lint
-Plug 'w0rp/ale'
-  let g:ale_linters = {'java': [], 'yaml': [], 'scala': [], 'clojure': []}
-  let g:ale_fixers = {'ruby': ['rubocop']}
-  let g:ale_ruby_rubocop_auto_correct_all = 1
-  let g:ale_lint_delay = 1000
-  nmap ]a <Plug>(ale_next_wrap)
-  nmap [a <Plug>(ale_previous_wrap)
 call plug#end()
 " }}}
 " ============================================================================
@@ -902,4 +891,3 @@ if executable(s:clip)
         autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
     augroup END
 endif
-

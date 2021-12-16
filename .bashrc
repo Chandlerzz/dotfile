@@ -197,16 +197,13 @@ command -v tree > /dev/null && export FZF_ALT_C_OPTS="--preview 'tree -C {}'"
 
 # chrome
 # --------------------------------------------------------------------
-export CHROME="$( if command -v wslpath; then wslpath "C:\Program Files\Google\Chrome\Application\chrome.exe"; fi)"  
+
 chrome(){
   local q
-  if command -v "$CHROME"; then
-    for query in $@; do
-        q+=$query"+"
-    done
-    echo $q
-    "$CHROME" "https://www.google.com/search?q="$q
-  fi
+  for query in $@; do
+      q+=$query"+"
+  done
+  p start chrome "https://www.google.com/search?q="$q
 }
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
