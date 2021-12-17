@@ -104,7 +104,7 @@ alias which='type -p'
 alias k5='kill -9 %%'
 alias gv='vim +GV +"autocmd BufWipeout <buffer> qall"'
 alias gpob='git push origin $(git branch --show-current)'
-alias p="powershell.exe"
+alias start="powershell.exe start"
 
 tally(){
   sort | uniq -c | sort -n
@@ -123,6 +123,8 @@ ext-all() {
 }
 
 ### Tmux
+# Attach to named.
+alias ta='tmux attach -t'
 # Shortcut functions
 # --------------------------------------------------------------------
 
