@@ -580,6 +580,8 @@ nnoremap <leader>bv :vsplit ~/.bashrc<cr>
 " ----------------------------------------------------------------------------
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
 
+noremap <leader>b :<C-U><C-R>=printf("Buffers %s ", execute("pwd"))<CR><CR>
+
 """set the directory presentation
 let g:netrw_browse_split = 4
 let g:netrw_liststyle = 3
