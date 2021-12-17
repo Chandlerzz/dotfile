@@ -580,7 +580,6 @@ nnoremap <leader>bv :vsplit ~/.bashrc<cr>
 " ----------------------------------------------------------------------------
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
 
-noremap <leader>b :<C-U><C-R>=printf("Buffers %s ", execute("pwd"))<CR><CR>
 
 """set the directory presentation
 let g:netrw_browse_split = 4
@@ -833,7 +832,8 @@ endif
 " nnoremap <silent> <Leader><Leader> :Files<CR>
 nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
 nnoremap <silent> <Leader>C        :Colors<CR>
-nnoremap <silent> <Leader><Enter>  :Buffers<CR>
+noremap <silent> <leader>b :<C-U><C-R>=printf("Buffers %s ", execute("pwd"))<CR><CR>
+nnoremap <silent> <Leader>B  :Buffers<CR>
 nnoremap <silent> <Leader>L        :Lines<CR>
 nnoremap <silent> <Leader>ag       :Ag <C-R><C-W><CR>
 nnoremap <silent> <Leader>AG       :Ag <C-R><C-A><CR>
