@@ -894,7 +894,7 @@ if executable(s:clip)
     augroup END
 endif
 " ============================================================================
-"<Leader>?/! google it 
+"<Leader>g google it 
 " ============================================================================
 function s:goog(pat)
   let q = '"'.substitute(a:pat, '[[:space:]]', '+', 'g').'"'
@@ -903,3 +903,22 @@ call system("powershell.exe start chrome \"www.google.com/search?q=\"".q)
 redraw!
 endfunction
 xnoremap <leader>g "gy:call <SID>goog(@g)<cr>gv
+" ============================================================================
+" Z && TZ
+" ============================================================================
+function! ZComp(ArgLead, CmdLine, CursorPos)
+  return filter(systemlist("cat ~/.zlua | awk -F \"|\" '{print $1;}'"), 'v:val =~ a:ArgLead')
+endfunction
+
+function! ZFunc(arg)
+    execute "tcd " . a:arg
+endfunction
+
+function! TZFunc(arg)
+    execute "tabnew"
+    execute "tcd " . a:arg
+endfunction
+
+command! -nargs=1 -complete=customlist,ZComp Tz call TZFunc(<f-args>)
+command! -nargs=1 -complete=customlist,ZComp Z call ZFunc(<f-args>)
+
