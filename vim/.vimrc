@@ -907,16 +907,23 @@ xnoremap <leader>g "gy:call <SID>goog(@g)<cr>gv
 " Z && TZ
 " ============================================================================
 function! ZComp(ArgLead, CmdLine, CursorPos)
-  return filter(systemlist("cat ~/.zlua | awk -F \"|\" '{print $1;}'"), 'v:val =~ a:ArgLead')
+  let l:list = systemlist("cat ~/.zlua")
+  let l:home = $HOME
+  for i in range(len(l:list))
+    let l:list[i] = split(l:list[i],"|")[0]
+    let l:list[i] = substitute(l:list[i],l:home,"~","g")
+  endfor
+  return filter(l:list,'v:val =~ a:ArgLead')
+  " return filter(systemlist("cat ~/.zlua | awk -F \"|\" '{print $1;}'"), 'v:val =~ a:ArgLead')
 endfunction
 
 function! ZFunc(arg)
-    execute "tcd " . a:arg
+  execute "tcd " . a:arg
 endfunction
 
 function! TZFunc(arg)
-    execute "tabnew"
-    execute "tcd " . a:arg
+  execute "tabnew"
+  execute "tcd " . a:arg
 endfunction
 
 command! -nargs=1 -complete=customlist,ZComp Tz call TZFunc(<f-args>)

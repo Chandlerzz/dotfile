@@ -15,7 +15,7 @@ def login(nickName):
     passWord = account['passWord']
     name = account['name']
     port = account['port']
-    command = "mysql -h" + host + " -u" + name +" -p" + passWord + " -P" + port
+    command = "mycli -h" + host + " -u" + name +" -p" + passWord + " -P" + port
     os.system(command)
     # embed()
 def show():

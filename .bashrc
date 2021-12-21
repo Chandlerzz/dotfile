@@ -1,6 +1,7 @@
 # .bashrc
 
 # mysql pspg
+# pgcli -d risen_mes -h 10.10.8.235 -U gpadmin -W gpisgood
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
@@ -209,3 +210,27 @@ chrome(){
 }
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# cp with fzf
+# --------------------------------------------------------------------
+if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
+	# To redraw line after fzf closes (printf '\e[5n')
+	bind '"\e[0n": redraw-current-line'
+	_zcp_fzf_complete() {
+    local word=${COMP_WORDS[COMP_CWORD]} 
+    if [ -z $word ]; then
+      word='|'
+    fi
+    local wordlist=($(cat ~/.zlua | grep "$word" | awk -F '|' '{print $1;}' | sed "s|$HOME|\~|"))
+    if [ "${#wordlist[@]}" == "0" ];then 
+      echo "useless" >/dev/null 2>&1
+    else
+      local selected=$(cat ~/.zlua | grep $word |awk -F '|' '{print $1;}'| sed "s|$HOME|\~|" | fzf --height=35%)
+      if [ -n "$selected" ]; then
+        COMPREPLY=( "$selected" )
+      fi
+		printf '\e[5n'
+    fi
+	}
+	complete -f -o bashdefault -o nospace -F _zcp_fzf_complete cp
+fi
