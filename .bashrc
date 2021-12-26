@@ -152,29 +152,23 @@ fzf-down() {
 # tmux list-windows -F "#{pane_id}" >/dev/null 2>&1
 # if [ $? -eq 1 ]; then
 # fi
-Rg() {
-  local selected=$(
-    rg --column --line-number --no-heading --color=always --smart-case "$1" |
-      fzf --ansi \
-          --delimiter : \
-          --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
-          --preview-window '~3:+{2}+3/2'
-  )
-  [ -n "$selected" ] && $EDITOR "$selected"
-}
 
-RG() {
+Rg() {
   RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
   INITIAL_QUERY="$1"
+  local filename linenumber
   local selected=$(
     FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY' || true" \
       fzf --bind "change:reload:$RG_PREFIX {q} || true" \
-          --ansi --disabled --query "$INITIAL_QUERY" \
+          --ansi --query "$INITIAL_QUERY" \
           --delimiter : \
           --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
-          --preview-window '~3:+{2}+3/2'
+          # --preview-window '~3:+{2}+3/2'
   )
-  [ -n "$selected" ] && $EDITOR "$selected"
+  filename=$(echo $selected | awk -F ':' '{print $1}')
+  linenumber=$(echo $selected | awk -F ':' '{print $2}')
+
+  [ -n "$selected" ] && $EDITOR "$filename" +"$linenumber"
 }
 
 fzf-down() {
@@ -213,13 +207,15 @@ chrome(){
 
 # cp with fzf
 # --------------------------------------------------------------------
+
 if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
 	# To redraw line after fzf closes (printf '\e[5n')
 	bind '"\e[0n": redraw-current-line'
 	_zcp_fzf_complete() {
     local word=${COMP_WORDS[COMP_CWORD]} 
     if [ -z $word ]; then
-      word='|'
+      # word='|'
+      return
     fi
     local wordlist=($(cat ~/.zlua | grep "$word" | awk -F '|' '{print $1;}' | sed "s|$HOME|\~|"))
     if [ "${#wordlist[@]}" == "0" ];then 
@@ -233,4 +229,29 @@ if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
     fi
 	}
 	complete -f -o bashdefault -o nospace -F _zcp_fzf_complete cp
+fi
+# ls with fzf
+# --------------------------------------------------------------------
+
+if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
+	# To redraw line after fzf closes (printf '\e[5n')
+	bind '"\e[0n": redraw-current-line'
+	_ls_fzf_complete() {
+    local word=${COMP_WORDS[COMP_CWORD]} 
+    if [ -z $word ]; then
+      # word='|'
+      return
+    fi
+    local wordlist=($(cat ~/.zlua | grep "$word" | awk -F '|' '{print $1;}' | sed "s|$HOME|\~|"))
+    if [ "${#wordlist[@]}" == "0" ];then 
+      echo "useless" >/dev/null 2>&1
+    else
+      local selected=$(cat ~/.zlua | grep $word |awk -F '|' '{print $1;}'| sed "s|$HOME|\~|" | fzf --height=35%)
+      if [ -n "$selected" ]; then
+        COMPREPLY=( "$selected" )
+      fi
+		printf '\e[5n'
+    fi
+	}
+	complete -d -o bashdefault -o nospace -F _ls_fzf_complete ls
 fi
