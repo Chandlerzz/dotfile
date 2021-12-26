@@ -4,7 +4,7 @@
 # pgcli -d risen_mes -h 10.10.8.235 -U gpadmin -W gpisgood
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+  .	/etc/bashrc
 fi
 # Environment variables
 # --------------------------------------------------------------------

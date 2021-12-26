@@ -208,7 +208,7 @@ Plug 'ferrine/md-img-paste.vim'
   let g:mdip_imgdir = 'images'
   let g:mdip_imgname = 'image'
 Plug 'mzlogin/vim-markdown-toc'
-
+Plug 'habamax/vim-sendtoterm'
 " Lint
 call plug#end()
 " }}}
@@ -929,3 +929,22 @@ endfunction
 command! -nargs=1 -complete=customlist,ZComp Tz call TZFunc(<f-args>)
 command! -nargs=1 -complete=customlist,ZComp Z call ZFunc(<f-args>)
 
+" ============================================================================
+"open/close terminal 
+" ============================================================================
+" função para colocar um terminal dentro do vim
+function Terminal()
+  " verificar se o terminal está aberto
+  let terminal = bufname('bash')
+  if terminal == ''
+    below terminal ++rows=10
+  else
+    let bnr = bufnr(terminal)
+    exec ':bwipe! ' bnr
+  endif
+endfunction
+
+" mapeando uma tecla para abrir um terminal
+map <c-t> :call Terminal()<cr>
+autocmd TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
+tnoremap  <Esc> <C-\><C-n>
