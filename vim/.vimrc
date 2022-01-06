@@ -22,6 +22,8 @@ let maplocalleader = ";"
 " VIM-PLUG BLOCK {{{
 " ============================================================================
 call plug#begin('~/.vim/bundle')
+"zhongzhong
+Plug 'Chandlerzz/vim-hideseek'
 "junegunn
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-github-dashboard'

@@ -1,5 +1,5 @@
 " bufferSel
-nnoremap <expr> e SelectBuffer("") ..'_'
+" nnoremap <expr> e SelectBuffer("") ..'_'
 " xnoremap <expr> <F4> SelectBuffer()
 " doubling <F4> works on a line
 " nnoremap <expr> <F4><F4> CountSpaces() .. '_'
