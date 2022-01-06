@@ -212,6 +212,8 @@ Plug 'ferrine/md-img-paste.vim'
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'habamax/vim-sendtoterm'
 " Lint
+" completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 " }}}
 " ============================================================================
