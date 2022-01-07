@@ -932,8 +932,14 @@ function! TZFunc(arg)
   execute "tcd " . a:arg
 endfunction
 
-command! -nargs=1 -complete=customlist,ZComp Tz call TZFunc(<f-args>)
+function! LZFunc(arg)
+  execute "vertical botright 80new"
+  execute "lcd " . a:arg
+endfunction
+
+command! -nargs=1 -complete=customlist,ZComp Zt call TZFunc(<f-args>)
 command! -nargs=1 -complete=customlist,ZComp Z call ZFunc(<f-args>)
+command! -nargs=1 -complete=customlist,ZComp Zl call LZFunc(<f-args>)
 
 " ============================================================================
 "open/close terminal 
