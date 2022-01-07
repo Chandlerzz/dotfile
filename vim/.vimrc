@@ -471,7 +471,7 @@ nnoremap [t :tabp<cr>
 " ----------------------------------------------------------------------------
 " <tab> / <s-tab> | Circular windows navigation
 " ----------------------------------------------------------------------------
-nnoremap <tab>   <c-w>w
+nnoremap <tab>   <c-w>w:redraw!<CR>
 nnoremap <S-tab> <c-w>W
 
 " ----------------------------------------------------------------------------
@@ -960,3 +960,36 @@ endfunction
 map <c-t> :call Terminal()<cr>
 autocmd TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
 tnoremap  <Esc> <C-\><C-n>
+" ============================================================================
+"set tabline 
+" ============================================================================
+function! CustomizedTabLine()
+    let s = ''
+    let t = tabpagenr()
+    let i = 1
+    while i <= tabpagenr('$')
+        let buflist = tabpagebuflist(i)
+        let winnr = tabpagewinnr(i)
+        let s .= '%' . i . 'T'
+        let s .= (i == t ? '%1*' : '%2*')
+        let s .= ' '
+        let s .= i . ':'
+        let s .= '%*'
+        let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+        let file = bufname(buflist[winnr - 1])
+        let file = fnamemodify(file, ':p:t')
+        if file == ''
+            let file = '[No Name]'
+        endif
+        let s .= file
+        let s .= ' '
+        let i = i + 1
+    endwhile
+    let s .= '%T%#TabLineFill#%='
+    let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
+    return s
+endfunction
+
+" Always show the tablilne 
+set stal=2
+set tabline=%!CustomizedTabLine()
