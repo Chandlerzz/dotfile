@@ -41,30 +41,6 @@
             "linkee":"~/dotfile/vim/syntax"
         },
         {
-            "linker":"~/.vim/pack/chandler/start/vimTmysql",
-            "linkee":"~/vimTmysql"
-        },
-        {
-            "linker":"~/.local/share/nvim/site/pack/chandler/start/vimTmysql",
-            "linkee":"~/vimTmysql"
-        },
-        {
-            "linker":"~/.vim/pack/chandler/start/diary",
-            "linkee":"~/dotfile/vim/diary"
-        },
-        {
-            "linker":"~/.local/share/nvim/site/pack/chandler/start/diary",
-            "linkee":"~/dotfile/vim/diary"
-        },
-        {
-            "linker":"~/.vim/pack/chandler/start/roast.vim",
-            "linkee":"~/dotfile/vim/roast.vim"
-        },
-        {
-            "linker":"~/.local/share/nvim/site/pack/chandler/start/rost.vim",
-            "linkee":"~/dotfile/vim/roast.vim"
-        },
-        {
             "linker":"~/bin/tmux_init",
             "linkee":"~/dotfile/tmux_init.sh"
         },
@@ -93,16 +69,16 @@
             "linkee":"$HOME/dotfile/.bashrc "
         },
         {
-            "linker":"$HOME/.ipython",
-            "linkee":"$HOME/dotfile/.ipython "
-        },
-        {
             "linker":"~/bin/ptags.py",
             "linkee":"$HOME/dotfile/ptags.py "
         },
         {
             "linker":"~/bin/suro",
             "linkee":"$HOME/dotfile/script/bash_script/suroot"
+        },
+        {
+            "linker":"~/.vim/coc-settings.json",
+            "linkee":"$HOME/dotfile/coc-settings.json"
         }
     ]
 }

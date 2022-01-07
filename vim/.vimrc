@@ -24,6 +24,8 @@ let maplocalleader = ";"
 call plug#begin('~/.vim/bundle')
 "zhongzhong
 Plug 'Chandlerzz/vim-hideseek'
+Plug 'Chandlerzz/vimTmysql'
+Plug 'Chandlerzz/vim-diary'
 "junegunn
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-github-dashboard'
