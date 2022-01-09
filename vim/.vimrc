@@ -228,8 +228,8 @@ let g:diaryshellscript = "/dotfile/vim/diary/diary.sh"
 
 " register plugin path
 let g:registerWatchFile = "/tmp/registers"
-let g:bufferListFileName ="/tmp/bufferList.chandler"
-let g:LRCfileName = "/tmp/LRC.chandler"
+let g:bufferListFileName ="/tmp/bufferList.hideseek"
+let g:LRCfileName = "/tmp/LRC.hideseek"
 let g:LRCcount = "/tmp/lrccount"
 
 "ctags config
