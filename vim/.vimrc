@@ -1036,7 +1036,6 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " }}}
-" execute "silent e! /tmp/bufferList.hideseek"
 nnoremap ZZ :execute "silent! wqa"<cr> 
 augroup autosave
     au!

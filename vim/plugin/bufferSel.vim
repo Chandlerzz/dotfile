@@ -1,6 +1,7 @@
 " bufferSel
 nnoremap <expr> e SelectBuffer("") ..'_'
 nnoremap <leader>e :call OpenBufferList()<cr>
+let s:bufname = "/tmp/".rand().".hideseek"
 augroup bufferSel
     au!
      autocmd bufEnter * call LRCread()
@@ -8,7 +9,7 @@ augroup bufferSel
 augroup END
 
 function! OpenBufferList()
-  execute "vert botright sbuffer ".bufnr(g:bufferListFileName)." \| vert resize 30"
+  execute "vert botright sbuffer ".bufnr('hideseek')." \| vert resize 30"
   execute "wincmd p"
 endfunction
 function! LRCread()
@@ -35,8 +36,7 @@ endfunction
 
 function! BufferRead()
     let pwd= getcwd()
-    let bufname = g:bufferListFileName
-    let bufnr = bufadd(bufname)
+    let bufnr = bufadd(s:bufname)
     call bufload(bufnr)
     let linenr = len(getbufline(bufnr,1,'$'))
     let g:bufnr = bufnr
