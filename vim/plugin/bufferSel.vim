@@ -55,6 +55,7 @@ function! BufferRead()
         endif
         let currbufnr = currbufnr + 1
     endwhile
+    silent! wa
 endfunction
 function! s:bufSelPwd()
     let pwd=getcwd()
