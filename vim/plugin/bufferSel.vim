@@ -1,12 +1,16 @@
 " bufferSel
 nnoremap <expr> e SelectBuffer("") ..'_'
-nnoremap <leader>e :execute "vert botright sbuffer ".bufnr(g:bufferListFileName)." \| vert resize 30"<cr>
+nnoremap <leader>e :call OpenBufferList()<cr>
 augroup bufferSel
     au!
      autocmd bufEnter * call LRCread()
      autocmd bufEnter,tabEnter * call BufferRead()
 augroup END
 
+function! OpenBufferList()
+  execute "vert botright sbuffer ".bufnr(g:bufferListFileName)." \| vert resize 30"
+  execute "wincmd p"
+endfunction
 function! LRCread()
     let $pwd= getcwd()
     let $lrcfilename = g:LRCfileName
