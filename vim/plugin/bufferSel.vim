@@ -1,8 +1,6 @@
 " bufferSel
-"
 nnoremap <expr> e SelectBuffer("") ..'_'
-nnoremap <leader>e :execute "vert botright sbuffer 1 \| vert resize 30"<cr>
-nnorema  <leader>bb :execute 'Bss'<CR>
+nnoremap <leader>e :execute "vert botright sbuffer ".bufnr(g:bufferListFileName)." \| vert resize 30"<cr>
 augroup bufferSel
     au!
      autocmd bufEnter * call LRCread()
@@ -55,40 +53,9 @@ function! BufferRead()
         endif
         let currbufnr = currbufnr + 1
     endwhile
-    silent! wa
-endfunction
-function! s:bufSelPwd()
-    let pwd=getcwd()
-    call s:bufSel(pwd)
+    " silent! wa
 endfunction
 
-function! s:bufSel(pattern)
-  let bufcount = bufnr("$")
-  let currbufnr = 1
-  let nummatches = 0
-  let firstmatchingbufnr = 0
-  while currbufnr <= bufcount
-    if(bufexists(currbufnr))
-      let currbufname = expand('#'.currbufnr.':p') 
-      if(match(currbufname, a:pattern) > -1)
-        echo currbufnr . ": ".expand('#'.currbufnr.':p:.')
-        let nummatches += 1
-        let firstmatchingbufnr = currbufnr
-      endif
-    endif
-    let currbufnr = currbufnr + 1
-  endwhile
-  if(nummatches == 1)
-    execute ":buffer ". firstmatchingbufnr
-  elseif(nummatches > 1)
-    let desiredbufnr = input("Enter buffer number: ")
-    if(strlen(desiredbufnr) != 0)
-      execute ":buffer ". desiredbufnr
-    endif
-  else
-    echo "No matching buffers"
-  endif
-endfunction
 
 function SelectBuffer(type) abort
   if a:type == ''
@@ -160,6 +127,4 @@ function s:clearAllLines(bufnr,linenr)
   return  s:clearAllLines(bufnr,linenr)
 endfunction
 
-command! -nargs=1 Bs :call s:bufSel("<args>")
-command! -nargs=0 Bss :call s:bufSelPwd()
 

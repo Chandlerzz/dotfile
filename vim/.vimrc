@@ -214,7 +214,6 @@ Plug 'ferrine/md-img-paste.vim'
   let g:mdip_imgname = 'image'
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'habamax/vim-sendtoterm'
-Plug '907th/vim-auto-save'
 
 " Lint
 " completion
@@ -802,9 +801,8 @@ nnoremap <Leader>G :Goyo<CR>
 "}}}
 
 " ============================================================================
-" WSL yank support 
+" WSL yank support {{{
 " ============================================================================
-" WSL yank support
 let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
 if executable(s:clip)
     augroup WSLYank
@@ -812,8 +810,9 @@ if executable(s:clip)
         autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
     augroup END
 endif
+"}}}
 " ============================================================================
-"<Leader>g google it 
+"<Leader>g google it {{{
 " ============================================================================
 function s:goog(pat)
   let q = '"'.substitute(a:pat, '[[:space:]]', '+', 'g').'"'
@@ -822,8 +821,9 @@ call system("powershell.exe start chrome \"www.google.com/search?q=\"".q)
 redraw!
 endfunction
 xnoremap <leader>g "gy:call <SID>goog(@g)<cr>gv
+"}}}
 " ============================================================================
-" Z && TZ
+" Z && TZ {{{
 " ============================================================================
 function! ZComp(ArgLead, CmdLine, CursorPos)
   let l:list = systemlist("cat ~/.zlua")
@@ -853,9 +853,13 @@ endfunction
 command! -nargs=1 -complete=customlist,ZComp Zt call TZFunc(<f-args>)
 command! -nargs=1 -complete=customlist,ZComp Z call ZFunc(<f-args>)
 command! -nargs=1 -complete=customlist,ZComp Zl call LZFunc(<f-args>)
+nnoremap <leader>zt :<C-U><C-R>=printf("Zt ")<CR>
+nnoremap <leader>zz :<C-U><C-R>=printf("Z ")<CR>
+nnoremap <leader>zl :<C-U><C-R>=printf("Zl ")<CR>
+"}}}
 
 " ============================================================================
-"open/close terminal 
+"open/close termina{{{ 
 " ============================================================================
 " função para colocar um terminal dentro do vim
 function Terminal()
@@ -873,8 +877,9 @@ endfunction
 map <c-t> :call Terminal()<cr>
 autocmd TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
 tnoremap  <Esc> <C-\><C-n>
+"}}}
 " ============================================================================
-"set tabline 
+"set tabline{{{ 
 " ============================================================================
 function! CustomizedTabLine()
     let s = ''
@@ -906,7 +911,7 @@ endfunction
 " Always show the tablilne 
 set stal=2
 set tabline=%!CustomizedTabLine()
-
+"}}}
 " ============================================================================
 "  fuzzy find leaderf {{{
 " ============================================================================
@@ -1031,10 +1036,9 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " }}}
-execute "silent e! /tmp/bufferList.hideseek"
-let g:auto_save = 0
-augroup ft_hideseek
-  au!
-  au FileType hideseek let b:auto_save = 1
+" execute "silent e! /tmp/bufferList.hideseek"
+nnoremap ZZ :execute "silent! wqa"<cr> 
+augroup autosave
+    au!
+     autocmd ExitPre * silent! wa
 augroup END
-nnoremap ZZ :execute "wqa"<cr>
