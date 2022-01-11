@@ -1,5 +1,6 @@
 " vim: set foldmethod=marker foldlevel=0 nomodeline:
 "
+"
 " ============================================================================
 "  .vimrc of zhongzhong {{{
     
@@ -213,6 +214,8 @@ Plug 'ferrine/md-img-paste.vim'
   let g:mdip_imgname = 'image'
 Plug 'mzlogin/vim-markdown-toc'
 Plug 'habamax/vim-sendtoterm'
+Plug '907th/vim-auto-save'
+
 " Lint
 " completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -224,7 +227,7 @@ call plug#end()
 syntax on
 " diary plugin path
 let g:diarybasepath = "~/report/"
-let g:diaryshellscript = "/dotfile/vim/diary/diary.sh"
+let g:diaryshellscript = "/.vim/bundle/vim-diary/diary.sh"
 
 " register plugin path
 let g:registerWatchFile = "/tmp/registers"
@@ -1028,3 +1031,10 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " }}}
+execute "silent e! /tmp/bufferList.hideseek"
+let g:auto_save = 0
+augroup ft_hideseek
+  au!
+  au FileType hideseek let b:auto_save = 1
+augroup END
+nnoremap ZZ :execute "wqa"<cr>
