@@ -1,7 +1,7 @@
 " bufferSel
 nnoremap <expr> e SelectBuffer("") ..'_'
 nnoremap <leader>e :call OpenBufferList()<cr>
-let s:bufname = "/tmp/".rand().".hideseek"
+let s:bufname = "/tmp/bufferList/".rand().".hideseek"
 augroup bufferSel
     au!
      autocmd bufEnter * call LRCread()
@@ -9,8 +9,24 @@ augroup bufferSel
 augroup END
 
 function! OpenBufferList()
-  execute "vert botright sbuffer ".bufnr('hideseek')." \| vert resize 30"
-  execute "wincmd p"
+  let activebuffers = tabpagebuflist("'")
+  let bufnr = bufnr('bufferList')
+  let filterbuffers = filter(copy(activebuffers),'v:val == bufnr')
+  if len(filterbuffers) == 1
+    for i in range(winnr('$')+1)
+      if winbufnr(i) == bufnr
+        execute i."wincmd c"
+        redraw
+      endif
+    endfor
+  else
+    execute "vert botright sbuffer ".bufnr." \| vert resize 30"
+    setlocal nonumber norelativenumber  nobuflisted noswapfile nowrap
+    \ modifiable statusline=>\ Buffers nocursorline nofoldenable
+    execute "wincmd p"
+  endif
+  let g:filterbuffers = filterbuffers
+  let g:activebuffers = activebuffers
 endfunction
 function! LRCread()
     let $pwd= getcwd()

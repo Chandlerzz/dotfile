@@ -594,6 +594,7 @@ if has ('autocmd')
 	augroup Reload_Vimrc
 	autocmd!
 	autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded" . $MYVIMRC | redraw
+	autocmd! BufWritePost *.vim source % | echom "Reloaded" . expand("%") | redraw
 	augroup end
 endif " has aoutocmd
 
@@ -1036,7 +1037,7 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " }}}
-nnoremap ZZ :execute "silent! wqa"<cr> 
+" nnoremap ZZ :execute "silent! wqa"<cr> 
 augroup autosave
     au!
      autocmd ExitPre * silent! wa
