@@ -230,7 +230,6 @@ let g:diaryshellscript = "/.vim/bundle/vim-diary/diary.sh"
 
 " register plugin path
 let g:registerWatchFile = "/tmp/registers"
-let g:bufferListFileName ="/tmp/bufferList.hideseek"
 let g:LRCfileName = "/tmp/LRC.hideseek"
 let g:LRCcount = "/tmp/lrccount"
 

@@ -20,7 +20,7 @@ function! OpenBufferList()
       endif
     endfor
   else
-    execute "vert botright sbuffer ".bufnr." \| vert resize 30"
+    execute "vert botright sbuffer ".bufnr." \| vert resize 40"
     setlocal nonumber norelativenumber  nobuflisted noswapfile nowrap
     \ modifiable statusline=>\ Buffers nocursorline nofoldenable
     execute "wincmd p"
