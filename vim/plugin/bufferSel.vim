@@ -25,8 +25,6 @@ function! OpenBufferList()
     \ modifiable statusline=>\ Buffers nocursorline nofoldenable
     execute "wincmd p"
   endif
-  let g:filterbuffers = filterbuffers
-  let g:activebuffers = activebuffers
 endfunction
 function! LRCread()
     let $pwd= getcwd()
@@ -55,8 +53,6 @@ function! BufferRead()
     let bufnr = bufadd(s:bufname)
     call bufload(bufnr)
     let linenr = len(getbufline(bufnr,1,'$'))
-    let g:bufnr = bufnr
-    let g:linenr = linenr
     call s:clearAllLines(bufnr,linenr)
     let bufcount = bufnr("$")
     let currbufnr = 1
@@ -89,7 +85,6 @@ function SelectBuffer(type) abort
   else
       let reg_save = getreginfo('"')
   end
-  let g:aaa=reg_save
   let cb_save = &clipboard
   let visual_marks_save = [getpos("'<"), getpos("'>")]
 
@@ -99,8 +94,6 @@ function SelectBuffer(type) abort
   let charr = s:inputtarget()
   let head=charr[:-2]
   let tail=charr[-1:-1]
-  let g:aa=head
-  let g:bb=tail
   if tail =~ "e"
       silent exe 'e #' ..head 
   else
