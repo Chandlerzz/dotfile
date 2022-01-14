@@ -25,7 +25,7 @@ def comsume(element, curr_depth, node):
         accessed_node.append({'name':element,nodetype[curr_depth+1]:[]})
         nodelen = len(accessed_node)
         return accessed_node[ nodelen - 1 ]
-pf1 = pd.read_excel("/mnt/c/Users/xuzz/Desktop/部门明细.xlsx")
+pf1 = pd.read_excel("/mnt/c/Users/xuzz/Desktop/人事基础资料.xlsx")
 list1 = pf1['部门全称'].tolist()
 nodetype = ['companies','departments','subdepartments','useless']
 tree = {'companies':[]}
@@ -36,21 +36,30 @@ for file in list1:
 
 ####################################################################
 # test
+# companyTableName = "company"
+# departmentTableName = "department"
+# host = "10.10.9.24"
+# port = 13506
+# user = "root"
+# password ="Risen*1107"
+# database = "local_university"
+
+#prod
 companyTableName = "company"
 departmentTableName = "department"
-host = "10.10.9.24"
+host = "120.55.53.221"
 port = 13506
 user = "root"
 password ="Risen*1107"
 database = "university"
 
-#prod
+#xuxiyao
 # companyTableName = "company"
 # departmentTableName = "department"
-# host = "120.55.53.221"
-# port = 13506
+# host = "xuxiyao.com"
+# port = 3306
 # user = "root"
-# password ="Risen*1107"
+# password ="root"
 # database = "university"
 
 conn = pymysql.connect(host=host,port=port,user=user,password=password,database=database)

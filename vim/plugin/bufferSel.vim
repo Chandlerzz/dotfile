@@ -10,7 +10,9 @@ augroup END
 
 function! OpenBufferList()
   let activebuffers = tabpagebuflist("'")
-  let bufnr = bufnr('bufferList')
+  let bufnr = bufadd(s:bufname)
+  call bufload(bufnr)
+  " let bufnr = bufnr(s:bufname)
   let filterbuffers = filter(copy(activebuffers),'v:val == bufnr')
   if len(filterbuffers) == 1
     for i in range(winnr('$')+1)
