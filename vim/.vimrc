@@ -218,6 +218,7 @@ Plug 'habamax/vim-sendtoterm'
 " Lint
 " completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'voldikss/vim-floaterm' 
 call plug#end()
 " }}}
 " ============================================================================
