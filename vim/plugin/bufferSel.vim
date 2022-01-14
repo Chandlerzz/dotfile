@@ -4,7 +4,7 @@ nnoremap <leader>e :call OpenBufferList()<cr>
 let s:bufname = "/tmp/bufferList/".rand().".hideseek"
 augroup bufferSel
     au!
-     autocmd bufEnter * call LRCread()
+     " autocmd bufEnter * call LRCread()
      autocmd bufEnter,tabEnter * call BufferRead()
 augroup END
 
@@ -22,7 +22,7 @@ function! OpenBufferList()
       endif
     endfor
   else
-    execute "vert botright sbuffer ".bufnr." \| vert resize 40"
+    execute "vert topleft sbuffer ".bufnr." \| vert resize 40"
     setlocal nonumber norelativenumber  nobuflisted noswapfile nowrap
     \ modifiable statusline=>\ Buffers nocursorline nofoldenable
     execute "wincmd p"

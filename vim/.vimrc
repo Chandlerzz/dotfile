@@ -864,13 +864,26 @@ nnoremap <leader>zl :<C-U><C-R>=printf("Zl ")<CR>
 " ============================================================================
 " função para colocar um terminal dentro do vim
 function Terminal()
+  let activebuffers = tabpagebuflist("'")
   " verificar se o terminal está aberto
-  let terminal = bufname('bash')
+  let terminalnr = bufnr('bash') != -1 ? bufnr('bash'): bufnr('zsh')
+  let g:terminalnr = terminalnr
+  let filterbuffers = filter(copy(activebuffers),'v:val == terminalnr')
+  let terminal = bufname('bash') != '' ? bufname('bash'): bufname('zsh')
   if terminal == ''
     below terminal ++rows=10
-  else
-    let bnr = bufnr(terminal)
-    exec ':bwipe! ' bnr
+  elseif len(filterbuffers) == 0
+    execute "below sbuffer ".terminalnr 
+  else  
+    for i in range(1,winnr('$')+1)
+      if winbufnr(i) == terminalnr
+        let g:winbufnr = winbufnr(i)
+        execute i."wincmd c"
+        redraw
+      endif
+    endfor
+    " let bnr = bufnr(terminal)
+    " exec ':bwipe! ' bnr
   endif
 endfunction
 
