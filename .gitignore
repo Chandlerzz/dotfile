@@ -5,3 +5,4 @@ tags
 *.sqlite
 *.pyc
 *.pyo
+__pycache__/
