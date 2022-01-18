@@ -892,6 +892,7 @@ endfunction
 map <c-t> :call Terminal()<cr>
 autocmd TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
 tnoremap  <Esc> <C-\><C-n>
+nnorema <leader>t :execute "FloatermToggle"<cr>
 "}}}
 " ============================================================================
 "set tabline{{{ 
@@ -932,7 +933,7 @@ set tabline=%!CustomizedTabLine()
 " ============================================================================
 " leaderf
 " ----------------------------------------------------------------------------
-nnoremap <leader>t :LeaderfBufTag<CR> 
+" nnoremap <leader>t :LeaderfBufTag<CR> 
 " don't show the help in normal mode
 let g:Lf_HideHelp = 1
 let g:Lf_UseCache = 0
