@@ -1,2 +1,2 @@
-# dotfile
+# dotfile zhongzhong
 sh install.sh
