@@ -893,6 +893,7 @@ map <c-t> :call Terminal()<cr>
 autocmd TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
 tnoremap  <Esc> <C-\><C-n>
 nnoremap <leader>t :execute "FloatermToggle"<cr>
+noremap <leader>tc :bw! bash<cr>
 "}}}
 " ============================================================================
 "set tabline{{{ 
