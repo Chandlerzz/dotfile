@@ -255,3 +255,5 @@ if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
 	}
 	complete -d -o bashdefault -o nospace -F _ls_fzf_complete ls
 fi
+alias mysqldump="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysqldump.exe"
+alias mysql="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysql.exe"
