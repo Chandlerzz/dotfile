@@ -54,7 +54,8 @@ export NVM_DIR="/home/chandler/.nvm"
 
 eval "$(lua ~/.learn/z.lua/z.lua --init bash)"
 alias zz="z -I"
-
+export _ZL_LOG_NAME="/tmp/.zlog"
+export _ZL_HYPHEN=1
 #  minio 
 # --------------------------------------------------------------------
 if command -v upload > /dev/null; then
@@ -255,5 +256,8 @@ if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
 	}
 	complete -d -o bashdefault -o nospace -F _ls_fzf_complete ls
 fi
+# 'uname -a'  check witch linux it is.  
+#Linux LT0303609 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
 alias mysqldump="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysqldump.exe"
 alias mysql="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysql.exe"
+alias npm="powershell.exe npm"
