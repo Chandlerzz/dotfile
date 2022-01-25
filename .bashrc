@@ -261,3 +261,5 @@ fi
 alias mysqldump="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysqldump.exe"
 alias mysql="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysql.exe"
 alias npm="powershell.exe npm"
+
+eval "$(thefuck --alias)"

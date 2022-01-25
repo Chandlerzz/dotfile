@@ -865,14 +865,18 @@ nnoremap <leader>zl :<C-U><C-R>=printf("Zl ")<CR>
 " ============================================================================
 " função para colocar um terminal dentro do vim
 function Terminal()
-  let activebuffers = tabpagebuflist("'")
+  let activebuffers = tabpagebuflist()
   " verificar se o terminal está aberto
   let terminalnr = bufnr('bash') != -1 ? bufnr('bash'): bufnr('zsh')
   let g:terminalnr = terminalnr
   let filterbuffers = filter(copy(activebuffers),'v:val == terminalnr')
   let terminal = bufname('bash') != '' ? bufname('bash'): bufname('zsh')
   if terminal == ''
-    below terminal ++rows=10
+    if has('nvim')
+      below split term://bash
+    else
+      below terminal ++rows=10 
+    endif
   elseif len(filterbuffers) == 0
     execute "below sbuffer ".terminalnr 
   else  
@@ -883,14 +887,16 @@ function Terminal()
         redraw
       endif
     endfor
-    " let bnr = bufnr(terminal)
-    " exec ':bwipe! ' bnr
   endif
 endfunction
 
 " mapeando uma tecla para abrir um terminal
 map <c-t> :call Terminal()<cr>
-autocmd TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
+if has('nvim')
+  autocmd TermOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
+else
+  autocmd TerminalOpen * if &buftype == 'terminal' | setlocal nobuflisted | endif
+endif
 tnoremap  <Esc> <C-\><C-n>
 nnoremap <leader>t :execute "FloatermToggle"<cr>
 noremap <leader>tc :bw! bash<cr>
