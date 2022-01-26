@@ -310,8 +310,8 @@ set ims=-1
 " ctags
 set tags=./tags;/
 " Annoying temporary files
-set backupdir=/tmp//,.
-set directory=/tmp//,.
+set backupdir=/tmp/swp//,.
+set directory=/tmp/swp//,.
 " Semi-persistent undo
 if has('persistent_undo')
   set undodir=/tmp,.
