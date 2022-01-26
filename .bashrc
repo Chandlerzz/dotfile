@@ -15,6 +15,9 @@ export HISTSIZE=
 export HISTFILESIZE=
 export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
 [ -z "$TMPDIR" ] && TMPDIR=/tmp
+# create temp directory for vim
+[ -d "/tmp/bufferList" ] && echo 1 > /dev/null || mkdir /tmp/bufferList
+[ -d "/tmp/swp" ] && echo 1 > /dev/null || mkdir /tmp/swp
 
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
@@ -256,10 +259,15 @@ if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
 	}
 	complete -d -o bashdefault -o nospace -F _ls_fzf_complete ls
 fi
+# windows exe reference
+# --------------------------------------------------------------------
 # 'uname -a'   check witch linux it is.  
 #Linux LT0303609 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
 alias mysqldump="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysqldump.exe"
 alias mysql="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysql.exe"
 alias npm="powershell.exe npm"
 
+# thefuck
+# --------------------------------------------------------------------
 eval "$(thefuck --alias)"
+
