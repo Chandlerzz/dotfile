@@ -24,29 +24,31 @@ struct ifile {
  
 #define BUF_LEN 1000
 #define NAME_LEN 1000
+#define MAXLINE 500
 
+struct ifile *lalloc(void)
+{
+    return (struct ifile *)malloc(sizeof(struct ifile));
+}
 
 void displayInotifyEvent(struct inotify_event *i)
 {
   struct ifile *ptr;
-  ptr = (struct ifile*) malloc(1 * sizeof(struct ifile));
-  char name[NAME_LEN];
-  char *p = i->name;
-  ptr->name = p;
-  printf("start");
-  strcpy(name,p);
-  printf("%s\n",p);
+  ptr = (struct ifile *)lalloc();
+  ptr->name = i->name;
+  printf("%s\n",ptr->name);
 }
  
 int main(int argc,char **argv)
 {
-	int inotifyFd,wd,j;
+	int inotifyFd,wd;
 	char buf[BUF_LEN];
 	ssize_t numRead;
 	char *p;
 	struct inotify_event *event;
-	int flags;
- 
+  /* struct ifile *files[MAXLINE]; */
+  /* struct ifile *lalloc(void) */
+   
  
  
 	if(argc < 2 )
