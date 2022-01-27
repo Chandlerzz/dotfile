@@ -36,6 +36,14 @@ void displayInotifyEvent(struct inotify_event *i)
   struct ifile *ptr;
   ptr = (struct ifile *)lalloc();
   ptr->name = i->name;
+  char *substr = strstr(ptr->name,".hideseek");
+  char dest[12];
+  memset(dest, '\0', sizeof(dest));
+  if(!substr)
+  {
+    printf("I am not hideseek");
+    strncpy(dest,i->name,10);
+  }
   printf("%s\n",ptr->name);
 }
  
