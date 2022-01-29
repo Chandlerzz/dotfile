@@ -17,16 +17,14 @@
 #include <time.h>
  
 struct ifile {
-  int   id;
-  char  *name;  /* file name */
-  int   count;    /* file create count */
-  int   tstamp;     /* timestamp */
+  char  *path;  /* file path */
   char  *lct;   /* last created time */
 };
  
 #define BUF_LEN 1000
 #define NAME_LEN 1000
 #define MAXLINE 500
+int sortifiles(struct ifile *ifiles[],int count);
 
 struct ifile *lalloc(void)
 {
@@ -35,16 +33,20 @@ struct ifile *lalloc(void)
 
 /*make path to correct path for example 
  * %home%chandler%test.swp -> /home/chandler/test*/
-void getFPath(char *path1, char *path, int size)
+char * getFPath(char *path)
 {
-  strncpy(path1, path, size);
-  for (int j=0;j<size; j++)
+  int pathlen = strlen(path)-4;
+  char *path1 = malloc(pathlen+1);
+  memset(path1, '\0', pathlen+1);
+  strncpy(path1, path, pathlen);
+  for (int j=0;j<pathlen; j++)
   {
     if (path1[j] == 37) /* 37 is % */
     {
-      path1[j] = 48; /* 48 is / */
+      path1[j] = 47; /* 48 is / */
     }
   }
+  return path1;
 }
 
 /*getCurrentTime*/
@@ -62,39 +64,54 @@ void setifiletime(struct ifile *ifil)
   char *localtime = (char *)malloc(20);
   getCurrentTime(localtime);
   ifil->lct = localtime;
-  ifil->tstamp = time(NULL);
 }
 
-void createifile(struct inotify_event *i_event, struct ifile *ifil)
+int getcount(struct ifile *ifiles[], int count)
 {
-  char *path = i_event->name;
-  char *substr = strstr(path,".hideseek");
-  int pathlen, path1len;
-  pathlen = strlen(path);
-  path1len = pathlen -4;
-  char path1[path1len+1];
-  memset(path1, '\0', sizeof(path1));
-  if(!substr)
+  for (int i=0;i<count;i++)
   {
-    printf("I am not hideseek");
-    getFPath(path1,path,path1len);
-    setifiletime(ifil);
-    printf("%s\n",path1);
+
+    if(!ifiles[i])
+    {
+      return i;
+    }
   }
+  return -1;
 }
 
-void updateifile(struct ifile *ifil)
+struct ifile *createifile(char *path)
 {
-  int count = ifil->count;
-  count += 1;
-  ifil->count = count;
+  struct ifile *ifil;
+  ifil = (struct ifile *)lalloc();
   setifiletime(ifil);
+  char *path1 = (char *)malloc(sizeof(*path));
+  strcpy(path1,path);
+  ifil->path=path1;
+  return ifil;
+}
+int isInIfiles(char *path, struct ifile *ifiles[],int count)
+{
+  int flag = 0;
+  for (int i = 0; i < count; ++i) 
+  {
+    if(!strcmp(ifiles[i]->path,path))
+    {
+     flag = 1;
+     break;
+    } 
+  }
+  return flag;
 }
 
-void clearifile(struct ifile * ifil)
+int sortifiles(struct ifile *ifiles[],int count)
 {
+  count = count - 1;
+  for (int i = count; i > 0; --i) {
+    ifiles[i] = ifiles[i-1];
+  }
+  return 0;
 }
- 
+
 int main(int argc,char **argv)
 {
 	int inotifyFd,wd;
@@ -102,9 +119,8 @@ int main(int argc,char **argv)
 	ssize_t numRead;
 	char *p;
 	struct inotify_event *event;
-  struct ifile *ifil;
-  ifil = (struct ifile *)lalloc();
-  /* struct ifile *ifiles[MAXLINE]; */
+  struct ifile *ifiles[MAXLINE]={NULL};
+  
  
 	if(argc < 2 )
 	{
@@ -115,7 +131,7 @@ int main(int argc,char **argv)
 	if(inotifyFd == -1)
 	{
 		printf("初始化失败");
-	}
+	} 
  
 	wd = inotify_add_watch(inotifyFd,argv[1],IN_CREATE);
 	if(wd == -1)
@@ -137,10 +153,41 @@ int main(int argc,char **argv)
 		printf("Read %ldbytes from inotify fd\n",(long)numRead);
 		for(p=buf;p < buf+numRead;)
 		{
+      int count = getcount(ifiles, MAXLINE);
 			event = (struct inotify_event *)p;
-			createifile(event, ifil);
-			p+=sizeof(struct inotify_event) + event->len;
+      char *path = event->name;
+      char *fullpath = getFPath(path);
+      int flag = isInIfiles(fullpath,ifiles,count);
+      if(!flag)
+      {
+        struct ifile *ifil =  createifile(fullpath);
+        if (count == MAXLINE)
+        {
+          count =count-1;
+        }else{
+          count = count;
+        }
+        for (int i = count; i > 0; --i) {
+         ifiles[i] = ifiles[i-1]; 
+        }
+        ifiles[0] = ifil;
+      }else{
+        for (int i = 0; i < count; ++i) 
+        {
+          if(!strcmp(ifiles[i]->path,path))
+          {
+          struct ifile *tmp = ifiles[i]; 
+          for (int j = i;  j > 0; --j) {
+           ifiles[j] = ifiles[j-1]; 
+          }
+          ifiles[0] = tmp;
+           break;
+          } 
+        }
+      }
+      /* free(fullpath); */
+      p+=sizeof(struct inotify_event) + event->len;
 		}
 	}
 	return 0;
-}
+  }
