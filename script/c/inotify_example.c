@@ -84,9 +84,9 @@ struct ifile *createifile(char *path)
   struct ifile *ifil;
   ifil = (struct ifile *)lalloc();
   setifiletime(ifil);
-  char *path1 = (char *)malloc(sizeof(*path));
-  strcpy(path1,path);
-  ifil->path=path1;
+  int pathlen = strlen(path);
+  char *path1 = (char *)malloc(pathlen+1); 
+  ifil->path = strcpy(path1,path);
   return ifil;
 }
 int isInIfiles(char *path, struct ifile *ifiles[],int count)
@@ -111,6 +111,34 @@ int sortifiles(struct ifile *ifiles[],int count)
   }
   return 0;
 }
+void readsourcefile(struct ifile *ifiles[])
+{
+	char *p;
+  FILE *fp;
+  const char * split = "%";
+  char arr[MAXLINE+1];
+  memset(arr, '\0', MAXLINE+1);
+  int count = 0;
+  if ((fp = fopen ("/home/chandlerxu/.lrc", "r")) == NULL)
+  {
+     perror ("File open error!\n");
+     exit (1);
+  }
+
+  while ((fgets (arr, MAXLINE, fp)) != NULL)
+  {
+      ifiles[count] = lalloc();
+      p = strtok(arr,split);
+      char *tmp1=malloc(strlen(p));
+      ifiles[count]->path = strncpy(tmp1,p,strlen(p));
+      p = strtok(NULL,split);
+      char *tmp=malloc(strlen(p)-1);
+      ifiles[count]->lct = strncpy(tmp,p,strlen(p)-1);
+      count += 1;
+  }
+  fclose(fp);
+  fp = NULL;
+}
 
 int main(int argc,char **argv)
 {
@@ -118,10 +146,12 @@ int main(int argc,char **argv)
 	char buf[BUF_LEN];
 	ssize_t numRead;
 	char *p;
+  FILE *fp;
 	struct inotify_event *event;
   struct ifile *ifiles[MAXLINE]={NULL};
-  
- 
+  readsourcefile(ifiles);
+
+
 	if(argc < 2 )
 	{
 		printf("error\n");
@@ -164,6 +194,7 @@ int main(int argc,char **argv)
         if (count == MAXLINE)
         {
           count =count-1;
+          free(ifiles[count]);
         }else{
           count = count;
         }
@@ -174,7 +205,7 @@ int main(int argc,char **argv)
       }else{
         for (int i = 0; i < count; ++i) 
         {
-          if(!strcmp(ifiles[i]->path,path))
+          if(!strcmp(ifiles[i]->path,fullpath))
           {
           struct ifile *tmp = ifiles[i]; 
           for (int j = i;  j > 0; --j) {
@@ -188,6 +219,26 @@ int main(int argc,char **argv)
       /* free(fullpath); */
       p+=sizeof(struct inotify_event) + event->len;
 		}
+
+    if ((fp = fopen ("/home/chandlerxu/.lrc", "w+")) == NULL)
+    {
+       perror ("File open error!\n");
+       exit (1);
+    }
+    for (int i = 0; i < MAXLINE; ++i) {
+      char destination[100]={""};
+      if(ifiles[i])
+      {
+        strcat(destination,ifiles[i]->path);
+        strcat(destination,"%");
+        strcat(destination,ifiles[i]->lct);
+        strcat(destination,"\n");
+        printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct);
+        fputs(destination,fp);
+      }
+    }
+    fclose(fp);
+    fp = NULL;
 	}
 	return 0;
   }
