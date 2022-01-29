@@ -84,9 +84,9 @@ struct ifile *createifile(char *path)
   struct ifile *ifil;
   ifil = (struct ifile *)lalloc();
   setifiletime(ifil);
-  char *path1 = (char *)malloc(sizeof(*path));
-  strcpy(path1,path);
-  ifil->path=path1;
+  int pathlen = strlen(path);
+  char *path1 = (char *)malloc(pathlen+1); 
+  ifil->path = strcpy(path1,path);
   return ifil;
 }
 int isInIfiles(char *path, struct ifile *ifiles[],int count)
@@ -164,6 +164,7 @@ int main(int argc,char **argv)
         if (count == MAXLINE)
         {
           count =count-1;
+          free(ifiles[count]);
         }else{
           count = count;
         }
@@ -174,7 +175,7 @@ int main(int argc,char **argv)
       }else{
         for (int i = 0; i < count; ++i) 
         {
-          if(!strcmp(ifiles[i]->path,path))
+          if(!strcmp(ifiles[i]->path,fullpath))
           {
           struct ifile *tmp = ifiles[i]; 
           for (int j = i;  j > 0; --j) {
@@ -188,6 +189,13 @@ int main(int argc,char **argv)
       /* free(fullpath); */
       p+=sizeof(struct inotify_event) + event->len;
 		}
+    for (int i = 0; i < 200; ++i) {
+      if(ifiles[i])
+      {
+        printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct);
+      }
+      
+    }
 	}
 	return 0;
   }
