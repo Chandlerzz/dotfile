@@ -111,7 +111,7 @@ int sortifiles(struct ifile *ifiles[],int count)
   }
   return 0;
 }
-void readsourcefile(struct ifile *ifiles[])
+void readsourcefile(struct ifile *ifiles[], char *filepath)
 {
 	char *p;
   FILE *fp;
@@ -119,7 +119,7 @@ void readsourcefile(struct ifile *ifiles[])
   char arr[MAXLINE+1];
   memset(arr, '\0', MAXLINE+1);
   int count = 0;
-  if ((fp = fopen ("/home/chandlerxu/.lrc", "r")) == NULL)
+  if ((fp = fopen (filepath, "r")) == NULL)
   {
      perror ("File open error!\n");
      exit (1);
@@ -142,14 +142,20 @@ void readsourcefile(struct ifile *ifiles[])
 
 int main(int argc,char **argv)
 {
+  int count, flag = 0;
+  char *filepath=malloc(strlen(getenv("HOME"))+strlen("/.lrc")+1);
+  strcat(filepath,getenv("HOME"));
+  strcat(filepath,"/.lrc");
 	int inotifyFd,wd;
 	char buf[BUF_LEN];
 	ssize_t numRead;
 	char *p;
   FILE *fp;
+  char *path;
+  char *fullpath;
 	struct inotify_event *event;
   struct ifile *ifiles[MAXLINE]={NULL};
-  readsourcefile(ifiles);
+  readsourcefile(ifiles,filepath);
 
 
 	if(argc < 2 )
@@ -183,11 +189,11 @@ int main(int argc,char **argv)
 		printf("Read %ldbytes from inotify fd\n",(long)numRead);
 		for(p=buf;p < buf+numRead;)
 		{
-      int count = getcount(ifiles, MAXLINE);
+      count = getcount(ifiles, MAXLINE);
 			event = (struct inotify_event *)p;
-      char *path = event->name;
-      char *fullpath = getFPath(path);
-      int flag = isInIfiles(fullpath,ifiles,count);
+      path = event->name;
+      fullpath = getFPath(path);
+      flag = isInIfiles(fullpath,ifiles,count);
       if(!flag)
       {
         struct ifile *ifil =  createifile(fullpath);
@@ -216,11 +222,11 @@ int main(int argc,char **argv)
           } 
         }
       }
-      /* free(fullpath); */
+      free(fullpath);
       p+=sizeof(struct inotify_event) + event->len;
 		}
 
-    if ((fp = fopen ("/home/chandlerxu/.lrc", "w+")) == NULL)
+    if ((fp = fopen (filepath, "w+")) == NULL)
     {
        perror ("File open error!\n");
        exit (1);
@@ -233,7 +239,6 @@ int main(int argc,char **argv)
         strcat(destination,"%");
         strcat(destination,ifiles[i]->lct);
         strcat(destination,"\n");
-        printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct);
         fputs(destination,fp);
       }
     }
