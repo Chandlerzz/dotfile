@@ -239,6 +239,13 @@ int main(int argc,char **argv)
     }
     fclose(fp);
     fp = NULL;
+    for (int i = 0; i < 200; ++i) {
+      if(ifiles[i])
+      {
+        printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct);
+      }
+      
+    }
 	}
 	return 0;
   }
