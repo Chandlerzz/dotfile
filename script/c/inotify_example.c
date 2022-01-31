@@ -222,7 +222,7 @@ int main(int argc,char **argv)
           } 
         }
       }
-      free(fullpath);
+      free(fullpath);  fullpath=NULL;
       p+=sizeof(struct inotify_event) + event->len;
 		}
 
