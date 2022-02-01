@@ -270,4 +270,4 @@ alias npm="powershell.exe npm"
 # thefuck
 # --------------------------------------------------------------------
 eval "$(thefuck --alias)"
-
+alias rmswp="find /tmp/swp -type f -exec rm {} \;"
