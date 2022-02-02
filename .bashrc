@@ -271,3 +271,8 @@ alias npm="powershell.exe npm"
 # --------------------------------------------------------------------
 eval "$(thefuck --alias)"
 alias rmswp="find /tmp/swp -type f -exec rm {} \;"
+
+# inoswp
+# --------------------------------------------------------------------
+inoswp="$(ps -aux | grep inoswp | grep -v grep | awk '{print $2}')" 
+[ -z $inoswp ] && nohup inoswp >> ~/.inoswplog 2>&1 &
