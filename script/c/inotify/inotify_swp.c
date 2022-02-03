@@ -27,6 +27,25 @@ struct ifile {
 
 int sortifiles(struct ifile *ifiles[],int count);
 
+char* substring(char* ch,int pos,int length)  
+{  
+    //定义字符指针 指向传递进来的ch地址
+    char* pch=ch;  
+    //通过calloc来分配一个length长度的字符数组，返回的是字符指针。
+    char* subch=(char*)calloc(sizeof(char),length+1);  
+    int i;  
+ //只有在C99下for循环中才可以声明变量，这里写在外面，提高兼容性。  
+    pch=pch+pos;  
+//是pch指针指向pos位置。  
+    for(i=0;i<length;i++)  
+    {  
+        subch[i]=*(pch++);  
+//循环遍历赋值数组。  
+    }  
+    subch[length]='\0';//加上字符串结束符。  
+    return subch;       //返回分配的字符数组地址。  
+} 
+
 struct ifile *lalloc(void)
 {
     return (struct ifile *)malloc(sizeof(struct ifile));
@@ -150,11 +169,12 @@ int main(int argc,char **argv)
 	int inotifyFd,wd;
 	char buf[BUF_LEN];
 	ssize_t numRead;
-	char *p;
   FILE *fp;
+	char *p;
   char *path;
   char *fullpath;
   char *hideseek;
+  char *swp;
 	struct inotify_event *event;
   struct ifile *ifiles[MAXLINE]={NULL};
   readsourcefile(ifiles,filepath);
@@ -194,41 +214,48 @@ int main(int argc,char **argv)
       count = getcount(ifiles, MAXLINE);
 			event = (struct inotify_event *)p;
       path = event->name;
-      fullpath = getFPath(path);
-      flag = isInIfiles(fullpath,ifiles,count);
-      hideseek=strstr(fullpath,"hideseek");
-      if(!hideseek)
+      swp = substring(path,strlen(path)-3,3);
+      if(0==strcmp(substring(path,strlen(path)-3,3),"swp"))
       {
-        if(!flag)
+        fullpath = getFPath(path);
+        flag = isInIfiles(fullpath,ifiles,count);
+        /* get the end 8 character of fullpath. if it is "hideseek" ignore it*/ 
+        hideseek = substring(fullpath,strlen(fullpath)-8,8);
+        if(0!=strcmp(hideseek,"hideseek"))
         {
-          struct ifile *ifil =  createifile(fullpath);
-          if (count == MAXLINE)
+          if(!flag)
           {
-            count =count-1;
-            free(ifiles[count]);
-          }else{
-            count = count;
-          }
-          for (int i = count; i > 0; --i) {
-           ifiles[i] = ifiles[i-1]; 
-          }
-          ifiles[0] = ifil;
-        }else{
-          for (int i = 0; i < count; ++i) 
-          {
-            if(!strcmp(ifiles[i]->path,fullpath))
+            struct ifile *ifil =  createifile(fullpath);
+            if (count == MAXLINE)
             {
-            struct ifile *tmp = ifiles[i]; 
-            for (int j = i;  j > 0; --j) {
-             ifiles[j] = ifiles[j-1]; 
+              count =count-1;
+              free(ifiles[count]);
+            }else{
+              count = count;
             }
-            ifiles[0] = tmp;
-             break;
-            } 
+            for (int i = count; i > 0; --i) {
+             ifiles[i] = ifiles[i-1]; 
+            }
+            ifiles[0] = ifil;
+          }else{
+            for (int i = 0; i < count; ++i) 
+            {
+              if(!strcmp(ifiles[i]->path,fullpath))
+              {
+              struct ifile *tmp = ifiles[i]; 
+              for (int j = i;  j > 0; --j) {
+               ifiles[j] = ifiles[j-1]; 
+              }
+              ifiles[0] = tmp;
+               break;
+              } 
+            }
           }
         }
       }
-      free(fullpath);  fullpath=NULL;
+        free(hideseek); hideseek=NULL;
+        free(fullpath); fullpath=NULL;
+        free(swp);      swp=NULL;
       p+=sizeof(struct inotify_event) + event->len;
 		}
 

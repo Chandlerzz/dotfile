@@ -19,6 +19,8 @@ export HISTTIMEFORMAT="%Y/%m/%d %H:%M:%S:   "
 [ -d "/tmp/bufferList" ] && echo 1 > /dev/null || mkdir /tmp/bufferList
 [ -d "/tmp/swp" ] && echo 1 > /dev/null || mkdir /tmp/swp
 
+[ -f "$HOME/.lrc" ] && echo 1 > /dev/null || touch"$HOME/.lrc"
+
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
 then
@@ -275,4 +277,4 @@ alias rmswp="find /tmp/swp -type f -exec rm {} \;"
 # inoswp
 # --------------------------------------------------------------------
 inoswp="$(ps -aux | grep inoswp | grep -v grep | awk '{print $2}')" 
-[ -z $inoswp ] && nohup inoswp /tmp/swp >> ~/.inoswplog 2>&1 &
+[ -z $inoswp ] && eval "nohup inoswp /tmp/swp >> ~/.inoswplog 2>&1 &" 
