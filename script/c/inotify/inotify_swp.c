@@ -17,13 +17,14 @@
 #include <time.h>
  
 struct ifile {
-  char  *path;  /* file path */
-  char  *lct;   /* last created time */
+  char *path;  /* file path */
+  char *lct;   /* last created time */
 };
  
-#define BUF_LEN 1000
+#define BUF_LEN  1000
 #define NAME_LEN 1000
-#define MAXLINE 500
+#define MAXLINE  500
+
 int sortifiles(struct ifile *ifiles[],int count);
 
 struct ifile *lalloc(void)

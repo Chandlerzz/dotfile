@@ -1063,3 +1063,6 @@ augroup autosave
     au!
      autocmd ExitPre * silent! wa
 augroup END
+
+"vim-easy-align
+xmap ga <Plug>(EasyAlign)
