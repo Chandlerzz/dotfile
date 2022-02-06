@@ -219,6 +219,7 @@ Plug 'habamax/vim-sendtoterm'
 " completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'voldikss/vim-floaterm' 
+Plug 'yegappan/mru' 
 call plug#end()
 " }}}
 " ============================================================================
