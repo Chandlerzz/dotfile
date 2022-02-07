@@ -265,7 +265,7 @@ int main(int argc,char **argv)
        exit (1);
     }
     for (int i = 0; i < MAXLINE; ++i) {
-      char destination[100]={""};
+      char destination[200]={""};
       if(ifiles[i])
       {
         strcat(destination,ifiles[i]->path);
