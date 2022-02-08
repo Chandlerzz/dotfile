@@ -17,7 +17,11 @@
 #include <time.h>
 #include <sys/wait.h>
 #include "tlpi_hdr.h"
- 
+#include <signal.h>
+#include <mqueue.h>
+#include <fcntl.h>              /* For definition of O_NONBLOCK */
+#include <errno.h>
+
 struct ifile {
   char *path;  /* file path */
   char *lct;   /* last created time */
@@ -26,6 +30,7 @@ struct ifile {
 #define BUF_LEN  1000
 #define NAME_LEN 1000
 #define MAXLINE  500
+#define NOTIFY_SIG SIGUSR1
 
 #define MOVEBACK(i, count) \
 do{\
@@ -45,6 +50,11 @@ int getcount(struct ifile *ifiles[], int count);
 int isInIfiles(char *path, struct ifile *ifiles[],int count);
 void readsourcefile(struct ifile *ifiles[], char *filepath);
 struct ifile *createifile(char *path);
+
+static void handler(int sig)
+{
+    /* Just interrupt sigsuspend() */
+}
 
 char* substring(char* ch,int pos,int length)  
 {  
@@ -196,9 +206,13 @@ int main(int argc,char **argv)
   struct ifile *ifiles[MAXLINE]={NULL};
   readsourcefile(ifiles,filepath);
 
-  /* for child process */
-  /* pid_t childPid; */
-  /* int status; */
+    /* for child process */
+    struct sigevent sev;
+    mqd_t mqd;
+    struct mq_attr attr;
+    void *buffer;
+    sigset_t blockMask, emptyMask;
+    struct sigaction sa;
 
 
 	if(argc < 2 )
@@ -207,115 +221,167 @@ int main(int argc,char **argv)
 	}
 
 
-  /* childPid = fork(); */
-  /* if (childPid == -1) */
-  /*     errExit("fork"); */
+  switch (fork()) {
+  case -1:
+    errExit("fork");
 
-  /* if (childPid == 0)              /1* Child calls func() and *1/ */
-  /*   printf("I am child"); */
-  /*     exit(1);            /1* uses return value as exit status *1/ */
+  case 0:     /* Child: change file offset and status flags */
+      printf("%s args[2]",argv[2]);
+      mqd = mq_open(argv[2], O_RDONLY | O_NONBLOCK);
+      if (mqd == (mqd_t) -1)
+          errExit("mq_open");
 
-  /* Parent waits for child to terminate. It can determine the
-     result of func() by inspecting 'status' */
+    /* Determine mq_msgsize for message queue, and allocate an input buffer
+       of that size */
 
-  /* if (wait(&status) == -1) */
-  /*     errExit("wait"); */
- 
-	inotifyFd = inotify_init();
-	if(inotifyFd == -1)
-	{
-		printf("初始化失败");
-	} 
- 
-	wd = inotify_add_watch(inotifyFd,argv[1],IN_CREATE);
-	if(wd == -1)
-	{
-		printf("error\n");
-	}
-	printf("Watching %s using wd %d\n",argv[1],wd);
- 
-	while(1)
-	{
-		numRead = read(inotifyFd,buf,BUF_LEN);
-		if(numRead == -1)
-		{
-			printf("read error\n");
-		}
-		printf("Read %ldbytes from inotify fd\n",(long)numRead);
-		for(p=buf;p < buf+numRead;)
-		{
-      count = getcount(ifiles, MAXLINE);
-			event = (struct inotify_event *)p;
-      path = event->name;
-      swp = substring(path,strlen(path)-3,3);
-      if(0==strcmp(substring(path,strlen(path)-3,3),"swp"))
+    if (mq_getattr(mqd, &attr) == -1)
+        errExit("mq_getattr");
+
+    buffer = malloc(attr.mq_msgsize);
+    if (buffer == NULL)
+        errExit("malloc");
+
+    /* Block the notification signal and establish a handler for it */
+
+    sigemptyset(&blockMask);
+    sigaddset(&blockMask, NOTIFY_SIG);
+    if (sigprocmask(SIG_BLOCK, &blockMask, NULL) == -1)
+        errExit("sigprocmask");
+
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sa.sa_handler = handler;
+    if (sigaction(NOTIFY_SIG, &sa, NULL) == -1)
+        errExit("sigaction");
+
+    /* Register for message notification via a signal */
+
+    sev.sigev_notify = SIGEV_SIGNAL;
+    sev.sigev_signo = NOTIFY_SIG;
+    if (mq_notify(mqd, &sev) == -1)
+        errExit("mq_notify");
+
+    sigemptyset(&emptyMask);
+
+    for (;;) {
+        sigsuspend(&emptyMask);         /* Wait for notification signal */
+
+        /* Reregister for message notification */
+
+        if (mq_notify(mqd, &sev) == -1)
+            errExit("mq_notify");
+
+        while ((numRead = mq_receive(mqd, buffer, attr.mq_msgsize, NULL)) >= 0)
+            printf("Read %ld bytes\n", (long) numRead);
+            /*FIXME: above: should use %zd here, and remove (long) cast */
+
+        if (errno != EAGAIN)            /* Unexpected error */
+            errExit("mq_receive");
+    }
+
+
+  default:    /* Parent: can see file changes made by child */
+      if (wait(NULL) == -1)
+          errExit("wait");                /* Wait for child exit */
+      printf("Child has exited\n");
+      inotifyFd = inotify_init();
+      if(inotifyFd == -1)
       {
-        fullpath = getFPath(path);
-        flag = isInIfiles(fullpath,ifiles,count);
-        /* get the end 8 character of fullpath. if it is "hideseek" ignore it*/ 
-        hideseek = substring(fullpath,strlen(fullpath)-8,8);
-        if(0==strcmp(hideseek,"hideseek"))
+        printf("初始化失败");
+      } 
+     
+      wd = inotify_add_watch(inotifyFd,argv[1],IN_CREATE);
+      if(wd == -1)
+      {
+        printf("error\n");
+      }
+      printf("Watching %s using wd %d\n",argv[1],wd);
+     
+      while(1)
+      {
+        numRead = read(inotifyFd,buf,BUF_LEN);
+        if(numRead == -1)
         {
-          p+=sizeof(struct inotify_event) + event->len;
-          continue;
+          printf("read error\n");
         }
-        if(strstr(fullpath,"NERD_tree"))
+        printf("Read %ldbytes from inotify fd\n",(long)numRead);
+        for(p=buf;p < buf+numRead;)
         {
-          p+=sizeof(struct inotify_event) + event->len;
-          continue;
-        }
-        if(!flag)
-        {
-          struct ifile *ifil =  createifile(fullpath);
-          if (count == MAXLINE)
+          count = getcount(ifiles, MAXLINE);
+          event = (struct inotify_event *)p;
+          path = event->name;
+          swp = substring(path,strlen(path)-3,3);
+          if(0==strcmp(substring(path,strlen(path)-3,3),"swp"))
           {
-            count =count-1;
-            free(ifiles[count]);
-          }else{
-            count = count;
-          }
-          MOVEBACK(i,count);
-          ifiles[0] = ifil;
-        }else{
-          for (int i = 0; i < count; ++i) 
-          {
-            if(!strcmp(ifiles[i]->path,fullpath))
+            fullpath = getFPath(path);
+            flag = isInIfiles(fullpath,ifiles,count);
+            /* get the end 8 character of fullpath. if it is "hideseek" ignore it*/ 
+            hideseek = substring(fullpath,strlen(fullpath)-8,8);
+            if(0==strcmp(hideseek,"hideseek"))
             {
-            struct ifile *tmp = ifiles[i]; 
-            for (int j = i;  j > 0; --j) {
-             ifiles[j] = ifiles[j-1]; 
+              p+=sizeof(struct inotify_event) + event->len;
+              continue;
             }
-            ifiles[0] = tmp;
-             break;
-            } 
+            if(strstr(fullpath,"NERD_tree"))
+            {
+              p+=sizeof(struct inotify_event) + event->len;
+              continue;
+            }
+            if(!flag)
+            {
+              struct ifile *ifil =  createifile(fullpath);
+              if (count == MAXLINE)
+              {
+                count =count-1;
+                free(ifiles[count]);
+              }else{
+                count = count;
+              }
+              MOVEBACK(i,count);
+              ifiles[0] = ifil;
+            }else{
+              for (int i = 0; i < count; ++i) 
+              {
+                if(!strcmp(ifiles[i]->path,fullpath))
+                {
+                struct ifile *tmp = ifiles[i]; 
+                for (int j = i;  j > 0; --j) {
+                 ifiles[j] = ifiles[j-1]; 
+                }
+                ifiles[0] = tmp;
+                 break;
+                } 
+              }
+            }
+          }
+            free(hideseek); hideseek=NULL;
+            free(fullpath); fullpath=NULL;
+            free(swp);      swp=NULL;
+          p+=sizeof(struct inotify_event) + event->len;
+        }
+
+        if ((fp = fopen (filepath, "w+")) == NULL)
+        {
+           perror ("File open error!\n");
+           exit (1);
+        }
+        for (int i = 0; i < MAXLINE; ++i) {
+          char destination[200]={""};
+          if(ifiles[i])
+          {
+            strcat(destination,ifiles[i]->path);
+            strcat(destination,"%");
+            strcat(destination,ifiles[i]->lct);
+            strcat(destination,"\n");
+            fputs(destination,fp);
+            printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct);
           }
         }
+        fclose(fp);
+        fp = NULL;
       }
-        free(hideseek); hideseek=NULL;
-        free(fullpath); fullpath=NULL;
-        free(swp);      swp=NULL;
-      p+=sizeof(struct inotify_event) + event->len;
-		}
+      return 0;
 
-    if ((fp = fopen (filepath, "w+")) == NULL)
-    {
-       perror ("File open error!\n");
-       exit (1);
-    }
-    for (int i = 0; i < MAXLINE; ++i) {
-      char destination[200]={""};
-      if(ifiles[i])
-      {
-        strcat(destination,ifiles[i]->path);
-        strcat(destination,"%");
-        strcat(destination,ifiles[i]->lct);
-        strcat(destination,"\n");
-        fputs(destination,fp);
-        printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct);
       }
-    }
-    fclose(fp);
-    fp = NULL;
-	}
-	return 0;
+   
 }
