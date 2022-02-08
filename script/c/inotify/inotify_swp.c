@@ -15,6 +15,8 @@
 #include<limits.h>
 #include<fcntl.h>
 #include <time.h>
+#include <sys/wait.h>
+#include "tlpi_hdr.h"
  
 struct ifile {
   char *path;  /* file path */
@@ -25,7 +27,24 @@ struct ifile {
 #define NAME_LEN 1000
 #define MAXLINE  500
 
+#define MOVEBACK(i, count) \
+do{\
+  for(int i = count; i > 0; --i) { \
+       ifiles[i] = ifiles[i-1]; \
+   }\
+}while(0)
+          
+
 int sortifiles(struct ifile *ifiles[],int count);
+char* substring(char* ch,int pos,int length); 
+struct ifile *lalloc(void);
+char * getFPath(char *path);
+void getCurrentTime(char *buffer);
+void setifiletime(struct ifile *ifil);
+int getcount(struct ifile *ifiles[], int count);
+int isInIfiles(char *path, struct ifile *ifiles[],int count);
+void readsourcefile(struct ifile *ifiles[], char *filepath);
+struct ifile *createifile(char *path);
 
 char* substring(char* ch,int pos,int length)  
 {  
@@ -126,9 +145,7 @@ int isInIfiles(char *path, struct ifile *ifiles[],int count)
 int sortifiles(struct ifile *ifiles[],int count)
 {
   count = count - 1;
-  for (int i = count; i > 0; --i) {
-    ifiles[i] = ifiles[i-1];
-  }
+  MOVEBACK(i, count);
   return 0;
 }
 void readsourcefile(struct ifile *ifiles[], char *filepath)
@@ -179,11 +196,30 @@ int main(int argc,char **argv)
   struct ifile *ifiles[MAXLINE]={NULL};
   readsourcefile(ifiles,filepath);
 
+  /* for child process */
+  /* pid_t childPid; */
+  /* int status; */
+
 
 	if(argc < 2 )
 	{
 		printf("error\n");
 	}
+
+
+  /* childPid = fork(); */
+  /* if (childPid == -1) */
+  /*     errExit("fork"); */
+
+  /* if (childPid == 0)              /1* Child calls func() and *1/ */
+  /*   printf("I am child"); */
+  /*     exit(1);            /1* uses return value as exit status *1/ */
+
+  /* Parent waits for child to terminate. It can determine the
+     result of func() by inspecting 'status' */
+
+  /* if (wait(&status) == -1) */
+  /*     errExit("wait"); */
  
 	inotifyFd = inotify_init();
 	if(inotifyFd == -1)
@@ -196,10 +232,7 @@ int main(int argc,char **argv)
 	{
 		printf("error\n");
 	}
- 
 	printf("Watching %s using wd %d\n",argv[1],wd);
- 
-	
  
 	while(1)
 	{
@@ -221,35 +254,40 @@ int main(int argc,char **argv)
         flag = isInIfiles(fullpath,ifiles,count);
         /* get the end 8 character of fullpath. if it is "hideseek" ignore it*/ 
         hideseek = substring(fullpath,strlen(fullpath)-8,8);
-        if(0!=strcmp(hideseek,"hideseek"))
+        if(0==strcmp(hideseek,"hideseek"))
         {
-          if(!flag)
+          p+=sizeof(struct inotify_event) + event->len;
+          continue;
+        }
+        if(strstr(fullpath,"NERD_tree"))
+        {
+          p+=sizeof(struct inotify_event) + event->len;
+          continue;
+        }
+        if(!flag)
+        {
+          struct ifile *ifil =  createifile(fullpath);
+          if (count == MAXLINE)
           {
-            struct ifile *ifil =  createifile(fullpath);
-            if (count == MAXLINE)
-            {
-              count =count-1;
-              free(ifiles[count]);
-            }else{
-              count = count;
-            }
-            for (int i = count; i > 0; --i) {
-             ifiles[i] = ifiles[i-1]; 
-            }
-            ifiles[0] = ifil;
+            count =count-1;
+            free(ifiles[count]);
           }else{
-            for (int i = 0; i < count; ++i) 
+            count = count;
+          }
+          MOVEBACK(i,count);
+          ifiles[0] = ifil;
+        }else{
+          for (int i = 0; i < count; ++i) 
+          {
+            if(!strcmp(ifiles[i]->path,fullpath))
             {
-              if(!strcmp(ifiles[i]->path,fullpath))
-              {
-              struct ifile *tmp = ifiles[i]; 
-              for (int j = i;  j > 0; --j) {
-               ifiles[j] = ifiles[j-1]; 
-              }
-              ifiles[0] = tmp;
-               break;
-              } 
+            struct ifile *tmp = ifiles[i]; 
+            for (int j = i;  j > 0; --j) {
+             ifiles[j] = ifiles[j-1]; 
             }
+            ifiles[0] = tmp;
+             break;
+            } 
           }
         }
       }
