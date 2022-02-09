@@ -281,9 +281,6 @@ int main(int argc,char **argv)
 
 
   default:    /* Parent: can see file changes made by child */
-      if (wait(NULL) == -1)
-          errExit("wait");                /* Wait for child exit */
-      printf("Child has exited\n");
       inotifyFd = inotify_init();
       if(inotifyFd == -1)
       {
@@ -380,6 +377,9 @@ int main(int argc,char **argv)
         fclose(fp);
         fp = NULL;
       }
+      if (wait(NULL) == -1)
+          errExit("wait");                /* Wait for child exit */
+      printf("Child has exited\n");
       return 0;
 
       }
