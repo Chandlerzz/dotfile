@@ -10,17 +10,16 @@
 #include<stdlib.h>
 #include<errno.h>
 #include<string.h>
-#include<sys/types.h>
-#include<sys/inotify.h>
 #include<limits.h>
-#include<fcntl.h>
 #include <time.h>
 #include <sys/wait.h>
-#include "tlpi_hdr.h"
 #include <signal.h>
 #include <mqueue.h>
 #include <fcntl.h>              /* For definition of O_NONBLOCK */
-#include <errno.h>
+#include <sys/mman.h>
+#include<sys/types.h>
+#include<sys/inotify.h>
+#include "tlpi_hdr.h"
 
 struct ifile {
   char *path;  /* file path */
@@ -31,6 +30,8 @@ struct ifile {
 #define NAME_LEN 1000
 #define MAXLINE  500
 #define NOTIFY_SIG SIGUSR1
+#define SIZE     500
+#define NAME     "/shmtest"
 
 #define MOVEBACK(i, count) \
 do{\
@@ -50,7 +51,70 @@ int getcount(struct ifile *ifiles[], int count);
 int isInIfiles(char *path, struct ifile *ifiles[],int count);
 void readsourcefile(struct ifile *ifiles[], char *filepath);
 struct ifile *createifile(char *path);
+void readshm(long shm);
+void writeshm(int line);
 
+
+void writeshm(int line){
+  char shm[SIZE];
+  memset(shm, '\0', SIZE);
+  int shm_fd;
+  char *addr;
+  shm_fd=shm_open(NAME,O_CREAT|O_EXCL|O_RDWR,0666);
+  if (shm_fd == -1)
+  {
+    if (errno == EEXIST)
+    {
+      shm_fd=shm_open(NAME, O_RDWR, 0666);
+    }else{
+      exit(EXIT_FAILURE);
+    }
+  }
+  ftruncate(shm_fd,SIZE);
+  if (ftruncate(shm_fd, SIZE) == -1)           /* Resize object to hold string */
+      errExit("ftruncate");
+  printf("Resized to %ld bytes\n", (long) SIZE);
+  addr = mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+  if (addr == MAP_FAILED)
+      errExit("mmap");
+
+  if (close(shm_fd) == -1)                    /* 'fd' is no longer needed */
+      errExit("close");
+
+  printf("copying %ld bytes\n", (long) SIZE);
+  shm[line] = 100;
+  memcpy(addr, shm, SIZE);             /* Copy string to shared memory */
+}
+
+void readshm(long shm)
+{
+  int shm_fd;
+  char *addr;
+  shm_fd=shm_open(NAME,O_CREAT|O_EXCL|O_RDWR,0666);
+  if (shm_fd == -1)
+  {
+    if (errno == EEXIST)
+    {
+      shm_fd=shm_open(NAME, O_RDWR, 0666);
+    }else{
+      exit(EXIT_FAILURE);
+    }
+  }
+  ftruncate(shm_fd,SIZE);
+  if (ftruncate(shm_fd, SIZE) == -1)           /* Resize object to hold string */
+      errExit("ftruncate");
+  printf("Resized to %ld bytes\n", (long) SIZE);
+  addr = mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+  if (addr == MAP_FAILED)
+      errExit("mmap");
+
+  if (close(shm_fd) == -1)                    /* 'fd' is no longer needed */
+      errExit("close");
+
+  
+  printf("copying %ld bytes\n", (long) SIZE);
+  memcpy( shm, addr, SIZE);             /* Copy string to shared memory */
+}
 static void handler(int sig)
 {
     /* Just interrupt sigsuspend() */
@@ -189,6 +253,7 @@ void readsourcefile(struct ifile *ifiles[], char *filepath)
 
 int main(int argc,char **argv)
 {
+  long shm[SIZE]={0};
   int count, flag = 0;
   char *filepath=malloc(strlen(getenv("HOME"))+strlen("/.lrc")+1);
   strcat(filepath,getenv("HOME"));
@@ -272,8 +337,13 @@ int main(int argc,char **argv)
             errExit("mq_notify");
 
         while ((numRead = mq_receive(mqd, buffer, attr.mq_msgsize, NULL)) >= 0)
-            printf("Read %ld bytes\n", (long) numRead);
-            /*FIXME: above: should use %zd here, and remove (long) cast */
+        {
+          /* printf("Read %ld bytes\n", (long) numRead); */
+          int line = atoi(buffer);
+          printf("line %d\n",line);
+          writeshm(line);
+          /*FIXME: above: should use %zd here, and remove (long) cast */
+        }
 
         if (errno != EAGAIN)            /* Unexpected error */
             errExit("mq_receive");
@@ -281,6 +351,7 @@ int main(int argc,char **argv)
 
 
   default:    /* Parent: can see file changes made by child */
+    /* TODO  here need read shm*/
       inotifyFd = inotify_init();
       if(inotifyFd == -1)
       {
@@ -296,6 +367,11 @@ int main(int argc,char **argv)
      
       while(1)
       {
+        readshm(shm);
+        for (int i = 0; i < SIZE; ++i) {
+         printf("%ld\n",shm[i]);
+        }
+        shm_unlink(NAME);
         numRead = read(inotifyFd,buf,BUF_LEN);
         if(numRead == -1)
         {
@@ -377,9 +453,6 @@ int main(int argc,char **argv)
         fclose(fp);
         fp = NULL;
       }
-      if (wait(NULL) == -1)
-          errExit("wait");                /* Wait for child exit */
-      printf("Child has exited\n");
       return 0;
 
       }
