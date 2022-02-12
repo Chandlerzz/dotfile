@@ -10,17 +10,16 @@
 #include<stdlib.h>
 #include<errno.h>
 #include<string.h>
-#include<sys/types.h>
-#include<sys/inotify.h>
 #include<limits.h>
-#include<fcntl.h>
 #include <time.h>
 #include <sys/wait.h>
-#include "tlpi_hdr.h"
 #include <signal.h>
 #include <mqueue.h>
 #include <fcntl.h>              /* For definition of O_NONBLOCK */
-#include <errno.h>
+#include <sys/mman.h>
+#include<sys/types.h>
+#include<sys/inotify.h>
+#include "tlpi_hdr.h"
 
 struct ifile {
   char *path;  /* file path */
@@ -31,6 +30,10 @@ struct ifile {
 #define NAME_LEN 1000
 #define MAXLINE  500
 #define NOTIFY_SIG SIGUSR1
+#define NOTIFY_SIG_SHM SIGUSR2
+#define SIZE     500
+#define NAME     "/shmtest"
+
 
 #define MOVEBACK(i, count) \
 do{\
@@ -39,6 +42,7 @@ do{\
    }\
 }while(0)
           
+static struct ifile *ifiles[MAXLINE]={NULL};
 
 int sortifiles(struct ifile *ifiles[],int count);
 char* substring(char* ch,int pos,int length); 
@@ -50,10 +54,123 @@ int getcount(struct ifile *ifiles[], int count);
 int isInIfiles(char *path, struct ifile *ifiles[],int count);
 void readsourcefile(struct ifile *ifiles[], char *filepath);
 struct ifile *createifile(char *path);
+int readshm(void);
+void writeshm(int line);
 
+
+void writeshm(int line){
+  int shm_fd;
+  char *addr;
+  shm_fd=shm_open(NAME,O_CREAT|O_EXCL|O_RDWR,0666);
+  if (shm_fd == -1)
+  {
+    if (errno == EEXIST)
+    {
+      shm_fd=shm_open(NAME, O_RDWR, 0666);
+    }else{
+      exit(EXIT_FAILURE);
+    }
+  }
+  ftruncate(shm_fd,SIZE);
+  if (ftruncate(shm_fd, SIZE) == -1)           /* Resize object to hold string */
+      errExit("ftruncate");
+  /* printf("Resized to %ld bytes\n", (long) SIZE); */
+  addr = mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+  if (addr == MAP_FAILED)
+      errExit("mmap");
+
+  if (close(shm_fd) == -1)                    /* 'fd' is no longer needed */
+      errExit("close");
+
+  /* printf("copying %ld bytes\n", (long) SIZE); */
+  memcpy(addr, &line, SIZE);             /* Copy string to shared memory */
+  printf("%d/n",getpid());
+  system("touch /tmp/swp/123456.swp");
+  system("rm /tmp/swp/123456.swp");
+  kill(getppid(),SIGUSR2);
+}
+
+int readshm()
+{
+  int shm;
+  int shm_fd;
+  char *addr;
+  shm_fd=shm_open(NAME,O_CREAT|O_EXCL|O_RDWR,0666);
+  if (shm_fd == -1)
+  {
+    if (errno == EEXIST)
+    {
+      shm_fd=shm_open(NAME, O_RDWR, 0666);
+    }else{
+      exit(EXIT_FAILURE);
+    }
+  }
+  ftruncate(shm_fd,SIZE);
+  if (ftruncate(shm_fd, SIZE) == -1)           /* Resize object to hold string */
+      errExit("ftruncate");
+  printf("Resized to %ld bytes\n", (long) SIZE);
+  addr = mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+  if (addr == MAP_FAILED)
+      errExit("mmap");
+
+  if (close(shm_fd) == -1)                    /* 'fd' is no longer needed */
+      errExit("close");
+
+  
+  printf("copying %ld bytes\n", (long) SIZE);
+  /* memcpy( &shm, addr, SIZE);             /1* Copy string to shared memory *1/ */
+  shm = (int)*addr;
+  return shm;
+}
+static char *getFilePath(char *filepath)
+{
+  return filepath;
+}
 static void handler(int sig)
 {
     /* Just interrupt sigsuspend() */
+}
+
+static void handler_shm(int sig)
+{
+  int shm = 0;
+  int startline = 0;
+  int count = getcount(ifiles, MAXLINE);
+  FILE *fp = NULL;
+  shm = readshm();
+  if (shm) {
+   startline = shm-1;
+   free(ifiles[startline]);
+   while(startline < count)
+   {
+     ifiles[startline] = ifiles[startline+1];
+     startline += 1;
+   }
+  }
+  shm_unlink(NAME);
+  /* char *filepath=malloc(strlen(getenv("HOME"))+strlen("/.lrc")+1); */
+  char *filepath = "/home/chandlerxu/.lrc";
+  /* strcat(filepath,getenv("HOME")); */
+  /* strcat(filepath,"/.lrc"); */
+  if ((fp = fopen (filepath, "w+")) == NULL)
+  {
+     perror ("File open error!\n");
+     exit (1);
+  }
+  for (int i = 0; i < MAXLINE; ++i) {
+    char destination[200]={""};
+    if(ifiles[i])
+    {
+      strcat(destination,ifiles[i]->path);
+      strcat(destination,"%");
+      strcat(destination,ifiles[i]->lct);
+      strcat(destination,"\n");
+      fputs(destination,fp);
+      /* printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct); */
+    }
+  }
+  fclose(fp);
+  fp = NULL;
 }
 
 char* substring(char* ch,int pos,int length)  
@@ -203,12 +320,11 @@ int main(int argc,char **argv)
   char *hideseek;
   char *swp;
 	struct inotify_event *event;
-  struct ifile *ifiles[MAXLINE]={NULL};
   readsourcefile(ifiles,filepath);
 
     /* for child process */
-    struct sigevent sev;
     mqd_t mqd;
+    struct sigevent sev;
     struct mq_attr attr;
     void *buffer;
     sigset_t blockMask, emptyMask;
@@ -272,8 +388,13 @@ int main(int argc,char **argv)
             errExit("mq_notify");
 
         while ((numRead = mq_receive(mqd, buffer, attr.mq_msgsize, NULL)) >= 0)
-            printf("Read %ld bytes\n", (long) numRead);
-            /*FIXME: above: should use %zd here, and remove (long) cast */
+        {
+          /* printf("Read %ld bytes\n", (long) numRead); */
+          int line = atoi(buffer);
+          printf("line %d\n",line);
+          writeshm(line);
+          /*FIXME: above: should use %zd here, and remove (long) cast */
+        }
 
         if (errno != EAGAIN)            /* Unexpected error */
             errExit("mq_receive");
@@ -281,6 +402,11 @@ int main(int argc,char **argv)
 
 
   default:    /* Parent: can see file changes made by child */
+      sigemptyset(&sa.sa_mask);
+      sa.sa_flags = 0;
+      sa.sa_handler = handler_shm;
+      if (sigaction(NOTIFY_SIG_SHM, &sa, NULL) == -1)
+          errExit("sigaction");
       inotifyFd = inotify_init();
       if(inotifyFd == -1)
       {
@@ -296,6 +422,7 @@ int main(int argc,char **argv)
      
       while(1)
       {
+        /* sigaction for accept a signal to write to sharememory */
         numRead = read(inotifyFd,buf,BUF_LEN);
         if(numRead == -1)
         {
@@ -371,7 +498,7 @@ int main(int argc,char **argv)
             strcat(destination,ifiles[i]->lct);
             strcat(destination,"\n");
             fputs(destination,fp);
-            printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct);
+            /* printf("comming %s %s \n",ifiles[i]->path,ifiles[i]->lct); */
           }
         }
         fclose(fp);
@@ -381,7 +508,5 @@ int main(int argc,char **argv)
           errExit("wait");                /* Wait for child exit */
       printf("Child has exited\n");
       return 0;
-
       }
-   
 }
