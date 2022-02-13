@@ -33,6 +33,7 @@ struct ifile {
 #define NOTIFY_SIG_SHM SIGUSR2
 #define SIZE           500
 #define NAME           "/shmtest"
+#define MQ_NAME        "/mq"
 
 
 #define MOVEBACK(i, count) \
@@ -62,7 +63,7 @@ void getCurrentTime(char *buffer);
 void setifiletime(struct ifile *ifil);
 int getcount(struct ifile *ifiles[], int count);
 int isInIfiles(char *path, struct ifile *ifiles[],int count);
-void readsourcefile(struct ifile *ifiles[], char *filepath);
+void readsourcefile(struct ifile *ifiles[]);
 struct ifile *createifile(char *path);
 int readshm(void);
 void writeshm(int line);
@@ -285,7 +286,7 @@ int sortifiles(struct ifile *ifiles[],int count)
   MOVEBACK(i, count);
   return 0;
 }
-void readsourcefile(struct ifile *ifiles[], char *filepath)
+void readsourcefile(struct ifile *ifiles[])
 {
 	char *p;
   FILE *fp;
@@ -325,9 +326,12 @@ int main(int argc,char **argv)
   char *fullpath;
   char *hideseek;
   char *swp;
+  char mode;
+  int opt;
+  char *message;
 	struct inotify_event *event;
   getfilepath();
-  readsourcefile(ifiles,filepath);
+  readsourcefile(ifiles);
 
   /* for child process */
   mqd_t mqd;
@@ -343,18 +347,46 @@ int main(int argc,char **argv)
 		printf("error\n");
 	}
 
+  while (( opt = getopt(argc, argv, "s:")) != -1) {
+      switch (opt) {
+      case 's':   printf("here"); mode ='s';message = optarg; break;
+      default:    errExit("wrong parameter");
+      }
+  }
+
+  /* if (optind + 1 >= argc) */
+  /*     errExit("wrong parameter"); */
+  if (mode == 's')
+  {
+    if ((mqd = mq_open(MQ_NAME, O_RDWR | O_CREAT | O_EXCL | O_NONBLOCK, 0660, &attr)) > 0) {
+      printf("* Create MQ\n");
+    } else {
+        if (errno == EEXIST)
+        {
+          mqd = mq_open(MQ_NAME, O_RDWR | O_NONBLOCK);
+        }else{
+          exit(EXIT_FAILURE);
+        }
+      }
+
+
+    if (mq_send(mqd, message, strlen(message), 1) == -1)
+        errExit("mq_send");
+    exit(EXIT_SUCCESS);
+    return 0;
+  }
 
   switch (fork()) {
   case -1:
     errExit("fork");
 
   case 0:     /* Child: change file offset and status flags */
-	if ((mqd = mq_open(argv[2], O_RDWR | O_CREAT | O_EXCL | O_NONBLOCK, 0660, &attr)) > 0) {
+	if ((mqd = mq_open(MQ_NAME, O_RDWR | O_CREAT | O_EXCL | O_NONBLOCK, 0660, &attr)) > 0) {
 		printf("* Create MQ\n");
 	} else {
       if (errno == EEXIST)
       {
-        mqd = mq_open(argv[2], O_RDONLY | O_NONBLOCK);
+        mqd = mq_open(MQ_NAME, O_RDONLY | O_NONBLOCK);
       }else{
         exit(EXIT_FAILURE);
       }
