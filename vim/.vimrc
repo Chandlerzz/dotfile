@@ -852,8 +852,8 @@ endfunction
 function! ZFunc(arg)
   let l:list = s:getzlua()
   let filteredpath = filter(l:list,'v:val =~ a:arg')
-  if len(l:list) >= 1
-    execute "tcd " .l:list[0]
+  if len(filteredpath) >= 1
+    execute "tcd " .filteredpath[0]
     let pwd = getcwd()
     echom "".pwd
   else
@@ -864,9 +864,9 @@ endfunction
 function! TZFunc(arg)
   let l:list = s:getzlua()
   let filteredpath = filter(l:list,'v:val =~ a:arg')
-  if len(l:list) >= 1
+  if len(filteredpath) >= 1
     execute "tabnew"
-    execute "tcd " .l:list[0]
+    execute "tcd " .filteredpat[0]
     let pwd = getcwd()
     echom "".pwd
   else
@@ -874,22 +874,23 @@ function! TZFunc(arg)
   endif
 endfunction
 
-function! LZFunc(arg)
+function! LZFunc(...)
   let l:list = s:getzlua()
-  let filteredpath = filter(l:list,'v:val =~ a:arg')
-  if len(l:list) >= 1
-    execute "vertical botright 80new"
-    execute "tcd " .l:list[0]
-    let pwd = getcwd()
-    echom "".pwd
-  else
-    echom "the path does not inclued in zlua"
-  endif
+  for i in range(0,len(a:000)-1) 
+    let l:list = filter(l:list,'v:val =~ a:000[i]')
+    if (len(l:list) == 0) 
+      echom "the path does not inclued in zlua"
+      return
+    endif
+  endfor
+  execute "vertical botright 80new"
+  execute "tcd " .l:list[0]
+  echom "".getcwd()
 endfunction
 
 command! -nargs=1 -complete=customlist,ZComp Zt call TZFunc(<f-args>)
 command! -nargs=1 -complete=customlist,ZComp Z call ZFunc(<f-args>)
-command! -nargs=1 -complete=customlist,ZComp Zl call LZFunc(<f-args>)
+command! -nargs=* -complete=customlist,ZComp Zl call LZFunc(<f-args>)
 nnoremap <leader>zt :<C-U><C-R>=printf("Zt ")<CR>
 nnoremap <leader>zz :<C-U><C-R>=printf("Z ")<CR>
 nnoremap <leader>zl :<C-U><C-R>=printf("Zl ")<CR>
