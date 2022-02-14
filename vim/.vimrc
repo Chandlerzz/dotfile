@@ -838,6 +838,7 @@ function s:getzlua()
   let list = l:list
   return list
 endfunction
+
 function! ZComp(ArgLead, CmdLine, CursorPos)
   let l:list = systemlist("cat ~/.zlua")
   let l:home = $HOME
@@ -849,51 +850,56 @@ function! ZComp(ArgLead, CmdLine, CursorPos)
   " return filter(systemlist("cat ~/.zlua | awk -F \"|\" '{print $1;}'"), 'v:val =~ a:ArgLead')
 endfunction
 
-function! ZFunc(arg)
-  let l:list = s:getzlua()
-  let filteredpath = filter(l:list,'v:val =~ a:arg')
-  if len(filteredpath) >= 1
-    execute "tcd " .filteredpath[0]
-    let pwd = getcwd()
-    echom "".pwd
-  else
-    echom "the path does not inclued in zlua"
-  endif
-endfunction
-
-function! TZFunc(arg)
-  let l:list = s:getzlua()
-  let filteredpath = filter(l:list,'v:val =~ a:arg')
-  if len(filteredpath) >= 1
+function s:dozFunc(mode,path)
+  if(a:mode == "tab")
     execute "tabnew"
-    execute "tcd " .filteredpat[0]
-    let pwd = getcwd()
-    echom "".pwd
+    execute "tcd ".a:ath
+  elseif(a:mode == "win")
+    execute "vertical botright 80new"
+    execute "lcd ".a:path
   else
-    echom "the path does not inclued in zlua"
+    execute "tcd ".a:path
   endif
-endfunction
-
-function! LZFunc(...)
-  let l:list = s:getzlua()
-  for i in range(0,len(a:000)-1) 
-    let l:list = filter(l:list,'v:val =~ a:000[i]')
-    if (len(l:list) == 0) 
-      echom "the path does not inclued in zlua"
-      return
-    endif
-  endfor
-  execute "vertical botright 80new"
-  execute "tcd " .l:list[0]
   echom "".getcwd()
 endfunction
 
-command! -nargs=1 -complete=customlist,ZComp Zt call TZFunc(<f-args>)
-command! -nargs=1 -complete=customlist,ZComp Z call ZFunc(<f-args>)
-command! -nargs=* -complete=customlist,ZComp Zl call LZFunc(<f-args>)
-nnoremap <leader>zt :<C-U><C-R>=printf("Zt ")<CR>
-nnoremap <leader>zz :<C-U><C-R>=printf("Z ")<CR>
-nnoremap <leader>zl :<C-U><C-R>=printf("Zl ")<CR>
+function! ZFunc(mode,...)
+ let l:list = s:getzlua()
+  let l:index = []
+  if(len(a:000) == 1)
+    if(match(a:000[0],'[\x7E]')>= 0)
+      call s:dozFunc(a:mode,a:000[0])
+      return
+    endif
+  endif
+  for i in range(0,len(l:list)-1) 
+    let flag = 0
+    let path = l:list[i]
+    for j in range(0,len(a:000)-1)
+      let val = a:000[j]
+      if(match(path,val) >= 0)
+        let path = path[match(path,val)+len(val):len(path)-1]
+        let flag = 1
+      else
+        let flag = 0
+        break
+      endif
+    endfor
+    if(flag)
+      call add(l:index,i)
+    endif
+  endfor
+  if(len(l:index)>0)
+    call s:dozFunc(a:mode,l:list[l:index[0]])
+  else
+    echom "no match path"
+  endif
+endfunction
+
+command! -nargs=* -complete=customlist,ZComp Z call ZFunc(<f-args>)
+nnoremap <leader>zt :<C-U><C-R>=printf("Z tab ")<CR>
+nnoremap <leader>zl :<C-U><C-R>=printf("Z win ")<CR>
+nnoremap <leader>zz :<C-U><C-R>=printf("Z self ")<CR>
 "}}}
 
 " ============================================================================
