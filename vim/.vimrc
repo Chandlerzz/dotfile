@@ -828,6 +828,16 @@ xnoremap <leader>g "gy:call <SID>goog(@g)<cr>gv
 " ============================================================================
 " Z && TZ {{{
 " ============================================================================
+function s:getzlua() 
+  let l:list = systemlist("cat ~/.zlua")
+  let l:home = $HOME
+  for i in range(len(l:list))
+    let l:list[i] = split(l:list[i],"|")[0]
+    let l:list[i] = substitute(l:list[i],l:home,"~","g")
+  endfor
+  let list = l:list
+  return list
+endfunction
 function! ZComp(ArgLead, CmdLine, CursorPos)
   let l:list = systemlist("cat ~/.zlua")
   let l:home = $HOME
@@ -840,17 +850,41 @@ function! ZComp(ArgLead, CmdLine, CursorPos)
 endfunction
 
 function! ZFunc(arg)
-  execute "tcd " . a:arg
+  let l:list = s:getzlua()
+  let filteredpath = filter(l:list,'v:val =~ a:arg')
+  if len(l:list) >= 1
+    execute "tcd " .l:list[0]
+    let pwd = getcwd()
+    echom "".pwd
+  else
+    echom "the path does not inclued in zlua"
+  endif
 endfunction
 
 function! TZFunc(arg)
-  execute "tabnew"
-  execute "tcd " . a:arg
+  let l:list = s:getzlua()
+  let filteredpath = filter(l:list,'v:val =~ a:arg')
+  if len(l:list) >= 1
+    execute "tabnew"
+    execute "tcd " .l:list[0]
+    let pwd = getcwd()
+    echom "".pwd
+  else
+    echom "the path does not inclued in zlua"
+  endif
 endfunction
 
 function! LZFunc(arg)
-  execute "vertical botright 80new"
-  execute "lcd " . a:arg
+  let l:list = s:getzlua()
+  let filteredpath = filter(l:list,'v:val =~ a:arg')
+  if len(l:list) >= 1
+    execute "vertical botright 80new"
+    execute "tcd " .l:list[0]
+    let pwd = getcwd()
+    echom "".pwd
+  else
+    echom "the path does not inclued in zlua"
+  endif
 endfunction
 
 command! -nargs=1 -complete=customlist,ZComp Zt call TZFunc(<f-args>)
