@@ -853,7 +853,7 @@ endfunction
 function s:dozFunc(mode,path)
   if(a:mode == "tab")
     execute "tabnew"
-    execute "tcd ".a:ath
+    execute "tcd ".a:path
   elseif(a:mode == "win")
     execute "vertical botright 80new"
     execute "lcd ".a:path
