@@ -1025,11 +1025,11 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " }}}
-" " nnoremap ZZ :execute "silent! wqa"<cr> 
-" augroup autosave
-"     au!
-"      autocmd ExitPre * silent! wa
-" augroup END
+" nnoremap ZZ :execute "silent! wqa"<cr> 
+augroup autosave
+    au!
+     autocmd ExitPre * silent! wa
+augroup END
 
 "vim-easy-align
 xmap ga <Plug>(EasyAlign)
