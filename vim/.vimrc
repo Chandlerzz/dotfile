@@ -28,6 +28,7 @@ Plug 'Chandlerzz/vim-hideseek'
 Plug 'Chandlerzz/vimTmysql'
 Plug 'Chandlerzz/vim-diary'
 Plug 'Chandlerzz/z.vim'
+Plug 'Chandlerzz/vim-vue'
 "junegunn
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-github-dashboard'
@@ -78,7 +79,6 @@ Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'chemzqm/wxapp.vim'
-Plug 'Chandlerzz/vim-vue'
 " Browsing
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   augroup nerd_loader
@@ -923,6 +923,7 @@ noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
 noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
 noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <leader>fz :<C-U><C-R>=printf("Leaderf z %s", "")<CR><CR>
 
 noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
@@ -1025,11 +1026,11 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " }}}
-" " nnoremap ZZ :execute "silent! wqa"<cr> 
-" augroup autosave
-"     au!
-"      autocmd ExitPre * silent! wa
-" augroup END
+" nnoremap ZZ :execute "silent! wqa"<cr> 
+augroup autosave
+    au!
+     autocmd ExitPre * silent! wa
+augroup END
 
 "vim-easy-align
 xmap ga <Plug>(EasyAlign)
