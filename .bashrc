@@ -214,53 +214,53 @@ chrome(){
 # cp with fzf
 # --------------------------------------------------------------------
 
-if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
-	# To redraw line after fzf closes (printf '\e[5n')
-	bind '"\e[0n": redraw-current-line'
-	_zcp_fzf_complete() {
-    local word=${COMP_WORDS[COMP_CWORD]} 
-    if [ -z $word ]; then
-      # word='|'
-      return
-    fi
-    local wordlist=($(cat ~/.zlua | grep "$word" | awk -F '|' '{print $1;}' | sed "s|$HOME|\~|"))
-    if [ "${#wordlist[@]}" == "0" ];then 
-      echo "useless" >/dev/null 2>&1
-    else
-      local selected=$(cat ~/.zlua | grep $word |awk -F '|' '{print $1;}'| sed "s|$HOME|\~|" | fzf --height=35%)
-      if [ -n "$selected" ]; then
-        COMPREPLY=( "$selected" )
-      fi
-		printf '\e[5n'
-    fi
-	}
-	complete -f -o bashdefault -o nospace -F _zcp_fzf_complete cp
-fi
+# if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
+# 	# To redraw line after fzf closes (printf '\e[5n')
+# 	bind '"\e[0n": redraw-current-line'
+# 	_zcp_fzf_complete() {
+#     local word=${COMP_WORDS[COMP_CWORD]} 
+#     if [ -z $word ]; then
+#       # word='|'
+#       return
+#     fi
+#     local wordlist=($(cat ~/.zlua | grep "$word" | awk -F '|' '{print $1;}' | sed "s|$HOME|\~|"))
+#     if [ "${#wordlist[@]}" == "0" ];then 
+#       echo "useless" >/dev/null 2>&1
+#     else
+#       local selected=$(cat ~/.zlua | grep $word |awk -F '|' '{print $1;}'| sed "s|$HOME|\~|" | fzf --height=35%)
+#       if [ -n "$selected" ]; then
+#         COMPREPLY=( "$selected" )
+#       fi
+# 		printf '\e[5n'
+#     fi
+# 	}
+# 	complete -f -o bashdefault -o nospace -F _zcp_fzf_complete cp
+# fi
 # ls with fzf
 # --------------------------------------------------------------------
 
-if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
-	# To redraw line after fzf closes (printf '\e[5n')
-	bind '"\e[0n": redraw-current-line'
-	_ls_fzf_complete() {
-    local word=${COMP_WORDS[COMP_CWORD]} 
-    if [ -z $word ]; then
-      # word='|'
-      return
-    fi
-    local wordlist=($(cat ~/.zlua | grep "$word" | awk -F '|' '{print $1;}' | sed "s|$HOME|\~|"))
-    if [ "${#wordlist[@]}" == "0" ];then 
-      echo "useless" >/dev/null 2>&1
-    else
-      local selected=$(cat ~/.zlua | grep $word |awk -F '|' '{print $1;}'| sed "s|$HOME|\~|" | fzf --height=35%)
-      if [ -n "$selected" ]; then
-        COMPREPLY=( "$selected" )
-      fi
-		printf '\e[5n'
-    fi
-	}
-	complete -d -o bashdefault -o nospace -F _ls_fzf_complete ls
-fi
+# if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null 2>&1; then
+# 	# To redraw line after fzf closes (printf '\e[5n')
+# 	bind '"\e[0n": redraw-current-line'
+# 	_ls_fzf_complete() {
+#     local word=${COMP_WORDS[COMP_CWORD]} 
+#     if [ -z $word ]; then
+#       # word='|'
+#       return
+#     fi
+#     local wordlist=($(cat ~/.zlua | grep "$word" | awk -F '|' '{print $1;}' | sed "s|$HOME|\~|"))
+#     if [ "${#wordlist[@]}" == "0" ];then 
+#       echo "useless" >/dev/null 2>&1
+#     else
+#       local selected=$(cat ~/.zlua | grep $word |awk -F '|' '{print $1;}'| sed "s|$HOME|\~|" | fzf --height=35%)
+#       if [ -n "$selected" ]; then
+#         COMPREPLY=( "$selected" )
+#       fi
+# 		printf '\e[5n'
+#     fi
+# 	}
+# 	complete -d -o bashdefault -o nospace -F _ls_fzf_complete ls
+# fi
 # windows exe reference
 # --------------------------------------------------------------------
 # 'uname -a'   check witch linux it is.  
