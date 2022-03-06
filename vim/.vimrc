@@ -28,6 +28,7 @@ Plug 'Chandlerzz/vim-hideseek'
 Plug 'Chandlerzz/vimTmysql'
 Plug 'Chandlerzz/vim-diary'
 Plug 'Chandlerzz/z.vim'
+Plug 'Chandlerzz/vim-vue'
 "junegunn
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-github-dashboard'
@@ -78,7 +79,6 @@ Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'chemzqm/wxapp.vim'
-Plug 'Chandlerzz/vim-vue'
 " Browsing
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
   augroup nerd_loader
