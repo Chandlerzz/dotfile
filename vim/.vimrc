@@ -1037,32 +1037,12 @@ augroup END
 "vim-easy-align
 xmap ga <Plug>(EasyAlign)
 
-function! Inputtarget()
-  let bufnr = bufnr(2)
-  let c = s:getchar()
-    call s:setcurrbufhl(bufnr,c)
-  while c =~ '^\d\+$'
-    let c .= s:getchar()
-  endwhile
-  if c == " "
-    let c .= s:getchar()
-  endif
-  if c =~ "\<Esc>\|\<C-C>\|\0"
-    return ""
-  else
-    return c
-  endif
-endfunction
-function! s:getchar()
-  let c = getchar()
-  if c =~ '^\d\+$'
-    let c = nr2char(c)
-  endif
-  return c
-endfunction
-function s:setcurrbufhl(bufnr, line)
-  call setbufvar(a:bufnr, "&syntax","off")
-  call setbufvar(a:bufnr, "&syntax","on")
-  execute 'windo syntax region hideseekSelected start=/\%'.(a:line+1).'l\%5c/ end=/$/'
-  redraw
-endfunction
+" DIFF {{{
+" ============================================================================
+if &diff
+    map <leader>1 :diffget LOCAL<CR>
+    map <leader>2 :diffget BASE<CR>
+    map <leader>3 :diffget REMOTE<CR>
+endif
+" ============================================================================
+"}}}
