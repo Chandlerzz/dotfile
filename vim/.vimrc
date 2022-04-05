@@ -205,9 +205,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-rails', { 'for': [] }
 Plug 'derekwyatt/vim-scala'
 Plug 'honza/dockerfile.vim'
-Plug 'solarnz/thrift.vim'
 Plug 'dag/vim-fish'
-" Plug 'chrisbra/unicode.vim', { 'for': 'journal' }
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'ferrine/md-img-paste.vim'
   autocmd FileType markdown nnoremap <buffer> <silent> <leader>v :call mdip#MarkdownClipboardImage()<CR>
@@ -1046,3 +1044,5 @@ if &diff
 endif
 " ============================================================================
 "}}}
+"hideseek
+let g:hs_mru_source_file=expand('~/.lrc')
