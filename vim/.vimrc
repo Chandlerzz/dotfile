@@ -91,6 +91,8 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
     \| endif
 augroup END
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+Plug 'skywind3000/Leaderf-snippet'
+Plug 'linjiX/Leaderf-git'
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
     autocmd! User indentLine doautocmd indentLine Syntax
     let g:indentLine_color_term = 239

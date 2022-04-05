@@ -398,8 +398,8 @@ void usage(const char *cmd)
 	std::cout << "              fast-forwared to <target>" << std::endl;
 }
 
-int main(int argc, char **argv)
 {
+int main(int argc, char **argv)
 	git_repository *repo = NULL;
 	const char *target = NULL;
 	bool opt_error = false;
