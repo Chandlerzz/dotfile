@@ -1048,3 +1048,4 @@ endif
 "}}}
 "hideseek
 let g:hs_mru_source_file=expand('~/.lrc')
+let g:hs_mru_max_line=10
