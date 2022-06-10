@@ -1231,3 +1231,18 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 " ============================================================================
 "}}}
+"let ctrlKey = true
+" document.addEventListener("keydown",function(event){
+"   if(event.ctrlKey){
+" 		ctrlKey = event.ctrlKey
+" 	}
+" 	if(event.key === 'k' && ctrlKey){
+" 		event.preventDefault()
+" 		alert("ctrl-k")
+" 	}
+" })
+" document.addEventListener("keyup",function(event){
+" 	if(event.ctrlKey){
+" 		ctrlKey = false
+" 	}
+" })
