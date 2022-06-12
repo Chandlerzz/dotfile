@@ -18,7 +18,6 @@ let mapleader = "-"
 let maplocalleader = ";"
 
 " }}}
- 
 " ============================================================================
 " VIM-PLUG BLOCK {{{
 " ============================================================================
@@ -803,7 +802,6 @@ autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
 nnoremap <Leader>G :Goyo<CR>
 "}}}
-
 " ============================================================================
 " WSL yank support {{{
 " ============================================================================
@@ -827,7 +825,6 @@ endfunction
 xnoremap <leader>g "gy:call <SID>goog(@g)<cr>gv
 "}}}
 " ============================================================================
-
 "open/close termina{{{ 
 " ============================================================================
 " função para colocar um terminal dentro do vim
@@ -1028,17 +1025,8 @@ endfunction
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " }}}
-" nnoremap ZZ :execute "silent! wqa"<cr> 
-augroup autosave
-    au!
-     autocmd ExitPre * silent! wa
-augroup END
-
-"vim-easy-align
-xmap ga <Plug>(EasyAlign)
-
-" DIFF {{{
 " ============================================================================
+" DIFF {{{
 if &diff
     map <leader>1 :diffget LOCAL<CR>
     map <leader>2 :diffget BASE<CR>
@@ -1046,12 +1034,12 @@ if &diff
 endif
 " ============================================================================
 "}}}
-"hideseek
+" ============================================================================
+"hideseek{{{
 let g:hs_mru_source_file=expand('~/.lrc')
 let g:hs_mru_max_line=10
-
-
-
+"}}}
+" ============================================================================
 " My additions:{{{
 " ============================================================================
 let g:coc_global_extensions = [
@@ -1230,18 +1218,5 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 " ============================================================================
 "}}}
-"let ctrlKey = true
-" document.addEventListener("keydown",function(event){
-"   if(event.ctrlKey){
-" 		ctrlKey = event.ctrlKey
-" 	}
-" 	if(event.key === 'k' && ctrlKey){
-" 		event.preventDefault()
-" 		alert("ctrl-k")
-" 	}
-" })
-" document.addEventListener("keyup",function(event){
-" 	if(event.ctrlKey){
-" 		ctrlKey = false
-" 	}
-" })
+"vim-easy-align
+xmap ga <Plug>(EasyAlign)
