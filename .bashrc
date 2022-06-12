@@ -209,7 +209,6 @@ chrome(){
   p start chrome "https://www.google.com/search?q="$q
 }
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # cp with fzf
 # --------------------------------------------------------------------
@@ -265,9 +264,9 @@ chrome(){
 # --------------------------------------------------------------------
 # 'uname -a'   check witch linux it is.  
 #Linux LT0303609 5.10.16.3-microsoft-standard-WSL2 #1 SMP Fri Apr 2 22:23:49 UTC 2021 x86_64 GNU/Linux
-alias mysqldump="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysqldump.exe"
-alias mysql="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysql.exe"
-alias npm="powershell.exe npm"
+r aliaeeeysqldump="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysqldump.exe"
+# alias mysql="/mnt/c/Program\ Files/MySQL/MySQL\ Server\ 8.0/bin/mysql.exe"
+# alias npm="powershell.exe npm"
 
 # thefuck
 # --------------------------------------------------------------------
@@ -282,3 +281,5 @@ AddGitee(){
   eval `ssh-agent -s`
   ssh-add ~/.ssh/test
 }
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

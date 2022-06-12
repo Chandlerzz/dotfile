@@ -220,6 +220,7 @@ Plug 'habamax/vim-sendtoterm'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'voldikss/vim-floaterm' 
 Plug 'yegappan/mru' 
+Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
 call plug#end()
 " }}}
 " ============================================================================
@@ -1037,7 +1038,7 @@ endif
 " ============================================================================
 "hideseek{{{
 let g:hs_mru_source_file=expand('~/.lrc')
-let g:hs_mru_max_line=10
+let g:hs_mru_max_line=9
 "}}}
 " ============================================================================
 " My additions:{{{
@@ -1105,7 +1106,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " format on enter, <cr> could be remapped by other vim plugin
 " inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 "                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.

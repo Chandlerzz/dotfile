@@ -1,0 +1,60 @@
+TODO 3 导航收藏夹favorite功能开发
+TODO    3.1前端导航收藏
+TODO      3.11 导航前端页面侧边栏
+DONE        3.111左侧侧边栏最上端开关按钮 搜索框前端页面制作 2022/03/16
+DONE        3.112左侧侧边栏menu页面2022/03/17
+TODO        3.113左侧侧边栏整体交互
+DONE          3.1131 登录退出时动态更新侧边栏数据2022/03/18
+TODO      3.12 导航栏右侧内容
+              3.121 navItem; backtop,addnavpopup
+TODO    3.2管理导航收藏夹
+DONE      3.21分类树页面制作，实现功能增删改查，左键键为功能键 完成2022/03/08
+DONE        3.211 分类接口制作2022/02/24
+DONE        3.212 在表favarites中新建两条默认数据 2022/02/24
+DONE        3.213 当favorites中只有第一层 且没有子节点是 默认 el-icon-more 显示 ，反之在hover是显示2022/02/24
+DONE        2.214 当favorites中第一层功能键为（add）, 其他层为（add ，rename，remove） 2022/02/24
+DONE        2.215 需要更具后台管理员过滤favorites2022/03/17
+DONE        2.216 点击树节点过滤右侧收藏夹内容2022/03/08
+DONE      3.22 favoliteLink table 2022/03/10
+DONE        3.221 菜单，分类需要接口增加数据, 状态创建时默认为显示2022/02/28
+DONE        3.222 搜索框 功能2022/02/28
+DONE      3.23 favoriteGroup 2022/03/14
+DONE        3.231 分组放到菜单下面测试2022/03/08
+DONE        3.232 分组管理测试2022/03/10
+TODO    3.3 Yzy分支协助
+TODO      3.31  rolelist 数据改名字
+TODO      3.32  去除axios，引入接口
+TODO      3.33  删除所有关于menu有关代码
+TODO      3.34  关闭dialog，清空dialog数据
+TODO      3.35  删除图标
+TODO      3.36  添加操作栏
+TODO      3.37  图片bug修复
+TODO      3.38  开始文件上传
+TODO 1 navigation 开发前准备
+DONE  1.1 将微博管理移到个人中心下2022/01/10
+DONE  1.2 新增一个按钮前后台切换2022/01/11
+DONE  1.3 新建前端路由2022/01/12
+TODO 2 navigator 开发过程
+DONE  2.1 登录功能的复制2022/02/08
+DONE    2.11 将原来导航的登录的页面移植到项目中2022/01/26
+DONE    2.12 项目暂时将router mode 改成 history 2022/01/26
+DONE    2.13 原先登录页面保留。当跳转admin/login 时 看是否包含查询条件code 如果有code 自动登录2022/01/28
+DONE    2.14 登录中转页面统一放到一个页面2022/02/11
+DONE    2.15 在未登录下显示登录按钮，不显示头像2022/02/11
+DONE    2.16 在登录后显示 显示头像头像下拉按钮，为个人中心，布局设置，博客管理，退出登录2022/02/11
+TODO    2.17 登录需要钉钉和账号密码登录
+TODO  2.2 导航 NAVBAR 重写 
+TODO    2.21 获取frontuserinfo 前端store  接口引用userinfo 获取数据后进行过滤
+TODO    2.22 进入/front前端默认获取用户信息
+DONE  2.3 tagsviews 显示比较混乱 前后台切换的时候需要过滤tags2022/02/11
+TODO  2.4 HOME 页制作
+DONE    2.41 将pdf功能放到minio 首页可以访问pdf2022/02/15
+
+TODO 1 navigation
+DONE  1.1 server 配两个数据源 一个为risen_mes 一个为 admin_manage2021/12/21
+TODO  1.1 学习理解表结构
+DONE    1.11 两组表结构整理2021/12/22
+DONE    1.12 报表系统试用。2021/12/23
+DONE    1.13 权限管理学习2022/01/06
+DONE    1.14 登录差异比较2022/01/06
+TODO    1.15 导航系统规划 50%
