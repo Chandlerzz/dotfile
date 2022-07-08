@@ -283,3 +283,10 @@ AddGitee(){
 }
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+
+# vscode
+
+if command -v powershell.exe > /dev/null;
+then alias code="powershell.exe Code.exe"
+fi
